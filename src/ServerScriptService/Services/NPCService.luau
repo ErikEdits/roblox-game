@@ -351,7 +351,7 @@ local function chooseDestination(record)
 						Position = building.Model.PrimaryPart.Position,
 						Approach = PlotUtil.Entrance(plot.Model),
 						Radius = math.max(building.Def.Size[1], building.Def.Size[2]) / 2 - 1,
-					}, appeal * Buildings.AppealMultiplier(building.Level) * (1 + 0.25 * (resortLevel - 1)) * vipBoost / crowd)
+					}, appeal * Config.NPC.PlayerBuildingWeight * Buildings.AppealMultiplier(building.Level) * (1 + 0.25 * (resortLevel - 1)) * vipBoost / crowd)
 				end
 			end
 		end

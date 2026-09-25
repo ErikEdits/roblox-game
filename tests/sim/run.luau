@@ -9,6 +9,11 @@ local Vector3, CFrame, Enum = roblox.Vector3, roblox.CFrame, roblox.Enum
 local PLACE = process.args[1] or "build/NEON_CITY.rbxl"
 local game = Engine.Load(PLACE)
 Engine.Verbose = process.env.VERBOSE == "1"
+Engine.Mobile = process.env.MOBILE == "1"
+if Engine.Mobile then
+	Engine.Viewport = roblox.Vector2.new(844, 332) -- small landscape phone (safe area)
+	print("Running in MOBILE mode")
+end
 
 local failures, passes = {}, 0
 local function check(cond, message)
@@ -208,7 +213,17 @@ check(toolbar and toolbar.Visible, "placement toolbar visible")
 check(game.Workspace.CurrentCamera:FindFirstChildOfClass("Model") ~= nil, "ghost model exists")
 local countBefore = #data.Buildings
 local uis = game:GetService("UserInputService")
-Engine.SignalOf(uis, "InputBegan"):Fire({ UserInputType = Enum.UserInputType.MouseButton1, KeyCode = Enum.KeyCode.Unknown }, false)
+if Engine.Mobile then
+	Engine.SignalOf(uis, "TouchTapInWorld"):Fire(roblox.Vector2.new(400, 200), false)
+	task.wait(0.3)
+	local placeButton = Engine.FindButton(toolbar, "PLACE")
+	check(placeButton ~= nil, "mobile PLACE button")
+	if placeButton then
+		Engine.Click(placeButton)
+	end
+else
+	Engine.SignalOf(uis, "InputBegan"):Fire({ UserInputType = Enum.UserInputType.MouseButton1, KeyCode = Enum.KeyCode.Unknown }, false)
+end
 task.wait(1)
 check(#data.Buildings == countBefore + 1 or true, "click placement attempted")
 print("   buildings after click place:", #data.Buildings, "(may fail if center occupied)")
@@ -225,10 +240,20 @@ task.wait(0.3)
 check(not sheet.Visible and not toolbar.Visible, "build UI closed")
 
 step("Open every panel")
-for _, name in ipairs({ "Shop", "Play", "Tasks", "Map", "Settings" }) do
+local uiScale = gui:FindFirstChildOfClass("UIScale")
+local viewport = Engine.Viewport or roblox.Vector2.new(1280, 662)
+for _, name in ipairs({ "Shop", "Play", "Tasks", "Map", "Settings", "CardRush", "Reflex" }) do
 	local okOpen, err = pcall(Panels.Open, name)
 	check(okOpen, "open panel " .. name .. ": " .. tostring(err))
 	task.wait(0.4)
+	-- every visible top-level window must fit on screen after UI scaling
+	for _, child in ipairs(gui:GetChildren()) do
+		if child:IsA("Frame") and child.Visible and child.Size.X.Scale == 0 and child.Size.Y.Offset > 300 then
+			local w = child.Size.X.Offset * uiScale.Scale
+			local h = child.Size.Y.Offset * uiScale.Scale
+			check(w <= viewport.X and h <= viewport.Y, ("%s fits screen (%dx%d on %dx%d)"):format(child.Name, w, h, viewport.X, viewport.Y))
+		end
+	end
 end
 Panels.Close()
 local shopTabs = { "CAR STYLE", "ROBUX PASSES" }

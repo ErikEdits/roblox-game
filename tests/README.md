@@ -4,7 +4,7 @@ These run outside Roblox Studio (used by the AI coding agent during development)
 
 | Test | What it does | Run |
 |---|---|---|
-| `sim/run.luau` | Loads `build/NEON_CITY.rbxl` in [Lune](https://lune-org.github.io/docs), emulates the engine parts that Lune lacks (events, humanoid movement, remotes, DataStores) and plays the whole game: join, tutorial, building, upgrades, build UI, all panels, shop, Card Rush via UI, NPC visits, a Street Race, all 4 events, teleports, leave/rejoin persistence. Fails on any runtime error. | `rojo build -o build/NEON_CITY.rbxl && lune run tests/sim/run.luau` |
+| `sim/run.luau` | Loads `build/NEON_CITY.rbxl` in [Lune](https://lune-org.github.io/docs), emulates the engine parts that Lune lacks (events, humanoid movement, remotes, DataStores) and plays the whole game: join, tutorial, building, upgrades, build UI, all panels, shop, Card Rush via UI, NPC visits, a Street Race, all 4 events, teleports, leave/rejoin persistence. Fails on any runtime error. | `rojo build -o build/NEON_CITY.rbxl && lune run tests/sim/run.luau` (add `MOBILE=1` for the phone layout: touch placement + every window must fit a 844x332 safe area) |
 | `sim/unit.luau` | Unit tests for shared logic (formatting, XP curve, unlock rules, catalog sanity, placement snapping/overlap/rotation for every building). | `lune run tests/sim/unit.luau` |
 | `api_check.py` | Checks every class / enum / property used in scripts and map files against Roblox's reflection database (from the `rbx_reflection_database` crate). | `pip install msgpack && python3 tests/api_check.py` |
 
