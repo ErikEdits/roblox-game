@@ -53,6 +53,7 @@ Config.NPC = {
 	ActivityTimeMax = 12,
 	MoveTimeout = 25,
 	LabelDistance = 60,
+	FamilyGroupChance = 0.6, -- families spawn with 1-2 kids that follow them
 
 	-- Weight = how often this type spawns. Colors tint the NPC so types are readable at a glance.
 	Types = {

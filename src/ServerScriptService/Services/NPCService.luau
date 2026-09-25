@@ -473,19 +473,17 @@ local function pickType()
 	return picked and picked.Name or "Tourist"
 end
 
-local function spawnNPC()
-	local typeName = pickType()
+local function createNPC(typeName)
 	local info = Config.NPC.Types[typeName]
 	local model = template:Clone()
 	model.Name = typeName
 	recolor(model, info.Color)
-	addLabel(model, typeName, info)
 
 	local humanoid = model:FindFirstChildOfClass("Humanoid")
 	local root = model:FindFirstChild("HumanoidRootPart")
 	if not humanoid or not root then
 		model:Destroy()
-		return
+		return nil
 	end
 	humanoid.WalkSpeed = Config.NPC.WalkSpeed * math.random(85, 115) / 100
 	humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
@@ -508,8 +506,60 @@ local function spawnNPC()
 			descendant.CastShadow = false
 		end
 	end
+	return { Model = model, Humanoid = humanoid, Root = root, Type = typeName, Visited = {} }
+end
+
+local function place(record, position)
+	record.Model:PivotTo(CFrame.new(position + Vector3.new(0, 4, 0)))
+	record.Model.Parent = npcFolder
+	pcall(function()
+		record.Root:SetNetworkOwner(nil)
+	end)
+	setupAnimations(record)
+end
+
+-- Family members follow their leader, enter buildings with them and leave with them.
+local function runFollower(follower, leader, offset)
+	local hidden = false
+	while follower.Model.Parent and leader.Model.Parent do
+		if leader.Model.Parent == hiddenFolder then
+			if not hidden then
+				hidden = true
+				follower.Model.Parent = hiddenFolder
+			end
+		else
+			local target = leader.Root.Position + leader.Root.CFrame:VectorToWorldSpace(offset)
+			if hidden then
+				hidden = false
+				follower.Model:PivotTo(CFrame.new(target))
+				follower.Model.Parent = npcFolder
+				pcall(function()
+					follower.Root:SetNetworkOwner(nil)
+				end)
+			elseif flatDistance(follower.Root.Position, target) > 30 then
+				follower.Model:PivotTo(CFrame.new(target)) -- fell too far behind
+			else
+				follower.Humanoid.WalkSpeed = leader.Humanoid.WalkSpeed * 1.15
+				follower.Humanoid:MoveTo(target)
+			end
+		end
+		task.wait(0.4)
+	end
+	follower.Model:Destroy()
+	activeCount -= 1
+end
+
+local function spawnNPC()
+	local typeName = pickType()
+	local info = Config.NPC.Types[typeName]
+	local record = createNPC(typeName)
+	if not record then
+		return
+	end
+	addLabel(record.Model, typeName, info)
 
 	local lane = math.random(-14, 14)
+	record.Lane = lane
 	local position
 	if math.random() < 0.35 then
 		-- Arrive along the resort avenue so resorts see traffic quickly.
@@ -517,16 +567,25 @@ local function spawnNPC()
 	else
 		position = spawnPoints[math.random(#spawnPoints)] + Vector3.new(math.random(-6, 6), 0, math.random(-6, 6))
 	end
-	model:PivotTo(CFrame.new(position + Vector3.new(0, 4, 0)))
-	model.Parent = npcFolder
-	pcall(function()
-		root:SetNetworkOwner(nil)
-	end)
-
-	local record = { Model = model, Humanoid = humanoid, Root = root, Type = typeName, Lane = lane, Visited = {} }
-	setupAnimations(record)
+	place(record, position)
 	activeCount += 1
 	task.spawn(runNPC, record)
+
+	-- Families bring one or two kids along.
+	if typeName == "Family" and math.random() < Config.NPC.FamilyGroupChance then
+		for index = 1, math.random(1, 2) do
+			local kid = createNPC("Family")
+			if kid then
+				pcall(function()
+					kid.Model:ScaleTo(0.7)
+				end)
+				local offset = Vector3.new(index == 1 and -3 or 3, 0, 3)
+				place(kid, position + offset)
+				activeCount += 1
+				task.spawn(runFollower, kid, record, offset)
+			end
+		end
+	end
 end
 
 ----------------------------------------------------------------------

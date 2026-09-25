@@ -42,6 +42,7 @@ Config.NPC.WalkSpeed = 90
 Config.NPC.ActivityTimeMin = 1
 Config.NPC.ActivityTimeMax = 2
 Config.NPC.MoveTimeout = 6
+Config.NPC.FamilyGroupChance = 1
 Config.PassiveIncomeInterval = 2
 Config.AutosaveInterval = 3
 local Tutorial = Engine.Require(Shared.Tutorial)
