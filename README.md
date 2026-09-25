@@ -1,4 +1,4 @@
-# NEON CITY – Roblox (v0.2)
+# NEON CITY – Roblox (v0.3)
 
 Multiplayer-Tycoon / Resort-Management mit NPC-Besuchern, Skill-Minispiel, Straßenrennen und
 Stadt-Events – umgesetzt nach dem *NEON CITY Game Design Document* (Abschnitt 29: MVP).
@@ -17,8 +17,12 @@ gelten zum Testen als gekauft (`Config.Monetization.GrantAllInStudio`).
 1. *File → Publish to Roblox* (neues Erlebnis anlegen).
 2. *Game Settings → Security → „Enable Studio Access to API Services“* einschalten (für DataStores in Studio).
 3. *Game Settings → Places → Max Players = 15* (das Design ist auf 15 Spieler pro Server ausgelegt).
-4. Optional: Game-Pässe „VIP Pass“ (399 R$) und „Neon Hyper Car“ (249 R$) auf der Roblox-Website anlegen
-   und die IDs in `ReplicatedStorage.Shared.Config` → `Config.Monetization.Passes` eintragen.
+4. Optional: Game-Pässe „VIP Pass“ (399 R$), „Cyberpunk Pack“ (199 R$) und „Neon Hyper Car“ (249 R$) auf der
+   Roblox-Website anlegen und die IDs in `ReplicatedStorage.Shared.Config` → `Config.Monetization.Passes` eintragen.
+5. Optional: Im Creator Hub unter *Localization* „Automatic translation“ einschalten – dann sehen deutsche
+   Spieler die Texte automatisch auf Deutsch.
+
+**Mit mehreren Spielern testen:** in Studio *Test → Clients and Servers* (z. B. 2 Spieler) starten.
 
 ### Admin-Werkzeuge zum Testen
 
@@ -32,19 +36,20 @@ das Tutorial neu starten. Weitere Admins: User-IDs in `Config.Admins` eintragen.
 |---|---|
 | Karte | Main Plaza (Spawn, Leaderboard, Event-Tafel, Kiosks, Teleport-Pads, Fontäne mit Partikeln), Resort District mit **16 Grundstücken**, Entertainment District (The Grand Neon, Card-Rush- und Neon-Reflex-Automat, Konzertbühne, Generatoren), Racing District (Rundkurs mit 5 Checkpoints), Shopping District (Mall, VIP-Lounge, Bahnhof), **Neon Beach** mit Pier, Gehwege, Palmen-Alleen, Werbetafeln, Skyline mit blinkenden Antennen |
 | Spielerdaten | DataStore-Speicherung (Cash, XP, Level, Prestige, Gebäude + Positionen, Kosmetik, Quests, Einstellungen, Statistiken), Autosave, Validierung |
-| Bauen | 21 Gebäude in 7 Kategorien, Platzieren / Verschieben / Drehen / Löschen (50 % Erstattung) / Kopieren, 4-Stud-Raster mit sichtbarem Gitter, **Upgrades bis Stufe 3** (mehr Einnahmen, Dachkrone + Stufenlichter), Speichern & Wiederherstellen |
-| NPCs | 6 Besuchertypen (Tourist, Luxury, Racer, Family, Business, Event Fan), laufen zu Resorts, gehen hinein, **geben Geld aus** („+$40“ über dem Gebäude) |
+| Bauen | 26 Gebäude in 7 Kategorien (inkl. VIP-Penthouse und Cyberpunk-Deko), eigene **Neonfarbe pro Gebäude**, Resort-Statistik, Platzieren / Verschieben / Drehen / Löschen (50 % Erstattung) / Kopieren, 4-Stud-Raster mit sichtbarem Gitter, **Upgrades bis Stufe 3** (mehr Einnahmen, Dachkrone + Stufenlichter), Speichern & Wiederherstellen |
+| NPCs | 6 Besuchertypen (Tourist, Luxury, Racer, Family, Business, Event Fan), laufen zu Resorts, gehen hinein, **geben Geld aus** („+$40“ über dem Gebäude), Familien mit Kindern, Sprechblasen |
 | Wirtschaft | NPC-Ausgaben + passives Resort-Einkommen, Resort-Level 1–5, Level 1–100 mit Freischaltungen |
 | Minispiele | **Card Rush** (Karten-Skillspiel, 7 Fragetypen) und **Neon Reflex** (Reaktionsspiel) – **kein Glücksspiel / keine Einsätze** |
+| Autos | **CAR-Knopf**: eigenes Auto spawnen und frei durch die Stadt fahren; Karosserien (Muscle Car, Drift Coupe, Hyper) und Lackierungen im Shop – alle gleich schnell |
 | Rennen | **Street Race** bis 8 Spieler, mit NPC-Fahrern aufgefüllt (auch allein spielbar), 2 Runden, Belohnung für Top 3; **Time Trial** (Solo-Runde, Rekord-Bonus, globale Bestenliste) |
 | Job | **Lieferjob** (optional): Paket quer durch die Stadt bringen, Timer + Leuchtpfad |
 | Events | City Blackout (Generatoren reparieren), Live Concert, VIP Night, Race Rush (2× Rennbelohnung), **Lost & Found** (Geldbörsen finden) – automatisch alle 2,5–4 Min. |
 | Fortschritt | **Tutorial** für neue Spieler, tägliche Aufgaben (5 aus 11, jeden Tag andere), Statistiken, Leaderboard, optionales Prestige ab Level 100 |
 | Sozial | Andere Resorts in der MAP besuchen und **liken** (Besitzer bekommt Geld/XP, Likes auf dem Schild) |
 | Shop | Autolackierungen für Spielgeld, 2 Robux-Game-Pässe mit klar definiertem Inhalt (kein Pay-to-win) |
-| UI | Mobile-first, skaliert automatisch, große Touch-Buttons, Sounds, Animationen; „NEXT GOAL“-Hinweis sagt immer, was als Nächstes zu tun ist |
+| UI | Minimap (PC), Mobile-first, skaliert automatisch, große Touch-Buttons, Sounds, Animationen; „NEXT GOAL“-Hinweis sagt immer, was als Nächstes zu tun ist |
 
-**Steuerung:** BUILD, SHOP, PLAY, TASKS, MAP, SETTINGS unten (PC) bzw. rechts (Handy).
+**Steuerung:** BUILD, SHOP, PLAY, TASKS, MAP, CAR, SETTINGS unten (PC) bzw. rechts (Handy).
 Bauen am PC: Maus zielen, Klick = platzieren, **R** = drehen, **Q** = abbrechen. Handy: auf den Boden tippen, dann PLACE.
 Autos: W/S bzw. Pfeiltasten oder Thumbstick.
 

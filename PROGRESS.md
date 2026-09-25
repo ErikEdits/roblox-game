@@ -2,6 +2,28 @@
 
 Development log as required by the design document (section 33).
 
+## v0.3 – Customization, cars and city life (2026-09-26)
+
+### Implemented
+
+- **Free-roam cars**: CAR button spawns your own car anywhere (owner-only driving, auto-park when
+  empty, removed on teleport / race). Cars collide through rounded skids so they glide over curbs.
+- **Car bodies** for cash: Muscle Car, Drift Coupe (+ Hyper body via pass) – identical stats.
+- **Building customization**: pick one of 8 neon accent colors per building (COLOR in edit mode).
+- **Premium content** (clear, known contents): VIP Penthouse (VIP pass), Cyberpunk Pack pass
+  (Neon Sofa, Neon Arch, Cyber Lamp, Holo Sign). Per-resort limits for unique/premium buildings.
+- **Resort statistics** in the build menu (rating progress, operations income, visitors/income of
+  the last 5 minutes).
+- **City life**: NPC families walk as groups with kids, visitors comment on buildings (speech
+  bubbles), visitors prefer player resorts 2x over city attractions.
+- **Minimap** (PC): roads, plots (own plot gold), track, beach, players, current guide target.
+- **Mobile**: UI scale uses the safe area (windows fit small landscape phones).
+
+### Tests performed
+
+- Luau compile (51 scripts), selene, API check: clean. Unit tests: 189.
+- Simulator desktop: 217 checks, mobile (`MOBILE=1`, 844x332): 224 checks – 0 runtime errors.
+
 ## v0.2 – Content, polish and automated play-testing (2026-09-26)
 
 ### Implemented
@@ -113,7 +135,8 @@ Development log as required by the design document (section 33).
 
 ### Next tasks
 
-1. Play test in Studio (solo + 2-player local server), tune car handling, NPC counts and prices.
+1. Play test in Studio (solo + 2-player local server: *Test > Clients and Servers*), tune car
+   handling (`Config.Race.Car*`), NPC counts and prices.
 2. v0.2 polish: build-mode grid overlay, better building art (Phase 2), sounds and music.
 3. Tutorial / onboarding flow, analytics events (`AnalyticsService`).
 4. More minigames (reaction, memory), Time Trial race mode, security-related events.
