@@ -172,6 +172,43 @@ function Buildings.Get(id)
 	return Buildings.ById[id]
 end
 
+local Config = require(script.Parent.Config)
+
+function Buildings.CanUpgrade(def)
+	return def.Spend > 0 and def.Cost > 0
+end
+
+-- Price to go from (toLevel - 1) to toLevel.
+function Buildings.UpgradeCost(def, toLevel)
+	local multiplier = Config.Upgrades.CostMultiplier[toLevel]
+	return multiplier and math.floor(def.Cost * multiplier) or nil
+end
+
+function Buildings.UpgradeLevelRequired(def, toLevel)
+	return def.Level + (Config.Upgrades.ExtraLevelRequired[toLevel] or 0)
+end
+
+-- Total cash invested in a building at `level` (used for refunds).
+function Buildings.Invested(def, level)
+	local total = def.Cost
+	for l = 2, level or 1 do
+		total += Buildings.UpgradeCost(def, l) or 0
+	end
+	return total
+end
+
+function Buildings.IncomeMultiplier(level)
+	return Config.Upgrades.IncomeMultiplier[level or 1] or 1
+end
+
+function Buildings.AppealMultiplier(level)
+	return Config.Upgrades.AppealMultiplier[level or 1] or 1
+end
+
+function Buildings.Rating(def, level)
+	return math.floor(def.Rating * (Config.Upgrades.RatingMultiplier[level or 1] or 1) + 0.5)
+end
+
 -- Footprint after rotation (rot = 0..3 quarter turns).
 function Buildings.Footprint(def, rot)
 	if rot % 2 == 1 then

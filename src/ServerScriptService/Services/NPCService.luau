@@ -11,6 +11,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 
 local Shared = ReplicatedStorage.Shared
+local Buildings = require(Shared.Buildings)
 local Config = require(Shared.Config)
 local Format = require(Shared.Format)
 local PlotUtil = require(Shared.PlotUtil)
@@ -350,7 +351,7 @@ local function chooseDestination(record)
 						Position = building.Model.PrimaryPart.Position,
 						Approach = PlotUtil.Entrance(plot.Model),
 						Radius = math.max(building.Def.Size[1], building.Def.Size[2]) / 2 - 1,
-					}, appeal * (1 + 0.25 * (resortLevel - 1)) * vipBoost / crowd)
+					}, appeal * Buildings.AppealMultiplier(building.Level) * (1 + 0.25 * (resortLevel - 1)) * vipBoost / crowd)
 				end
 			end
 		end
@@ -387,6 +388,7 @@ local function performBuildingVisit(record, destination)
 		local data = services.DataService.Get(owner)
 		if data then
 			local amount = building.Def.Spend
+				* Buildings.IncomeMultiplier(building.Level)
 				* info.SpendMultiplier
 				* Progression.PrestigeIncomeMultiplier(data.Prestige)
 				* (vipResorts[owner] and vipSpendMultiplier or 1)
@@ -394,6 +396,7 @@ local function performBuildingVisit(record, destination)
 			if amount >= 1 then
 				local gained = services.EconomyService.AddCash(owner, amount, "npc")
 				data.Stats.NPCVisits += 1
+				services.TutorialService.Event(owner, "FirstVisitor")
 				local top = model.PrimaryPart.Position + Vector3.new(0, model.PrimaryPart.Size.Y / 2 + 2, 0)
 				services.EconomyService.Popup(owner, top, "+" .. Format.Money(gained), info.Color)
 			end

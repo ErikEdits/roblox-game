@@ -22,6 +22,7 @@ Remotes.Functions = {
 	"PlaceBuilding",
 	"MoveBuilding",
 	"DeleteBuilding",
+	"UpgradeBuilding",
 	"CardRushStart",
 	"CardRushAnswer",
 	"ClaimTask",
@@ -31,6 +32,7 @@ Remotes.Functions = {
 	"Prestige",
 	"JoinRace",
 	"Teleport",
+	"TutorialAction",
 }
 
 local FOLDER_NAME = "Remotes"

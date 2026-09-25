@@ -8,6 +8,7 @@ local Remotes = require(ReplicatedStorage.Shared.Remotes)
 Remotes.Setup()
 
 local ORDER = {
+	"AnalyticsService",
 	"WorldService",
 	"DataService",
 	"EconomyService",
@@ -17,6 +18,7 @@ local ORDER = {
 	"CityService",
 	"QuestService",
 	"ShopService",
+	"TutorialService",
 	"PlayerService",
 	"ZoneService",
 	"NPCService",

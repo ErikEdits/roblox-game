@@ -109,7 +109,8 @@ local function sanitize(data)
 				and #clean < Config.MaxBuildingsPerPlot then
 				seen[entry.Uid] = true
 				maxUid = math.max(maxUid, entry.Uid)
-				table.insert(clean, { Id = entry.Id, X = entry.X, Z = entry.Z, R = math.floor(entry.R) % 4, Uid = entry.Uid })
+				local level = isFiniteNumber(entry.L) and math.clamp(math.floor(entry.L), 1, Config.Upgrades.MaxLevel) or 1
+				table.insert(clean, { Id = entry.Id, X = entry.X, Z = entry.Z, R = math.floor(entry.R) % 4, Uid = entry.Uid, L = level })
 			end
 		end
 	end
@@ -118,6 +119,9 @@ local function sanitize(data)
 		data.NextUid = maxUid + 1
 	end
 
+	if data.Tutorial ~= nil and not isFiniteNumber(data.Tutorial) then
+		data.Tutorial = nil
+	end
 	for key, value in pairs(Config.DefaultSettings) do
 		if type(data.Settings[key]) ~= type(value) then
 			data.Settings[key] = value

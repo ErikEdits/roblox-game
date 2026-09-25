@@ -19,6 +19,16 @@ Config.PassiveIncomeInterval = 60 -- seconds between "resort operations" payouts
 Config.PlaceXPDivisor = 12 -- XP for placing = cost / divisor (capped)
 Config.PlaceXPCap = 400
 
+-- Building upgrades (only buildings that earn money from visitors can be upgraded).
+Config.Upgrades = {
+	MaxLevel = 3,
+	CostMultiplier = { [2] = 1.5, [3] = 3 }, -- price of the upgrade = building cost * multiplier
+	IncomeMultiplier = { 1, 1.6, 2.5 }, -- visitor spend + passive income
+	AppealMultiplier = { 1, 1.25, 1.5 }, -- how strongly NPCs are attracted
+	RatingMultiplier = { 1, 1.5, 2.2 }, -- resort rating contribution
+	ExtraLevelRequired = { [2] = 2, [3] = 6 }, -- player level needed = building level + this
+}
+
 ----------------------------------------------------------------------
 -- Data
 ----------------------------------------------------------------------

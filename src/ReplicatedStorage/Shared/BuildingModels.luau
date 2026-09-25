@@ -171,6 +171,31 @@ function Styles.helipad(ctx, def, w, _d, h)
 end
 
 ----------------------------------------------------------------------
+-- Upgrade visuals: roof crown for tall buildings + gold tier lights on a corner post.
+----------------------------------------------------------------------
+local ROOF_STYLES = { box = true, tower = true, garage = true, arena = true }
+local GOLD = Color3.fromRGB(255, 205, 70)
+
+function BuildingModels.AddUpgradeVisuals(ctx, def, w, d, h, level)
+	if level < 2 then
+		return
+	end
+	if ROOF_STYLES[def.Style] then
+		local crownColor = level >= 3 and GOLD or def.Accent
+		newPart(ctx, "UpgradeCrown", Vector3.new(w * 0.55, 1.2, d * 0.55), CFrame.new(0, h + 1.4, 0), crownColor, Enum.Material.Neon)
+		if level >= 3 then
+			newPart(ctx, "UpgradeBeacon", Vector3.new(2.2, 2.2, 2.2), CFrame.new(0, h + 3.4, 0), GOLD, Enum.Material.Neon, { Shape = Enum.PartType.Ball })
+		end
+	end
+	local postHeight = 3 + level * 1.6
+	local corner = CFrame.new(w / 2 - 0.8, 0, -d / 2 + 0.8)
+	newPart(ctx, "TierPost", Vector3.new(0.4, postHeight, 0.4), corner * CFrame.new(0, postHeight / 2, 0), Color3.fromRGB(40, 40, 50), Enum.Material.Metal)
+	for i = 1, level - 1 do
+		newPart(ctx, "TierLight" .. i, Vector3.new(1.1, 1.1, 1.1), corner * CFrame.new(0, postHeight - (i - 1) * 1.6, 0), GOLD, Enum.Material.Neon, { Shape = Enum.PartType.Ball })
+	end
+end
+
+----------------------------------------------------------------------
 -- Public API
 ----------------------------------------------------------------------
 
@@ -181,6 +206,7 @@ end
 
 -- Builds a model whose ground-center is at `origin` (a CFrame that already includes rotation).
 -- options.Ghost = true makes a see-through, non-colliding preview.
+-- options.Level = upgrade level (1-3) adds upgrade visuals.
 function BuildingModels.Build(id, origin, options)
 	options = options or {}
 	local def = Buildings.Get(id)
@@ -201,6 +227,7 @@ function BuildingModels.Build(id, origin, options)
 
 	local builder = Styles[def.Style] or Styles.box
 	builder(ctx, def, w, d, h)
+	BuildingModels.AddUpgradeVisuals(ctx, def, w, d, h, options.Level or 1)
 
 	if options.Ghost then
 		for _, descendant in ipairs(model:GetDescendants()) do

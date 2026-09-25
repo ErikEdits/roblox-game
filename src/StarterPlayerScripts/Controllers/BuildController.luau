@@ -104,7 +104,7 @@ local function setToolbar(hint, buttonList)
 	toolbar.Visible = true
 end
 
-local enterMenu, enterEdit, startPlacing, stopPlacing
+local enterMenu, enterEdit, startPlacing, stopPlacing, selectBuilding
 
 local function clearSelection()
 	if selected then
@@ -278,15 +278,52 @@ local function showEditToolbar()
 		return
 	end
 	local def = Buildings.Get(entry.Id)
-	local refund = math.floor(def.Cost * Config.SellRefund)
-	setToolbar(def.Name, {
-		{ Text = "MOVE", Color = C.Cyan, Callback = function()
+	local level = entry.L or 1
+	local refund = math.floor(Buildings.Invested(def, level) * Config.SellRefund)
+	local buttons = {
+		{ Text = "MOVE", Color = C.Cyan, Width = 120, Callback = function()
 			startPlacing(entry.Id, entry.Uid, entry.R)
 		end },
-		{ Text = "COPY", Color = C.Gold, Callback = function()
+		{ Text = "COPY", Color = C.Gold, Width = 120, Callback = function()
 			startPlacing(entry.Id, nil, entry.R)
 		end },
-		{ Text = deleteArmed and "CONFIRM?" or ("DELETE +" .. Format.ShortMoney(refund)), Color = C.Red, Width = 190, Callback = function()
+	}
+	if Buildings.CanUpgrade(def) and level < Config.Upgrades.MaxLevel then
+		local cost = Buildings.UpgradeCost(def, level + 1)
+		local required = Buildings.UpgradeLevelRequired(def, level + 1)
+		local data = ctx.State.Data
+		local text = data and data.Level < required and ("UPGRADE LV" .. required) or ("UPGRADE " .. Format.ShortMoney(cost))
+		table.insert(buttons, { Text = text, Color = C.Violet, Width = 210, Callback = function()
+			if busy then
+				return
+			end
+			busy = true
+			local ok, result = Remotes.Get("UpgradeBuilding"):InvokeServer(entry.Uid)
+			busy = false
+			if not ok then
+				ctx.HUD.Notify(tostring(result), "warning")
+				return
+			end
+			-- The server rebuilt the model: select the new one once it replicates.
+			local uid = entry.Uid
+			local plotModel = getPlotModel()
+			local folder = plotModel and plotModel:FindFirstChild("Buildings")
+			for _ = 1, 20 do
+				task.wait(0.1)
+				if folder then
+					for _, model in ipairs(folder:GetChildren()) do
+						if model:GetAttribute("Uid") == uid and model:GetAttribute("Level") == result then
+							selectBuilding(model)
+							return
+						end
+					end
+				end
+			end
+		end })
+	end
+	local levelText = Buildings.CanUpgrade(def) and ("  (level %d/%d)"):format(level, Config.Upgrades.MaxLevel) or ""
+	for _, entryButton in ipairs({
+		{ Text = deleteArmed and "CONFIRM?" or ("DELETE +" .. Format.ShortMoney(refund)), Color = C.Red, Width = 180, Callback = function()
 			if not deleteArmed then
 				deleteArmed = true
 				showEditToolbar()
@@ -304,14 +341,17 @@ local function showEditToolbar()
 			clearSelection()
 			showEditToolbar()
 		end },
-		{ Text = "DONE", Color = C.Lime, Callback = function()
+		{ Text = "DONE", Color = C.Lime, Width = 120, Callback = function()
 			clearSelection()
 			showEditToolbar()
 		end },
-	})
+	}) do
+		table.insert(buttons, entryButton)
+	end
+	setToolbar(def.Name .. levelText, buttons)
 end
 
-local function selectBuilding(model)
+function selectBuilding(model)
 	clearSelection()
 	local uid = model:GetAttribute("Uid")
 	if not uid then
@@ -526,7 +566,7 @@ function BuildController.Start(context)
 		Name = "BuildToolbar",
 		AnchorPoint = Vector2.new(0.5, 1),
 		Position = UDim2.new(0.5, 0, 1, -12),
-		Size = UDim2.fromOffset(760, 118),
+		Size = UDim2.fromOffset(960, 118),
 		BackgroundColor3 = C.Background,
 		BackgroundTransparency = 0.1,
 		Visible = false,

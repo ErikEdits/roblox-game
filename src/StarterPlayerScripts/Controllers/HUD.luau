@@ -20,6 +20,8 @@ local UI
 local C
 
 local mainBar
+local mainButtons = {}
+local goalFrame
 local toastHolder
 local toasts = {}
 local popupCount = 0
@@ -152,6 +154,16 @@ end
 ----------------------------------------------------------------------
 -- Build
 ----------------------------------------------------------------------
+function HUD.GetMainButton(name)
+	return mainButtons[name]
+end
+
+function HUD.SetGoalVisible(visible)
+	if goalFrame then
+		goalFrame.Visible = visible
+	end
+end
+
 function HUD.SetMainButtonsVisible(visible)
 	if mainBar then
 		mainBar.Visible = visible
@@ -234,7 +246,7 @@ function HUD.Start(context)
 	})
 
 	-- Next goal -----------------------------------------------------------
-	local goalFrame = UI.New("Frame", {
+	goalFrame = UI.New("Frame", {
 		Name = "NextGoal",
 		Position = UDim2.new(0, 14, 0, 176),
 		Size = UDim2.fromOffset(300, 86),
@@ -393,6 +405,7 @@ function HUD.Start(context)
 		button.Activated:Connect(function()
 			ctx.Panels.Toggle(entry[1])
 		end)
+		mainButtons[entry[1]] = button
 	end
 
 	-- Updates -------------------------------------------------------------
