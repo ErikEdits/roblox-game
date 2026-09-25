@@ -201,6 +201,12 @@ Config.Monetization = {
 			PriceText = "399 R$",
 			Perks = { "VIP overhead tag", "VIP Lounge access", "VIP Gold car paint", "VIP Neon Sign building" },
 		},
+		CyberPack = {
+			Id = 0,
+			Name = "Cyberpunk Pack",
+			PriceText = "199 R$",
+			Perks = { "Neon Sofa, Neon Arch, Cyber Lamp, Holo Sign", "Resort decorations only (no gameplay advantage)" },
+		},
 		HyperCar = {
 			Id = 0,
 			Name = "Neon Hyper Car",

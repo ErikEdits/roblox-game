@@ -143,6 +143,30 @@ function Styles.sign(ctx, def, w, _d, h)
 	addLabel(ctx, panel, def.SignText or "NEON", Enum.NormalId.Back, def.Accent)
 end
 
+function Styles.sofa(ctx, def, w, d, h)
+	newPart(ctx, "Seat", Vector3.new(w, h * 0.45, d), CFrame.new(0, h * 0.225, 0), def.Color, Enum.Material.Fabric)
+	newPart(ctx, "Back", Vector3.new(w, h, d * 0.3), CFrame.new(0, h / 2, d * 0.35), def.Color, Enum.Material.Fabric)
+	newPart(ctx, "ArmL", Vector3.new(0.8, h * 0.7, d), CFrame.new(-w / 2 + 0.4, h * 0.35, 0), def.Color, Enum.Material.Fabric)
+	newPart(ctx, "ArmR", Vector3.new(0.8, h * 0.7, d), CFrame.new(w / 2 - 0.4, h * 0.35, 0), def.Color, Enum.Material.Fabric)
+	newPart(ctx, "Glow", Vector3.new(w + 0.2, 0.2, d + 0.2), CFrame.new(0, 0.1, 0), def.Accent, Enum.Material.Neon)
+end
+
+function Styles.arch(ctx, def, w, d, h)
+	newPart(ctx, "PillarL", Vector3.new(1.4, h, d * 0.6), CFrame.new(-w / 2 + 0.7, h / 2, 0), def.Color, Enum.Material.Metal)
+	newPart(ctx, "PillarR", Vector3.new(1.4, h, d * 0.6), CFrame.new(w / 2 - 0.7, h / 2, 0), def.Color, Enum.Material.Metal)
+	newPart(ctx, "Beam", Vector3.new(w, 1.4, d * 0.6), CFrame.new(0, h - 0.7, 0), def.Color, Enum.Material.Metal)
+	newPart(ctx, "GlowL", Vector3.new(0.4, h - 1.4, 0.4), CFrame.new(-w / 2 + 1.5, (h - 1.4) / 2, 0), def.Accent, Enum.Material.Neon)
+	newPart(ctx, "GlowR", Vector3.new(0.4, h - 1.4, 0.4), CFrame.new(w / 2 - 1.5, (h - 1.4) / 2, 0), def.Accent, Enum.Material.Neon)
+	newPart(ctx, "GlowTop", Vector3.new(w - 2.6, 0.4, 0.4), CFrame.new(0, h - 1.6, 0), def.Accent, Enum.Material.Neon)
+end
+
+function Styles.cyberlamp(ctx, def, _w, _d, h)
+	newPart(ctx, "Base", Vector3.new(1.8, 0.5, 1.8), CFrame.new(0, 0.25, 0), def.Color, Enum.Material.Metal)
+	newPart(ctx, "Pole", Vector3.new(0.4, h, 0.4), CFrame.new(0, h / 2, 0), def.Color, Enum.Material.Metal)
+	newPart(ctx, "Ring", Vector3.new(0.4, 3.4, 3.4), CFrame.new(0, h - 1, 0) * CFrame.Angles(0, 0, math.pi / 2), def.Accent, Enum.Material.Neon, { Shape = Enum.PartType.Cylinder, Transparency = 0.2 })
+	newPart(ctx, "Core", Vector3.new(1.2, 1.2, 1.2), CFrame.new(0, h - 1, 0), Color3.new(1, 1, 1), Enum.Material.Neon, { Shape = Enum.PartType.Ball })
+end
+
 function Styles.fountain(ctx, def, w, _d, h)
 	newPart(ctx, "Basin", Vector3.new(h * 0.5, w, w), CFrame.new(0, h * 0.25, 0) * VERTICAL, def.Color, Enum.Material.Marble, { Shape = Enum.PartType.Cylinder })
 	newPart(ctx, "Water", Vector3.new(0.2, w - 1.5, w - 1.5), CFrame.new(0, h * 0.5 + 0.05, 0) * VERTICAL, def.Accent, Enum.Material.Glass, { Shape = Enum.PartType.Cylinder, Transparency = 0.3 })

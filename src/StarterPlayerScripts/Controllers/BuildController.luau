@@ -389,6 +389,9 @@ local function renderItems()
 		if category == "All" or def.Category == category then
 			order += 1
 			local allowed, reason = Progression.CanUseBuilding(def, data.Level, data.Prestige, data.Passes)
+			if allowed and Buildings.AtLimit(def, data.Buildings) then
+				allowed, reason = false, ("Limit reached (%d per resort)"):format(def.Limit)
+			end
 			local affordable = data.Cash >= def.Cost
 			local accent = allowed and (affordable and C.Lime or C.Orange) or C.Disabled
 			local card = UI.New("TextButton", {

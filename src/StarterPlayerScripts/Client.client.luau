@@ -18,14 +18,19 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- Scale the 1280x720 design canvas to any screen (phones included).
+-- Scale the 1280x720 design canvas to any screen (phones included). AbsoluteSize is the safe
+-- area (it excludes Roblox's top bar), so tall windows still fit on small landscape phones.
 local scale = Instance.new("UIScale")
 scale.Parent = gui
 local function updateScale()
-	local viewport = workspace.CurrentCamera.ViewportSize
-	scale.Scale = math.clamp(math.min(viewport.X / 1280, viewport.Y / 720), 0.55, 1.25)
+	local area = gui.AbsoluteSize
+	if area.X < 10 or area.Y < 10 then
+		area = workspace.CurrentCamera.ViewportSize
+	end
+	scale.Scale = math.clamp(math.min(area.X / 1280, area.Y / 720), 0.4, 1.25)
 end
 updateScale()
+gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateScale)
 workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(updateScale)
 
 local ctx = { UI = UI, State = State, Panels = Panels, HUD = HUD, Gui = gui }

@@ -208,6 +208,9 @@ function Engine.DefaultedProperty(class, name, default)
 end
 Engine.DefaultedProperty("Humanoid", "Health", 100)
 Engine.DefaultedProperty("DataModel", "JobId", "sim-server-1")
+prop("GuiBase2d", "AbsoluteSize", function()
+	return Engine.Viewport or roblox.Vector2.new(1280, 662)
+end, function() end)
 Engine.DefaultedProperty("Humanoid", "MaxHealth", 100)
 
 ----------------------------------------------------------------------

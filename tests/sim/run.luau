@@ -139,6 +139,17 @@ check(ok and data.Cash == cashBefore - 150 + 75, "delete refunds 50%")
 task.wait(4)
 check(data.Tutorial >= 4, "tutorial advanced after building (step " .. tostring(data.Tutorial) .. ")")
 
+-- premium building (all passes are granted in Studio) + per-resort limit
+task.wait(0.3)
+ok, message = Remotes.PlaceBuilding:InvokeServer("vip_penthouse", -24, 24, 0)
+check(ok, "place VIP penthouse (Studio grants passes): " .. tostring(message))
+task.wait(0.3)
+ok, message = Remotes.PlaceBuilding:InvokeServer("vip_penthouse", 24, 24, 0)
+check(not ok and tostring(message):find("Limit"), "penthouse limit enforced: " .. tostring(message))
+task.wait(0.3)
+Remotes.DeleteBuilding:InvokeServer(data.Buildings[#data.Buildings].Uid)
+task.wait(0.3)
+
 -- every building + every rotation + every level builds without errors
 local BuildingModels = Engine.Require(Shared.BuildingModels)
 local Buildings = Engine.Require(Shared.Buildings)

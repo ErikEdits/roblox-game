@@ -119,14 +119,17 @@ local function renderPasses(data)
 		Size = UDim2.new(1, 0, 1, -32),
 		Parent = body,
 	}, { UI.List(Enum.FillDirection.Horizontal, 16) })
-	local order = 0
 	for key, pass in pairs(Config.Monetization.Passes) do
-		order += 1
 		local owned = data.Passes and data.Passes[key]
-		local color = key == "VIP" and C.Gold or C.Magenta
+		local style = ({ VIP = { C.Gold, 1 }, CyberPack = { C.Cyan, 2 }, HyperCar = { C.Magenta, 3 } })[key] or { C.Violet, 9 }
+		local color = style[1]
+		local passCount = 0
+		for _ in pairs(Config.Monetization.Passes) do
+			passCount += 1
+		end
 		local card = UI.New("Frame", {
-			LayoutOrder = key == "VIP" and 1 or 2,
-			Size = UDim2.new(0.5, -8, 1, 0),
+			LayoutOrder = style[2],
+			Size = UDim2.new(1 / passCount, -12, 1, 0),
 			BackgroundColor3 = C.Panel,
 			Parent = row,
 		}, { UI.Corner(14), UI.Stroke(color, 2), UI.Padding(12) })
@@ -134,7 +137,7 @@ local function renderPasses(data)
 			Size = UDim2.new(1, 0, 0, 36),
 			Font = Enum.Font.GothamBlack,
 			TextColor3 = color,
-			MaxTextSize = 30,
+			MaxTextSize = 26,
 			Parent = card,
 		})
 		UI.Label(pass.PriceText, {

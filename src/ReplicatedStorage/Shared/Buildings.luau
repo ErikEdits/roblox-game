@@ -133,14 +133,14 @@ Buildings.List = {
 	},
 	{
 		Id = "arena", Name = "Mini Arena", Category = "Entertainment", Style = "arena",
-		Cost = 1000000, Size = { 40, 40 }, Height = 14, Level = 45,
+		Cost = 1000000, Size = { 40, 40 }, Height = 14, Level = 45, Limit = 1,
 		Color = Color3.fromRGB(60, 60, 75), Accent = Color3.fromRGB(0, 235, 255),
 		Appeal = { Event = 12, Racer = 5, Tourist = 6, Family = 4 }, Spend = 8000, Passive = 2500, Rating = 70,
 		Description = "Your own event arena.",
 	},
 	{
 		Id = "helipad", Name = "Helipad", Category = "Outdoor", Style = "helipad",
-		Cost = 2500000, Size = { 20, 20 }, Height = 3, Level = 60,
+		Cost = 2500000, Size = { 20, 20 }, Height = 3, Level = 60, Limit = 1,
 		Color = Color3.fromRGB(45, 45, 55), Accent = Color3.fromRGB(255, 255, 255),
 		Appeal = { Luxury = 12, Business = 9 }, Spend = 15000, Passive = 5000, Rating = 60,
 		Description = "Luxury guests arrive in style.",
@@ -148,14 +148,49 @@ Buildings.List = {
 	-- Special unlocks ------------------------------------------------------
 	{
 		Id = "vip_sign", Name = "VIP Neon Sign", Category = "Decoration", Style = "sign",
-		Cost = 0, Size = { 12, 4 }, Height = 10, Level = 1, Pass = "VIP",
+		Cost = 0, Size = { 12, 4 }, Height = 10, Level = 1, Pass = "VIP", Limit = 2,
 		Color = Color3.fromRGB(25, 20, 10), Accent = Color3.fromRGB(255, 200, 60), SignText = "VIP",
 		Appeal = { Luxury = 2 }, Spend = 0, Passive = 5, Rating = 3,
 		Description = "Gold VIP sign (VIP Pass).",
 	},
 	{
+		Id = "vip_penthouse", Name = "VIP Penthouse", Category = "Buildings", Style = "tower",
+		Cost = 0, Size = { 20, 20 }, Height = 48, Level = 1, Pass = "VIP", Limit = 1,
+		Color = Color3.fromRGB(30, 24, 12), Accent = Color3.fromRGB(255, 205, 70),
+		Appeal = { Luxury = 9, Business = 5 }, Spend = 180, Passive = 60, Rating = 16,
+		Description = "Gold penthouse tower (VIP Pass). One per resort.",
+	},
+	{
+		Id = "neon_sofa", Name = "Neon Sofa", Category = "Decoration", Style = "sofa",
+		Cost = 0, Size = { 8, 4 }, Height = 3, Level = 1, Pass = "CyberPack", Limit = 6,
+		Color = Color3.fromRGB(40, 20, 60), Accent = Color3.fromRGB(255, 40, 200),
+		Appeal = { Tourist = 1 }, Spend = 0, Passive = 3, Rating = 2,
+		Description = "Glowing lounge sofa (Cyberpunk Pack).",
+	},
+	{
+		Id = "neon_arch", Name = "Neon Arch", Category = "Decoration", Style = "arch",
+		Cost = 0, Size = { 12, 4 }, Height = 12, Level = 1, Pass = "CyberPack", Limit = 3,
+		Color = Color3.fromRGB(25, 25, 35), Accent = Color3.fromRGB(0, 235, 255),
+		Appeal = { Tourist = 2, Event = 1 }, Spend = 0, Passive = 5, Rating = 4,
+		Description = "Walk-through neon gate (Cyberpunk Pack).",
+	},
+	{
+		Id = "cyber_lamp", Name = "Cyber Lamp", Category = "Lights", Style = "cyberlamp",
+		Cost = 0, Size = { 4, 4 }, Height = 11, Level = 1, Pass = "CyberPack", Limit = 10,
+		Color = Color3.fromRGB(40, 40, 55), Accent = Color3.fromRGB(150, 80, 255),
+		Appeal = {}, Spend = 0, Passive = 2, Rating = 2,
+		Description = "Futuristic ring lamp (Cyberpunk Pack).",
+	},
+	{
+		Id = "holo_sign", Name = "Holo Sign", Category = "Decoration", Style = "sign",
+		Cost = 0, Size = { 8, 4 }, Height = 9, Level = 1, Pass = "CyberPack", Limit = 4,
+		Color = Color3.fromRGB(10, 20, 30), Accent = Color3.fromRGB(0, 255, 230), SignText = "CYBER",
+		Appeal = { Tourist = 1 }, Spend = 0, Passive = 3, Rating = 3,
+		Description = "Hologram sign (Cyberpunk Pack).",
+	},
+	{
 		Id = "prestige_monument", Name = "Prestige Monument", Category = "Decoration", Style = "hologram",
-		Cost = 50000, Size = { 8, 8 }, Height = 20, Level = 1, Prestige = 1,
+		Cost = 50000, Size = { 8, 8 }, Height = 20, Level = 1, Prestige = 1, Limit = 1,
 		Color = Color3.fromRGB(30, 25, 10), Accent = Color3.fromRGB(255, 215, 0),
 		Appeal = { Tourist = 3, Luxury = 3, Event = 3 }, Spend = 30, Passive = 120, Rating = 15,
 		Description = "Only prestiged players can build this.",
@@ -173,6 +208,21 @@ function Buildings.Get(id)
 end
 
 local Config = require(script.Parent.Config)
+
+-- How many of this building a plot already has.
+function Buildings.CountOf(existing, id)
+	local count = 0
+	for _, entry in ipairs(existing) do
+		if entry.Id == id then
+			count += 1
+		end
+	end
+	return count
+end
+
+function Buildings.AtLimit(def, existing)
+	return def.Limit ~= nil and Buildings.CountOf(existing, def.Id) >= def.Limit
+end
 
 function Buildings.CanUpgrade(def)
 	return def.Spend > 0 and def.Cost > 0

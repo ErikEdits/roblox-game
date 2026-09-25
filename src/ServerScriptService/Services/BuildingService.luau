@@ -129,6 +129,9 @@ local function place(player, id, x, z, rot)
 	if not allowed then
 		return false, reason
 	end
+	if Buildings.AtLimit(def, data.Buildings) then
+		return false, ("Limit reached: %d %s per resort"):format(def.Limit, def.Name)
+	end
 	if #data.Buildings >= Config.MaxBuildingsPerPlot then
 		return false, "Your plot is full (" .. Config.MaxBuildingsPerPlot .. " buildings)"
 	end
