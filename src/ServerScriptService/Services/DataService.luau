@@ -56,6 +56,7 @@ local function defaultData()
 			EventsJoined = 0,
 			NPCVisits = 0,
 			Deliveries = 0,
+			Likes = 0,
 			ReflexBest = 0,
 			BestTrialTime = 0,
 			PlayTime = 0,
@@ -143,32 +144,64 @@ local function keyFor(player)
 	return "Player_" .. player.UserId
 end
 
+-- Session locking: a save carries { Session = { JobId, Time } } while a server uses it.
+-- Another server waits for the lock (e.g. during a fast server hop) instead of loading stale data.
+local SESSION_TIMEOUT = 180 -- a lock older than this is considered abandoned (server crashed)
+local LOCK_RETRIES = 6
+local LOCK_RETRY_DELAY = 3
+
+local function jobId()
+	return game.JobId ~= "" and game.JobId or "studio"
+end
+
 local function loadData(player)
 	if not storeEnabled then
 		return defaultData(), false
 	end
-	for attempt = 1, 4 do
+	for attempt = 1, LOCK_RETRIES do
+		local lockedByOther = false
 		local ok, result = pcall(function()
-			return store:GetAsync(keyFor(player))
+			return store:UpdateAsync(keyFor(player), function(old)
+				if type(old) == "table" and type(old.Session) == "table" and old.Session.JobId ~= jobId()
+					and type(old.Session.Time) == "number" and os.time() - old.Session.Time < SESSION_TIMEOUT
+					and attempt < LOCK_RETRIES then
+					lockedByOther = true
+					return nil -- keep the other server's lock, try again later
+				end
+				local data = type(old) == "table" and old or {}
+				data.Session = { JobId = jobId(), Time = os.time() }
+				return data
+			end)
 		end)
-		if ok then
-			return sanitize(result), false
+		if ok and not lockedByOther then
+			local data = sanitize(result)
+			data.Session = nil
+			return data, false
 		end
-		warn(("[DataService] load attempt %d failed for %s: %s"):format(attempt, player.Name, tostring(result)))
-		task.wait(attempt * 1.5)
+		if not ok then
+			warn(("[DataService] load attempt %d failed for %s: %s"):format(attempt, player.Name, tostring(result)))
+		end
+		task.wait(LOCK_RETRY_DELAY)
 	end
 	-- Loading failed: play with defaults but never overwrite the real save.
 	return defaultData(), true
 end
 
-local function saveProfile(player, profile)
+-- release = true when the player leaves (frees the session lock).
+local function saveProfile(player, profile, release)
 	if not storeEnabled or profile.NoSave then
 		return true
 	end
-	local payload = profile.Data
+	local payload = table.clone(profile.Data)
+	payload.Session = not release and { JobId = jobId(), Time = os.time() } or nil
 	for attempt = 1, 3 do
 		local ok, err = pcall(function()
-			store:UpdateAsync(keyFor(player), function()
+			store:UpdateAsync(keyFor(player), function(old)
+				-- Never overwrite a save that another server has taken over meanwhile.
+				if type(old) == "table" and type(old.Session) == "table" and old.Session.JobId ~= jobId()
+					and type(old.Session.Time) == "number" and os.time() - old.Session.Time < SESSION_TIMEOUT then
+					return nil
+				end
 				return payload
 			end)
 		end)
@@ -254,7 +287,7 @@ local function onPlayerRemoving(player)
 	end
 	profile.Data.Stats.PlayTime += math.floor(os.clock() - profile.JoinedAt)
 	DataService.PlayerLeaving:Fire(player, profile.Data)
-	saveProfile(player, profile)
+	saveProfile(player, profile, true)
 	profiles[player] = nil
 end
 
@@ -297,7 +330,7 @@ function DataService.Start()
 		for player, profile in pairs(profiles) do
 			pending += 1
 			task.spawn(function()
-				saveProfile(player, profile)
+				saveProfile(player, profile, true)
 				pending -= 1
 			end)
 		end

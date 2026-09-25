@@ -422,11 +422,33 @@ task.wait(1)
 check(other:GetAttribute("PlotIndex") == 2, "second player gets plot 2")
 Engine.MakeCharacter(other, Vector3.new(5, 4, 40))
 task.wait(0.5)
+-- Social: the second player likes Erik's resort
+Engine.LocalPlayer = other
+local okLike = Remotes.LikeResort:InvokeServer(1001)
+check(okLike, "second player can like a resort")
+check(not Remotes.LikeResort:InvokeServer(1001), "second like the same day rejected")
+local resorts = Remotes.GetResorts:InvokeServer()
+check(resorts and #resorts == 1 and resorts[1].Likes == 1, "resort list shows likes")
+ok = Remotes.Teleport:InvokeServer("Resort:1001")
+check(ok, "visit another player's resort")
+Engine.LocalPlayer = player
+task.wait(1.6)
+check(data.Stats.Likes == 1, "owner received the like")
+Panels.Open("Map")
+task.wait(1)
+Panels.Close()
 local buildingCount = #data.Buildings
 local level = data.Level
 Engine.RemovePlayer(player)
 task.wait(1)
 check(#plotModel.Buildings:GetChildren() == 0, "buildings removed on leave")
+-- A stale session lock from a crashed server must not block loading.
+local store = Engine.Stores[Config.DataStoreName]
+local serde = require("@lune/serde")
+local saved = serde.decode("json", store.Data["Player_1001"])
+check(saved.Session == nil, "session lock released on leave")
+saved.Session = { JobId = "crashed-server", Time = os.time() - 1000 }
+store.Data["Player_1001"] = serde.encode("json", saved)
 local rejoined = Engine.AddPlayer(1001, "Erik")
 Engine.LocalPlayer = rejoined
 task.wait(1.5)

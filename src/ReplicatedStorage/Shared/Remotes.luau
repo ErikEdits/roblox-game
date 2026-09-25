@@ -35,6 +35,8 @@ Remotes.Functions = {
 	"Teleport",
 	"TutorialAction",
 	"JobAction",
+	"GetResorts",
+	"LikeResort",
 	"ReflexStart",
 	"ReflexReady",
 	"ReflexTap",

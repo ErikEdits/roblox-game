@@ -116,6 +116,9 @@ function PlayerService.TeleportTo(player, target)
 	local destination
 	if target == "Resort" then
 		destination = services.PlotService.SpawnCFrame(player)
+	elseif string.sub(target, 1, 7) == "Resort:" then
+		local owner = Players:GetPlayerByUserId(tonumber(string.sub(target, 8)) or 0)
+		destination = owner and services.PlotService.SpawnCFrame(owner)
 	else
 		destination = DESTINATIONS[target]
 	end

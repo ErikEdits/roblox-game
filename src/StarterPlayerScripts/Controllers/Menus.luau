@@ -168,42 +168,120 @@ end
 -- Map
 ----------------------------------------------------------------------
 local function buildMap()
-	local window, content, close = UI.Window(ctx.Gui, "CITY MAP", C.Violet, UDim2.fromOffset(760, 540))
+	local window, content, close = UI.Window(ctx.Gui, "CITY MAP", C.Violet, UDim2.fromOffset(800, 600))
 	close.Activated:Connect(function()
 		ctx.Panels.Close()
 	end)
-	UI.New("UIGridLayout", {
-		CellSize = UDim2.new(0.5, -8, 0, 92),
-		CellPadding = UDim2.fromOffset(16, 12),
-		SortOrder = Enum.SortOrder.LayoutOrder,
+	local grid = UI.New("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 0, 262),
 		Parent = content,
 	})
+	UI.New("UIGridLayout", {
+		CellSize = UDim2.new(0.25, -8, 0, 60),
+		CellPadding = UDim2.fromOffset(10, 8),
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		Parent = grid,
+	})
 	local destinations = {
-		{ "Resort", "MY RESORT", "Build and manage your plot", C.Gold },
-		{ "Plaza", "MAIN PLAZA", "Leaderboards, events, shops", C.Cyan },
-		{ "Racing", "RACING DISTRICT", "Street Race lobby & track", C.Red },
-		{ "Entertainment", "ENTERTAINMENT", "Card Rush, concert stage", C.Magenta },
-		{ "Shopping", "SHOPPING DISTRICT", "Mall, boutique, train station", C.Lime },
-		{ "VIPLounge", "VIP LOUNGE", "Exclusive lounge for VIPs", C.Violet },
-		{ "Beach", "NEON BEACH", "Sand, palms and a glowing pier", C.Cyan },
+		{ "Resort", "MY RESORT", C.Gold },
+		{ "Plaza", "MAIN PLAZA", C.Cyan },
+		{ "Racing", "RACING", C.Red },
+		{ "Entertainment", "ARCADE & STAGE", C.Magenta },
+		{ "Shopping", "SHOPPING", C.Lime },
+		{ "VIPLounge", "VIP LOUNGE", C.Violet },
+		{ "Beach", "NEON BEACH", C.Cyan },
 	}
+	local function teleport(target)
+		ctx.Panels.Close()
+		local ok, message = Remotes.Get("Teleport"):InvokeServer(target)
+		if not ok and message then
+			ctx.HUD.Notify(tostring(message), "warning")
+		end
+	end
 	for index, entry in ipairs(destinations) do
-		local button = UI.Button(entry[2] .. "\n" .. entry[3], entry[4], {
-			LayoutOrder = index,
-			Parent = content,
-		})
-		button.Font = Enum.Font.GothamBold
+		local button = UI.Button(entry[2], entry[3], { LayoutOrder = index, Parent = grid })
 		button.Activated:Connect(function()
-			ctx.Panels.Close()
-			local ok, message = Remotes.Get("Teleport"):InvokeServer(entry[1])
-			if not ok and message then
-				ctx.HUD.Notify(tostring(message), "warning")
-			end
+			teleport(entry[1])
 		end)
 	end
+
+	UI.Label("PLAYER RESORTS", {
+		Position = UDim2.fromOffset(0, 270),
+		Size = UDim2.new(1, 0, 0, 26),
+		Font = Enum.Font.GothamBlack,
+		TextColor3 = C.Violet,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		MaxTextSize = 20,
+		Parent = content,
+	})
+	local list = UI.Scroll({
+		Position = UDim2.fromOffset(0, 302),
+		Size = UDim2.new(1, 0, 1, -302),
+		Parent = content,
+	})
+	UI.List(nil, 6).Parent = list
+
+	local function renderResorts()
+		UI.Clear(list)
+		local resorts = Remotes.Get("GetResorts"):InvokeServer() or {}
+		if #resorts == 0 then
+			UI.Label("No other players yet - NPC visitors keep the city busy!", {
+				Size = UDim2.new(1, -12, 0, 30),
+				TextColor3 = C.SubText,
+				MaxTextSize = 18,
+				Parent = list,
+			})
+			return
+		end
+		for index, resort in ipairs(resorts) do
+			local row = UI.New("Frame", {
+				LayoutOrder = index,
+				Size = UDim2.new(1, -12, 0, 56),
+				BackgroundColor3 = C.Panel,
+				Parent = list,
+			}, { UI.Corner(10) })
+			UI.Label(("%s's Resort  -  %s  |  %d buildings  |  %d likes"):format(
+				resort.Name, string.rep("*", resort.ResortLevel), resort.Buildings, resort.Likes), {
+				Position = UDim2.fromOffset(12, 0),
+				Size = UDim2.new(1, -290, 1, 0),
+				TextXAlignment = Enum.TextXAlignment.Left,
+				MaxTextSize = 18,
+				Parent = row,
+			})
+			local visit = UI.Button("VISIT", C.Cyan, {
+				AnchorPoint = Vector2.new(1, 0.5),
+				Position = UDim2.new(1, -144, 0.5, 0),
+				Size = UDim2.fromOffset(120, 42),
+				Parent = row,
+			})
+			visit.Activated:Connect(function()
+				teleport("Resort:" .. resort.UserId)
+			end)
+			local likeButton = UI.Button(resort.LikedToday and "LIKED" or "LIKE", C.Magenta, {
+				AnchorPoint = Vector2.new(1, 0.5),
+				Position = UDim2.new(1, -10, 0.5, 0),
+				Size = UDim2.fromOffset(120, 42),
+				Parent = row,
+			})
+			UI.SetButtonEnabled(likeButton, not resort.LikedToday, C.Magenta)
+			likeButton.Activated:Connect(function()
+				if resort.LikedToday then
+					return
+				end
+				local ok, message = Remotes.Get("LikeResort"):InvokeServer(resort.UserId)
+				if not ok and message then
+					ctx.HUD.Notify(tostring(message), "warning")
+				end
+				renderResorts()
+			end)
+		end
+	end
+
 	ctx.Panels.Register("Map", {
 		Open = function()
 			window.Visible = true
+			task.spawn(renderResorts)
 		end,
 		Close = function()
 			window.Visible = false

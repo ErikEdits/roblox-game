@@ -207,6 +207,7 @@ function Engine.DefaultedProperty(class, name, default)
 	end)
 end
 Engine.DefaultedProperty("Humanoid", "Health", 100)
+Engine.DefaultedProperty("DataModel", "JobId", "sim-server-1")
 Engine.DefaultedProperty("Humanoid", "MaxHealth", 100)
 
 ----------------------------------------------------------------------

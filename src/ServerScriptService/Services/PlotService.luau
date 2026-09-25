@@ -30,7 +30,9 @@ function PlotService.UpdateSign(player)
 	end
 	local resortLevel = player:GetAttribute("ResortLevel") or 1
 	local name = Progression.ResortLevelNames[resortLevel]
-	setSignText(plot, ("%s'S\n%s\n%s"):format(string.upper(player.DisplayName), string.upper(name), string.rep("⭐", resortLevel)))
+	local data = services.DataService.Get(player)
+	local likes = data and data.Stats.Likes or 0
+	setSignText(plot, ("%s'S\n%s\n%s  ❤ %d"):format(string.upper(player.DisplayName), string.upper(name), string.rep("⭐", resortLevel), likes))
 end
 
 function PlotService.GetPlot(player)
