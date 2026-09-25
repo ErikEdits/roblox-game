@@ -5,7 +5,6 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Shared = ReplicatedStorage.Shared
-local Config = require(Shared.Config)
 local Remotes = require(Shared.Remotes)
 local CarFactory = require(script.Parent.CarFactory)
 
@@ -38,20 +37,7 @@ function VehicleService.Despawn(player)
 end
 
 local function paintFor(player)
-	local data = services.DataService.Get(player)
-	local paint = Config.Cosmetics[1].Color
-	local body = "standard"
-	if data then
-		for _, cosmetic in ipairs(Config.Cosmetics) do
-			if cosmetic.Id == data.Cosmetics.Paint and not cosmetic.IsBody then
-				paint = cosmetic.Color
-			end
-		end
-		if data.Cosmetics.Body == "hyper" and services.MonetizationService.HasPass(player, "HyperCar") then
-			body = "hyper"
-		end
-	end
-	return paint, body
+	return CarFactory.StyleFor(services.DataService.Get(player), services.MonetizationService.GetPasses(player))
 end
 
 local function spawnCar(player)

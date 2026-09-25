@@ -231,7 +231,7 @@ for _, name in ipairs({ "Shop", "Play", "Tasks", "Map", "Settings" }) do
 	task.wait(0.4)
 end
 Panels.Close()
-local shopTabs = { "CAR PAINT", "ROBUX PASSES" }
+local shopTabs = { "CAR STYLE", "ROBUX PASSES" }
 Panels.Open("Shop")
 task.wait(0.3)
 for _, text in ipairs(shopTabs) do
@@ -252,6 +252,13 @@ ok, message = Remotes.BuyCosmetic:InvokeServer("paint_magenta")
 check(not ok, "double buy rejected")
 ok, message = Remotes.EquipCosmetic:InvokeServer("paint_cyan")
 check(ok, "equip cyan")
+data.Cash += 20000
+ok, message = Remotes.BuyCosmetic:InvokeServer("body_muscle")
+check(ok and data.Cosmetics.Body == "body_muscle", "buy + equip muscle body: " .. tostring(message))
+ok = Remotes.EquipCosmetic:InvokeServer("body_hyper")
+check(ok and data.Cosmetics.Body == "body_hyper", "equip hyper body (Studio pass)")
+ok = Remotes.EquipCosmetic:InvokeServer("body_muscle")
+check(ok and data.Cosmetics.Body == "body_muscle", "switch back to muscle body")
 ok = Remotes.SetSetting:InvokeServer("LowGraphics", true)
 check(ok and data.Settings.LowGraphics == true, "setting saved")
 ok = Remotes.SetSetting:InvokeServer("Cash", 99999)
@@ -310,6 +317,7 @@ check(humanoid.SeatPart ~= nil, "player seated in car")
 task.wait(1.5)
 -- drive: move the player's car along the checkpoints
 local car = cars:FindFirstChild(player.Name .. "_Car")
+check(car and car:FindFirstChild("HoodScoop") ~= nil, "race car uses the equipped muscle body")
 local path = {}
 for i = 1, 5 do
 	table.insert(path, game.Workspace.RaceTrack.Checkpoints["CP" .. i].Position)

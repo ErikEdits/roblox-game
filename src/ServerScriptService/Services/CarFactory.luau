@@ -5,7 +5,33 @@
 -- (see StarterPlayerScripts/Controllers/VehicleController).
 -- NPC cars: AlignPosition/AlignOrientation targets set by the server.
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Config = require(ReplicatedStorage.Shared.Config)
+
 local CarFactory = {}
+
+-- Paint color + body style for a player's saved cosmetics. passes = { VIP = bool, ... }.
+function CarFactory.StyleFor(data, passes)
+	local paint = Config.Cosmetics[1].Color
+	local body = "standard"
+	if not data then
+		return paint, body
+	end
+	local selected = data.Cosmetics.Body == "hyper" and "body_hyper" or data.Cosmetics.Body
+	for _, cosmetic in ipairs(Config.Cosmetics) do
+		if cosmetic.Id == data.Cosmetics.Paint and not cosmetic.IsBody then
+			paint = cosmetic.Color
+		end
+		if cosmetic.Id == selected and cosmetic.IsBody then
+			local usable = data.Cosmetics.Owned[cosmetic.Id] or (cosmetic.RequiresPass and passes and passes[cosmetic.RequiresPass])
+			if usable then
+				body = cosmetic.Style
+			end
+		end
+	end
+	return paint, body
+end
 
 local function weld(root, part)
 	local constraint = Instance.new("WeldConstraint")
@@ -40,6 +66,8 @@ function CarFactory.Build(cframe, options)
 	model.Name = options.Name or "NeonCar"
 	local color = options.Color or Color3.fromRGB(0, 235, 255)
 	local hyper = options.Body == "hyper"
+	local muscle = options.Body == "muscle"
+	local drift = options.Body == "drift"
 
 	local chassis = Instance.new("Part")
 	chassis.Name = "Chassis"
@@ -74,7 +102,7 @@ function CarFactory.Build(cframe, options)
 	end
 
 	local base = chassis.CFrame
-	local bodyHeight = hyper and 1.1 or 1.5
+	local bodyHeight = (hyper or drift) and 1.1 or (muscle and 1.8 or 1.5)
 	local body = newPart(model, "Body", Vector3.new(6.6, bodyHeight, 11), base * CFrame.new(0, 0.8 + bodyHeight / 2, 0), color)
 	local cabin = newPart(model, "Cabin", Vector3.new(5, hyper and 1.2 or 1.6, hyper and 4 or 5),
 		base * CFrame.new(0, 0.8 + bodyHeight + (hyper and 0.6 or 0.8), hyper and 1 or 0.5),
@@ -84,6 +112,18 @@ function CarFactory.Build(cframe, options)
 	local stripe = newPart(model, "Stripe", Vector3.new(1.2, 0.1, 11.1), base * CFrame.new(0, 0.8 + bodyHeight + 0.02, 0), Color3.new(1, 1, 1), Enum.Material.Neon)
 	local parts = { body, cabin, glow, stripe }
 
+	if muscle then
+		table.insert(parts, newPart(model, "HoodScoop", Vector3.new(2.2, 0.7, 2.6), base * CFrame.new(0, 0.8 + bodyHeight + 0.35, -3.2), Color3.fromRGB(25, 25, 32), Enum.Material.Metal))
+		table.insert(parts, newPart(model, "StripeL", Vector3.new(0.6, 0.1, 11.1), base * CFrame.new(-1, 0.8 + bodyHeight + 0.02, 0), Color3.new(1, 1, 1), Enum.Material.Neon))
+		table.insert(parts, newPart(model, "Exhaust", Vector3.new(4, 0.6, 0.8), base * CFrame.new(0, 0.6, 5.7), Color3.fromRGB(255, 120, 30), Enum.Material.Neon))
+	end
+	if drift then
+		table.insert(parts, newPart(model, "Wing", Vector3.new(7.2, 0.25, 1.4), base * CFrame.new(0, 3.4, 5), Color3.fromRGB(25, 25, 32), Enum.Material.Metal))
+		table.insert(parts, newPart(model, "WingPostL", Vector3.new(0.3, 1.4, 0.6), base * CFrame.new(-2.4, 2.7, 5), Color3.fromRGB(25, 25, 32)))
+		table.insert(parts, newPart(model, "WingPostR", Vector3.new(0.3, 1.4, 0.6), base * CFrame.new(2.4, 2.7, 5), Color3.fromRGB(25, 25, 32)))
+		table.insert(parts, newPart(model, "SkirtL", Vector3.new(0.3, 0.4, 9), base * CFrame.new(-3.4, 0.9, 0), color, Enum.Material.Neon))
+		table.insert(parts, newPart(model, "SkirtR", Vector3.new(0.3, 0.4, 9), base * CFrame.new(3.4, 0.9, 0), color, Enum.Material.Neon))
+	end
 	if hyper then
 		table.insert(parts, newPart(model, "Spoiler", Vector3.new(6.8, 0.3, 1.6), base * CFrame.new(0, 3.1, 5.2), color, Enum.Material.Neon))
 		table.insert(parts, newPart(model, "SpoilerL", Vector3.new(0.3, 1, 0.8), base * CFrame.new(-2.8, 2.5, 5.2), Color3.fromRGB(25, 25, 32)))

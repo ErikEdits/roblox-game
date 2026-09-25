@@ -26,7 +26,8 @@ local function renderPaints(data)
 		local usable = owned or passOwned
 		local equipped
 		if cosmetic.IsBody then
-			equipped = data.Cosmetics.Body == "hyper"
+			local selected = data.Cosmetics.Body == "hyper" and "body_hyper" or data.Cosmetics.Body
+			equipped = selected == cosmetic.Id
 		else
 			equipped = data.Cosmetics.Paint == cosmetic.Id
 		end
@@ -70,10 +71,12 @@ local function renderPaints(data)
 
 		local text, color, action
 		if cosmetic.IsBody then
-			if passOwned then
+			if usable then
 				text, color, action = equipped and "USING" or "USE", C.Lime, "Equip"
-			else
+			elseif cosmetic.RequiresPass then
 				text, color, action = "GET PASS", C.Violet, "Pass"
+			else
+				text, color, action = "BUY", C.Gold, "Buy"
 			end
 		elseif equipped then
 			text, color = "EQUIPPED", C.Lime
@@ -211,7 +214,7 @@ function ShopPanel.Start(context)
 		Size = UDim2.new(1, 0, 0, 48),
 		Parent = content,
 	}, { UI.List(Enum.FillDirection.Horizontal, 10) })
-	for index, entry in ipairs({ { "Paint", "CAR PAINT" }, { "Robux", "ROBUX PASSES" } }) do
+	for index, entry in ipairs({ { "Paint", "CAR STYLE" }, { "Robux", "ROBUX PASSES" } }) do
 		local button = UI.Button(entry[2], C.Cyan, {
 			LayoutOrder = index,
 			Size = UDim2.fromOffset(220, 44),

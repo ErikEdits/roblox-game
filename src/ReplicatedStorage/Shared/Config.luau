@@ -199,7 +199,9 @@ Config.Cosmetics = {
 	{ Id = "paint_sunset", Name = "Sunset Orange", Price = 12000, Color = Color3.fromRGB(255, 120, 30) },
 	{ Id = "paint_violet", Name = "Chrome Violet", Price = 30000, Color = Color3.fromRGB(150, 80, 255) },
 	{ Id = "paint_gold", Name = "VIP Gold", Price = 0, Color = Color3.fromRGB(255, 200, 60), RequiresPass = "VIP" },
-	{ Id = "body_hyper", Name = "Neon Hyper Car body", Price = 0, Color = Color3.fromRGB(255, 255, 255), RequiresPass = "HyperCar", IsBody = true },
+	{ Id = "body_muscle", Name = "Muscle Car body", Price = 15000, Color = Color3.fromRGB(200, 200, 215), IsBody = true, Style = "muscle" },
+	{ Id = "body_drift", Name = "Drift Coupe body", Price = 40000, Color = Color3.fromRGB(200, 200, 215), IsBody = true, Style = "drift" },
+	{ Id = "body_hyper", Name = "Neon Hyper Car body", Price = 0, Color = Color3.fromRGB(255, 255, 255), RequiresPass = "HyperCar", IsBody = true, Style = "hyper" },
 }
 
 ----------------------------------------------------------------------

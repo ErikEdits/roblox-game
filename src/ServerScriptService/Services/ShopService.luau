@@ -33,7 +33,11 @@ local function buy(player, id)
 		return false, "Not enough cash (" .. Format.Money(cosmetic.Price) .. ")"
 	end
 	data.Cosmetics.Owned[id] = true
-	data.Cosmetics.Paint = id
+	if cosmetic.IsBody then
+		data.Cosmetics.Body = id
+	else
+		data.Cosmetics.Paint = id
+	end
 	services.DataService.MarkDirty(player)
 	services.EconomyService.Notify(player, "Bought " .. cosmetic.Name .. "!", "reward")
 	return true
@@ -50,7 +54,8 @@ local function equip(player, id)
 		return false, "You do not own this yet"
 	end
 	if cosmetic.IsBody then
-		data.Cosmetics.Body = data.Cosmetics.Body == "hyper" and "standard" or "hyper"
+		local current = data.Cosmetics.Body == "hyper" and "body_hyper" or data.Cosmetics.Body
+		data.Cosmetics.Body = current == id and "standard" or id
 	else
 		data.Cosmetics.Paint = id
 	end

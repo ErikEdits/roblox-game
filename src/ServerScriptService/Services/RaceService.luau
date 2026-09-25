@@ -410,18 +410,7 @@ local function beginRace()
 	for _, player in ipairs(humans) do
 		slot += 1
 		local data = services.DataService.Get(player)
-		local paint = Config.Cosmetics[1].Color
-		local body = "standard"
-		if data then
-			for _, cosmetic in ipairs(Config.Cosmetics) do
-				if cosmetic.Id == data.Cosmetics.Paint and not cosmetic.IsBody then
-					paint = cosmetic.Color
-				end
-			end
-			if data.Cosmetics.Body == "hyper" and services.MonetizationService.HasPass(player, "HyperCar") then
-				body = "hyper"
-			end
-		end
+		local paint, body = CarFactory.StyleFor(data, services.MonetizationService.GetPasses(player))
 		local car = CarFactory.Build(gridSpots[slot], { Color = paint, Body = body, Name = player.Name .. "_Car" })
 		car.PrimaryPart.Anchored = true
 		car.Parent = carsFolder
