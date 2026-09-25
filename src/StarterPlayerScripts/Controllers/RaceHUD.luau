@@ -83,10 +83,17 @@ local function onState(info)
 		for _, entry in ipairs(info.Standings or {}) do
 			table.insert(lines, ("%d. %s  %s"):format(entry.Place, entry.Name, entry.Time))
 		end
-		local header = info.Place and ("You finished P%d  (%s)"):format(info.Place, info.Time) or "You did not finish"
+		local header
+		if info.Mode == "TimeTrial" then
+			header = info.Place and ("TIME TRIAL: %s%s"):format(info.Time, info.PersonalBest and "  NEW RECORD!" or "") or "Time Trial not finished"
+		else
+			header = info.Place and ("You finished P%d  (%s)"):format(info.Place, info.Time) or "You did not finish"
+		end
 		local reward = (info.Cash or 0) > 0 and ("\n+%s  +%d XP"):format(Format.Money(info.Cash), info.XP) or ""
 		resultsLabel.Text = header .. reward .. "\n\n" .. table.concat(lines, "\n")
-		if info.Place == 1 then
+		if info.PersonalBest then
+			showBig("NEW RECORD!", C.Gold, 2)
+		elseif info.Place == 1 and info.Mode ~= "TimeTrial" then
 			showBig("WINNER!", C.Gold, 2)
 		end
 	elseif phase == "Idle" then

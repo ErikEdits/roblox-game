@@ -33,7 +33,7 @@ Config.Upgrades = {
 -- Data
 ----------------------------------------------------------------------
 Config.DataStoreName = "NeonCity_PlayerData_v1"
-Config.LeaderboardStoreName = "NeonCity_BestRace_v1"
+Config.LeaderboardStoreName = "NeonCity_BestTrial_v1"
 Config.AutosaveInterval = 120
 
 ----------------------------------------------------------------------
@@ -78,6 +78,39 @@ Config.CardRush = {
 }
 
 ----------------------------------------------------------------------
+-- Neon Reflex (reaction skill game)
+----------------------------------------------------------------------
+Config.Reflex = {
+	Rounds = 5,
+	DelayMin = 1.2,
+	DelayMax = 3.2,
+	-- Measured time includes network latency, so thresholds are generous.
+	Tiers = {
+		{ Time = 0.45, Cash = 45, Label = "LIGHTNING" },
+		{ Time = 0.65, Cash = 30, Label = "FAST" },
+		{ Time = 0.9, Cash = 15, Label = "OK" },
+	},
+	XPPerRound = 8,
+	Timeout = 3,
+}
+
+----------------------------------------------------------------------
+-- Optional jobs (never required to progress)
+----------------------------------------------------------------------
+Config.Jobs = {
+	Delivery = {
+		BaseCash = 60,
+		CashPerStud = 0.35,
+		BaseXP = 20,
+		XPPerStud = 0.05,
+		BaseTime = 25,
+		SecondsPerStud = 1 / 14,
+		ArriveRadius = 16,
+		MinDistance = 150,
+	},
+}
+
+----------------------------------------------------------------------
 -- Racing
 ----------------------------------------------------------------------
 Config.Race = {
@@ -102,6 +135,8 @@ Config.Race = {
 		{ Cash = 300, XP = 100 },
 	},
 	FinishReward = { Cash = 180, XP = 60 },
+	TimeTrialReward = { Cash = 120, XP = 40 },
+	TimeTrialRecordBonus = { Cash = 300, XP = 80 },
 	EventMultiplier = 2,
 }
 

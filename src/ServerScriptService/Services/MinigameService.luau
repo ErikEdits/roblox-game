@@ -277,6 +277,92 @@ local function answer(player, index, choice)
 	return result
 end
 
+----------------------------------------------------------------------
+-- Neon Reflex: tap as soon as the screen turns green. The server times everything,
+-- so the measured time includes network latency (tiers are generous for that).
+----------------------------------------------------------------------
+local reflexSessions = {} -- [player] = session
+
+local function reflexStart(player)
+	if not services.DataService.Get(player) or services.RaceService.IsRacing(player) then
+		return nil
+	end
+	reflexSessions[player] = { Round = 1, Cash = 0, XP = 0, Times = {}, Token = {} }
+	return { Rounds = Config.Reflex.Rounds }
+end
+
+local function reflexReady(player, round)
+	local session = reflexSessions[player]
+	if not session or round ~= session.Round or session.GoAt or session.Waiting then
+		return false
+	end
+	session.Waiting = true
+	local token = session.Token
+	task.wait(Config.Reflex.DelayMin + math.random() * (Config.Reflex.DelayMax - Config.Reflex.DelayMin))
+	if reflexSessions[player] ~= session or session.Token ~= token then
+		return false
+	end
+	session.Waiting = false
+	session.GoAt = os.clock()
+	return true
+end
+
+local function reflexFinish(player, session)
+	reflexSessions[player] = nil
+	local total, count = 0, 0
+	for _, t in ipairs(session.Times) do
+		if t then
+			total += t
+			count += 1
+		end
+	end
+	local average = count > 0 and total / count or nil
+	local data = services.DataService.Get(player)
+	if data then
+		data.Stats.MinigamesPlayed += 1
+		if average and count == Config.Reflex.Rounds and (data.Stats.ReflexBest == 0 or average < data.Stats.ReflexBest) then
+			data.Stats.ReflexBest = math.floor(average * 1000) / 1000
+		end
+	end
+	services.QuestService.Increment(player, "minigames", 1)
+	services.TutorialService.Event(player, "PlayMinigame")
+	services.AnalyticsService.Log(player, "ReflexFinished")
+	if session.Cash > 0 or session.XP > 0 then
+		services.EconomyService.Reward(player, session.Cash, session.XP, "Neon Reflex")
+	end
+	return { Cash = session.Cash, XP = session.XP, Average = average, Hits = count }
+end
+
+local function reflexTap(player, round)
+	local session = reflexSessions[player]
+	if not session or round ~= session.Round or not session.GoAt then
+		return nil
+	end
+	local elapsed = os.clock() - session.GoAt
+	session.GoAt = nil
+	session.Round += 1
+	local result = { Time = elapsed, Label = "MISS", Cash = 0 }
+	if elapsed <= Config.Reflex.Timeout then
+		table.insert(session.Times, elapsed)
+		result.Label = "SLOW"
+		for _, tier in ipairs(Config.Reflex.Tiers) do
+			if elapsed <= tier.Time then
+				result.Label = tier.Label
+				result.Cash = tier.Cash
+				break
+			end
+		end
+		session.Cash += result.Cash
+		session.XP += Config.Reflex.XPPerRound
+	else
+		table.insert(session.Times, false)
+	end
+	if session.Round > Config.Reflex.Rounds then
+		result.Final = reflexFinish(player, session)
+	end
+	return result
+end
+
 function MinigameService.Init(allServices)
 	services = allServices
 
@@ -290,8 +376,13 @@ function MinigameService.Init(allServices)
 
 	Remotes.Get("CardRushAnswer").OnServerInvoke = answer
 
+	Remotes.Get("ReflexStart").OnServerInvoke = reflexStart
+	Remotes.Get("ReflexReady").OnServerInvoke = reflexReady
+	Remotes.Get("ReflexTap").OnServerInvoke = reflexTap
+
 	Players.PlayerRemoving:Connect(function(player)
 		sessions[player] = nil
+		reflexSessions[player] = nil
 	end)
 end
 

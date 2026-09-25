@@ -28,6 +28,8 @@ local racers = {} -- array of racer records
 local byPlayer = {} -- [player] = racer (Countdown/Racing/Results)
 local raceStartedAt = 0
 local eventMultiplier = 1
+local raceMode = "Street" -- Street | TimeTrial
+local raceLaps = Config.Race.Laps
 
 local NPC_NAMES = { "Nova", "Blitz", "Vortex", "Echo", "Zephyr", "Pulse", "Rogue", "Flux" }
 local NPC_COLORS = {
@@ -78,7 +80,7 @@ end
 ----------------------------------------------------------------------
 local function buildPath(startPosition)
 	local points = { startPosition }
-	for _ = 1, Config.Race.Laps do
+	for _ = 1, raceLaps do
 		for _, point in ipairs(pathPoints) do
 			table.insert(points, point)
 		end
@@ -182,7 +184,27 @@ local function finishRace()
 		local player = racer.Player
 		if player and player.Parent then
 			local cash, xp = 0, 0
-			if racer.Finished then
+			local personalBest = false
+			if racer.Finished and raceMode == "TimeTrial" then
+				local data = services.DataService.Get(player)
+				local reward = Config.Race.TimeTrialReward
+				cash, xp = reward.Cash, reward.XP
+				if data then
+					data.Stats.RacesCompleted += 1
+					local best = data.Stats.BestTrialTime
+					if best == 0 or racer.FinishTime < best then
+						personalBest = best ~= 0
+						data.Stats.BestTrialTime = math.floor(racer.FinishTime * 100) / 100
+						services.LeaderboardService.SubmitRaceTime(player, racer.FinishTime)
+						if personalBest then
+							cash += Config.Race.TimeTrialRecordBonus.Cash
+							xp += Config.Race.TimeTrialRecordBonus.XP
+						end
+					end
+				end
+				services.QuestService.Increment(player, "races", 1)
+				services.EconomyService.Reward(player, cash, xp, personalBest and "NEW PERSONAL BEST!" or "Time Trial")
+			elseif racer.Finished then
 				local reward = Config.Race.Rewards[place] or Config.Race.FinishReward
 				cash, xp = reward.Cash * eventMultiplier, reward.XP * eventMultiplier
 				local data = services.DataService.Get(player)
@@ -193,7 +215,6 @@ local function finishRace()
 					end
 					if data.Stats.BestRaceTime == 0 or racer.FinishTime < data.Stats.BestRaceTime then
 						data.Stats.BestRaceTime = math.floor(racer.FinishTime * 100) / 100
-						services.LeaderboardService.SubmitRaceTime(player, racer.FinishTime)
 					end
 				end
 				services.QuestService.Increment(player, "races", 1)
@@ -201,6 +222,8 @@ local function finishRace()
 			end
 			send(player, {
 				Phase = "Results",
+				Mode = raceMode,
+				PersonalBest = personalBest,
 				Place = racer.Finished and place or nil,
 				Time = racer.Finished and Format.RaceTime(racer.FinishTime) or "DNF",
 				Cash = math.floor(cash),
@@ -268,7 +291,7 @@ local function updateRacer(racer, now)
 		if racer.NextCP > #checkpoints then
 			racer.NextCP = 1
 			racer.Lap += 1
-			if racer.Lap >= Config.Race.Laps then
+			if racer.Lap >= raceLaps then
 				racer.Finished = true
 				racer.FinishTime = now - raceStartedAt
 				local seat = racer.Car:FindFirstChild("DriverSeat")
@@ -286,8 +309,8 @@ local function sendHud(now)
 		if racer.Player and not racer.DNF then
 			send(racer.Player, {
 				Phase = racer.Finished and "Finished" or "Racing",
-				Lap = math.min(racer.Lap + 1, Config.Race.Laps),
-				Laps = Config.Race.Laps,
+				Lap = math.min(racer.Lap + 1, raceLaps),
+				Laps = raceLaps,
 				Position = place,
 				Count = #order,
 				Checkpoint = racer.NextCP,
@@ -406,7 +429,7 @@ local function beginRace()
 		seatPlayer(player, car)
 	end
 
-	local npcCount = math.max(0, math.min(Config.Race.MinRacers, #gridSpots) - #humans)
+	local npcCount = raceMode == "TimeTrial" and 0 or math.max(0, math.min(Config.Race.MinRacers, #gridSpots) - #humans)
 	local names = table.clone(NPC_NAMES)
 	for _ = 1, npcCount do
 		slot += 1
@@ -464,6 +487,8 @@ local function openLobby()
 		return false
 	end
 	state = "Lobby"
+	raceMode = "Street"
+	raceLaps = Config.Race.Laps
 	lobby = {}
 	lobbyEndsAt = os.clock() + Config.Race.LobbyTime
 	services.EconomyService.NotifyAll(("Street Race starting in %ds! Press PLAY > Street Race to join."):format(Config.Race.LobbyTime), "race")
@@ -479,6 +504,32 @@ end
 
 function RaceService.OpenLobby()
 	return openLobby()
+end
+
+-- Solo time trial: 1 lap, no NPCs, starts immediately when the track is free.
+function RaceService.StartTimeTrial(player)
+	if not services.DataService.IsLoaded(player) then
+		return false, "Loading..."
+	end
+	if byPlayer[player] or table.find(lobby, player) then
+		return false, "You are already racing"
+	end
+	if state ~= "Idle" then
+		return false, "The track is busy - try again in a moment"
+	end
+	state = "Lobby"
+	raceMode = "TimeTrial"
+	raceLaps = 1
+	lobby = { player }
+	services.EconomyService.Notify(player, "Time Trial: one lap, beat your best time!", "race")
+	task.spawn(function()
+		local ok, err = pcall(beginRace)
+		if not ok then
+			warn("[RaceService] time trial failed: " .. tostring(err))
+			cleanup()
+		end
+	end)
+	return true
 end
 
 function RaceService.Join(player)
@@ -531,7 +582,10 @@ function RaceService.Init(allServices)
 	carsFolder.Name = "RaceCars"
 	carsFolder.Parent = workspace
 
-	Remotes.Get("JoinRace").OnServerInvoke = function(player)
+	Remotes.Get("JoinRace").OnServerInvoke = function(player, mode)
+		if mode == "TimeTrial" then
+			return RaceService.StartTimeTrial(player)
+		end
 		return RaceService.Join(player)
 	end
 

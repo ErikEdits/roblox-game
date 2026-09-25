@@ -337,6 +337,85 @@ check((data.Quests.Progress.visits or 0) >= 3, "visits counted: " .. tostring(da
 check((data.Quests.Progress.races or 0) >= 1, "race task counted")
 check((data.Quests.Progress.minigames or 0) >= 1, "minigame task counted")
 
+step("Play hub, Neon Reflex, Time Trial, Delivery")
+Panels.Open("Play")
+task.wait(0.4)
+for _, text in ipairs({ "STREET RACE", "TIME TRIAL", "START JOB" }) do
+	check(Engine.FindButton(gui, text) ~= nil, "hub button " .. text)
+end
+Panels.Close()
+-- Neon Reflex through the UI: tap the pad whenever it shows TAP!
+Config.Reflex.DelayMin, Config.Reflex.DelayMax = 0.3, 0.5
+local playedBefore = data.Stats.MinigamesPlayed
+Panels.Open("Reflex")
+local reflexWindow = gui:FindFirstChild("NEON REFLEX")
+local deadline = os.clock() + 15
+while os.clock() < deadline and data.Stats.MinigamesPlayed == playedBefore do
+	if reflexWindow then
+		for _, d in ipairs(reflexWindow:GetDescendants()) do
+			if d:IsA("TextButton") and d.Text == "TAP!" then
+				Engine.Click(d)
+			end
+		end
+	end
+	task.wait(0.05)
+end
+check(data.Stats.MinigamesPlayed == playedBefore + 1, "neon reflex round finished via UI")
+check(data.Stats.ReflexBest > 0, "reflex best recorded: " .. tostring(data.Stats.ReflexBest))
+Panels.Close()
+
+-- Time trial
+character:PivotTo(CFrame.new(0, 4, 40))
+task.wait(0.3)
+local trialsBefore = data.Stats.RacesCompleted
+ok, message = Remotes.JoinRace:InvokeServer("TimeTrial")
+check(ok, "time trial start: " .. tostring(message))
+task.wait(2.5)
+local trialCar = game.Workspace.RaceCars:FindFirstChild(player.Name .. "_Car")
+check(trialCar ~= nil and #game.Workspace.RaceCars:GetChildren() == 1, "time trial: only the player's car")
+for _, point in ipairs(path) do
+	if trialCar and trialCar.Parent then
+		trialCar:PivotTo(CFrame.new(Vector3.new(point.X, 1.3, point.Z)))
+	end
+	task.wait(0.35)
+end
+task.wait(1)
+check(data.Stats.RacesCompleted == trialsBefore + 1, "time trial completed")
+check(data.Stats.BestTrialTime > 0, "trial time recorded")
+task.wait(7)
+
+-- Delivery job
+character:PivotTo(CFrame.new(0, 4, 40))
+task.wait(0.3)
+local deliveriesBefore = data.Stats.Deliveries
+ok, message = Remotes.JobAction:InvokeServer("StartDelivery")
+check(ok, "delivery start: " .. tostring(message))
+task.wait(0.5)
+local deliveryBar = gui:FindFirstChild("DeliveryBar")
+check(deliveryBar and deliveryBar.Visible, "delivery HUD visible")
+local JobService = services.JobService
+-- read the target from the client-side marker
+local marker = game.Workspace.CurrentCamera:FindFirstChild("GuideMarker")
+check(marker ~= nil, "delivery guide marker shown")
+if marker then
+	character:PivotTo(CFrame.new(marker.Position - Vector3.new(0, 4, 0)))
+end
+task.wait(1.5)
+check(data.Stats.Deliveries == deliveriesBefore + 1, "delivery completed")
+check(deliveryBar and not deliveryBar.Visible, "delivery HUD hidden after completion")
+local _ = JobService
+-- kiosk prompt starts a delivery too, cancel works
+for _, d in ipairs(game.Workspace:GetDescendants()) do
+	if d:IsA("ProximityPrompt") and d.Parent and d.Parent:GetAttribute("Prompt") == "Delivery" then
+		Engine.SignalOf(d, "Triggered"):Fire(player)
+	end
+end
+task.wait(0.5)
+check(deliveryBar.Visible, "kiosk prompt starts delivery")
+Remotes.JobAction:InvokeServer("Cancel")
+task.wait(0.3)
+check(not deliveryBar.Visible, "delivery cancelled")
+
 step("Second player + leave/rejoin persistence")
 local other = Engine.AddPlayer(1002, "Guest")
 task.wait(1)

@@ -18,6 +18,8 @@ local PROMPTS = {
 	Tasks = { Action = "Daily Tasks", Object = "Tasks Board" },
 	Build = { Action = "Build Menu", Object = "Resort Builder" },
 	Race = { Action = "Join Street Race", Object = "Race Lobby" },
+	Delivery = { Action = "Start Delivery Job", Object = "Delivery Jobs" },
+	Reflex = { Action = "Play Neon Reflex", Object = "Neon Reflex" },
 }
 
 local function setupCollisionGroups()
@@ -67,6 +69,11 @@ local function setupPrompts()
 			prompt.Triggered:Connect(function(player)
 				if kind == "Race" then
 					services.RaceService.Join(player)
+				elseif kind == "Delivery" then
+					local ok, message = services.JobService.StartDelivery(player)
+					if not ok and message then
+						services.EconomyService.Notify(player, message, "warning")
+					end
 				else
 					openUI:FireClient(player, kind)
 				end

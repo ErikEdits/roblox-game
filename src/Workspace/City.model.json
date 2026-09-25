@@ -2372,7 +2372,7 @@
      ]
     },
     {
-     "name": "BuildKiosk",
+     "name": "DeliveryKiosk",
      "className": "Model",
      "children": [
       {
@@ -2413,15 +2413,15 @@
         },
         "Color": [
          0.25,
-         0.196075,
-         0.058825
+         0.11765,
+         0.0294
         ],
         "Material": "SmoothPlastic",
         "TopSurface": "Smooth",
         "BottomSurface": "Smooth"
        },
        "attributes": {
-        "Prompt": "Build"
+        "Prompt": "Delivery"
        }
       },
       {
@@ -2462,8 +2462,8 @@
         },
         "Color": [
          1.0,
-         0.7843,
-         0.2353
+         0.4706,
+         0.1176
         ],
         "Material": "Neon",
         "TopSurface": "Smooth",
@@ -2647,8 +2647,8 @@
         },
         "Color": [
          0.15,
-         0.117645,
-         0.035295
+         0.07059,
+         0.01764
         ],
         "Material": "SmoothPlastic",
         "TopSurface": "Smooth",
@@ -2682,12 +2682,12 @@
              ]
             },
             "BackgroundTransparency": 1,
-            "Text": "BUILD INFO",
+            "Text": "DELIVERY JOBS",
             "TextScaled": true,
             "TextColor3": [
              1.0,
-             0.7843,
-             0.2353
+             0.4706,
+             0.1176
             ],
             "Font": "GothamBlack"
            }
@@ -2721,12 +2721,12 @@
              ]
             },
             "BackgroundTransparency": 1,
-            "Text": "BUILD INFO",
+            "Text": "DELIVERY JOBS",
             "TextScaled": true,
             "TextColor3": [
              1.0,
-             0.7843,
-             0.2353
+             0.4706,
+             0.1176
             ],
             "Font": "GothamBlack"
            }
@@ -8226,6 +8226,195 @@
              1.0,
              0.1569,
              0.7843
+            ],
+            "Font": "GothamBlack"
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "ReflexMachine",
+     "className": "Model",
+     "children": [
+      {
+       "name": "Cabinet",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         7,
+         8,
+         3.5
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           222,
+           4,
+           -42
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.0392,
+         0.1569,
+         0.0784
+        ],
+        "Material": "SmoothPlastic",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth"
+       },
+       "attributes": {
+        "Prompt": "Reflex"
+       }
+      },
+      {
+       "name": "Screen",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5.6,
+         3.6,
+         0.2
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           222,
+           5,
+           -40.2
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.549,
+         1.0,
+         0.2353
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "Marquee",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         7.4,
+         1.8,
+         3.9
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           222,
+           8.8,
+           -42
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.0196,
+         0.098,
+         0.0392
+        ],
+        "Material": "SmoothPlastic",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth"
+       },
+       "children": [
+        {
+         "name": "Label",
+         "className": "SurfaceGui",
+         "properties": {
+          "Face": "Back",
+          "SizingMode": "PixelsPerStud",
+          "PixelsPerStud": 20,
+          "LightInfluence": 0
+         },
+         "children": [
+          {
+           "name": "Text",
+           "className": "TextLabel",
+           "properties": {
+            "Size": {
+             "UDim2": [
+              [
+               1,
+               0
+              ],
+              [
+               1,
+               0
+              ]
+             ]
+            },
+            "BackgroundTransparency": 1,
+            "Text": "NEON REFLEX",
+            "TextScaled": true,
+            "TextColor3": [
+             0.549,
+             1.0,
+             0.2353
             ],
             "Font": "GothamBlack"
            }

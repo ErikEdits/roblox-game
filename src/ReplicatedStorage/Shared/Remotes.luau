@@ -15,6 +15,7 @@ Remotes.Events = {
 	"RaceState", -- S->C (personal race HUD info)
 	"OpenUI", -- S->C (panel name) e.g. when a ProximityPrompt is used
 	"MoneyPopup", -- S->C (world position, text, color)
+	"JobState", -- S->C (delivery job info)
 }
 
 Remotes.Functions = {
@@ -33,6 +34,10 @@ Remotes.Functions = {
 	"JoinRace",
 	"Teleport",
 	"TutorialAction",
+	"JobAction",
+	"ReflexStart",
+	"ReflexReady",
+	"ReflexTap",
 }
 
 local FOLDER_NAME = "Remotes"

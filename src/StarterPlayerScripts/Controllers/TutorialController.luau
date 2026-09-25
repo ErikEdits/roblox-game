@@ -1,31 +1,28 @@
 -- TutorialController: shows the current tutorial step, pulses the relevant button and draws a
 -- glowing guide beam to the player's resort for the first step.
 
-local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService = game:GetService("RunService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local PlotUtil = require(Shared.PlotUtil)
 local Remotes = require(Shared.Remotes)
 local Tutorial = require(Shared.Tutorial)
 
+local Guide = require(script.Parent.Guide)
+
 local TutorialController = {}
 
-local player = Players.LocalPlayer
 local ctx, UI, C
 local card, stepLabel, textLabel
 local currentIndex = nil
-local guide = nil -- { Part, Beam, Attachment0, Connection }
 local pulseToken = nil
 
+local showingGuide = false
+
 local function removeGuide()
-	if guide then
-		guide.Connection:Disconnect()
-		guide.Beam:Destroy()
-		guide.Attachment0:Destroy()
-		guide.Part:Destroy()
-		guide = nil
+	if showingGuide then
+		showingGuide = false
+		Guide.Hide()
 	end
 end
 
@@ -34,51 +31,6 @@ local function plotEntrance()
 	local plots = workspace:FindFirstChild("Plots")
 	local plotModel = data and data.PlotIndex and plots and plots:FindFirstChild("Plot" .. data.PlotIndex)
 	return plotModel and PlotUtil.Entrance(plotModel)
-end
-
-local function showGuide(target)
-	removeGuide()
-	local character = player.Character
-	local root = character and character:FindFirstChild("HumanoidRootPart")
-	if not root or not target then
-		return
-	end
-	local marker = Instance.new("Part")
-	marker.Name = "TutorialMarker"
-	marker.Anchored = true
-	marker.CanCollide = false
-	marker.CanQuery = false
-	marker.CanTouch = false
-	marker.Shape = Enum.PartType.Ball
-	marker.Material = Enum.Material.Neon
-	marker.Color = C.Cyan
-	marker.Size = Vector3.new(3, 3, 3)
-	marker.Position = target + Vector3.new(0, 6, 0)
-	marker.Parent = workspace.CurrentCamera
-
-	local attachment1 = Instance.new("Attachment")
-	attachment1.Parent = marker
-	local attachment0 = Instance.new("Attachment")
-	attachment0.Name = "TutorialAttachment"
-	attachment0.Parent = root
-
-	local beam = Instance.new("Beam")
-	beam.Attachment0 = attachment0
-	beam.Attachment1 = attachment1
-	beam.FaceCamera = true
-	beam.Width0 = 1.2
-	beam.Width1 = 1.2
-	beam.LightEmission = 1
-	beam.Color = ColorSequence.new(C.Cyan, C.Magenta)
-	beam.Transparency = NumberSequence.new(0.25)
-	beam.Segments = 12
-	beam.Parent = marker
-
-	local base = marker.Position
-	local connection = RunService.RenderStepped:Connect(function()
-		marker.Position = base + Vector3.new(0, math.sin(os.clock() * 3) * 1.2, 0)
-	end)
-	guide = { Part = marker, Beam = beam, Attachment0 = attachment0, Connection = connection }
 end
 
 local function pulse(buttonName)
@@ -121,8 +73,9 @@ local function render(data)
 		task.spawn(function()
 			for _ = 1, 20 do
 				local target = plotEntrance()
-				if target and player.Character then
-					showGuide(target)
+				if target then
+					showingGuide = true
+					Guide.Show(target, C.Cyan)
 					return
 				end
 				task.wait(0.5)
@@ -181,16 +134,6 @@ function TutorialController.Start(context)
 		local step = data and Tutorial.Steps[data.Tutorial or Tutorial.Done]
 		if name == "Tasks" and step and step.Id == "OpenTasks" then
 			Remotes.Get("TutorialAction"):InvokeServer("TasksOpened")
-		end
-	end)
-
-	-- Re-attach the beam after respawning.
-	player.CharacterAdded:Connect(function()
-		task.wait(1)
-		local data = ctx.State.Data
-		local step = data and Tutorial.Steps[data.Tutorial or Tutorial.Done]
-		if step and step.Guide == "Resort" then
-			showGuide(plotEntrance())
 		end
 	end)
 end

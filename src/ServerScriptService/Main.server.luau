@@ -23,6 +23,7 @@ local ORDER = {
 	"ZoneService",
 	"NPCService",
 	"MinigameService",
+	"JobService",
 	"RaceService",
 	"EventService",
 	"LeaderboardService",

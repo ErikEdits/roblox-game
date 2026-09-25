@@ -105,7 +105,7 @@ local function createBoard()
 		Race = label("Race", UDim2.fromScale(0.06, 0.72), UDim2.fromScale(0.88, 0.26), Color3.fromRGB(255, 220, 150), Enum.Font.GothamBold, Enum.TextXAlignment.Left),
 	}
 	labels.Title.Text = "TOP RESORT OWNERS"
-	labels.RaceTitle.Text = "FASTEST STREET RACE"
+	labels.RaceTitle.Text = "FASTEST TIME TRIAL (1 LAP)"
 end
 
 local function updateBoard()

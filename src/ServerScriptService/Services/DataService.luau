@@ -55,6 +55,9 @@ local function defaultData()
 			CardRushBest = 0,
 			EventsJoined = 0,
 			NPCVisits = 0,
+			Deliveries = 0,
+			ReflexBest = 0,
+			BestTrialTime = 0,
 			PlayTime = 0,
 		},
 	}

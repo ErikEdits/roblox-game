@@ -179,67 +179,101 @@ end
 ----------------------------------------------------------------------
 -- Hub
 ----------------------------------------------------------------------
+local function joinRace(mode)
+	ctx.Panels.Close()
+	local ok, message = Remotes.Get("JoinRace"):InvokeServer(mode)
+	if not ok and message then
+		ctx.HUD.Notify(tostring(message), "warning")
+	end
+end
+
 local function renderHub()
 	UI.Clear(hubContent)
 	local data = ctx.State.Data
 	local stats = data and data.Stats or {}
 
-	local function activity(order, title, color, lines, buttonText, callback)
+	-- buttons = { { Text, Callback }, ... } shown side by side at the bottom of the card
+	local function activity(order, title, color, lines, buttons)
 		local card = UI.New("Frame", {
 			LayoutOrder = order,
-			Size = UDim2.new(0.5, -8, 1, 0),
 			BackgroundColor3 = C.Panel,
 			Parent = hubContent,
-		}, { UI.Corner(14), UI.Stroke(color, 2), UI.Padding(14) })
+		}, { UI.Corner(14), UI.Stroke(color, 2), UI.Padding(12) })
 		UI.Label(title, {
-			Size = UDim2.new(1, 0, 0, 40),
+			Size = UDim2.new(1, 0, 0, 32),
 			Font = Enum.Font.GothamBlack,
 			TextColor3 = color,
-			MaxTextSize = 32,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			MaxTextSize = 28,
 			Parent = card,
 		})
 		UI.Label(table.concat(lines, "\n"), {
-			Position = UDim2.fromOffset(0, 48),
-			Size = UDim2.new(1, 0, 1, -130),
+			Position = UDim2.fromOffset(0, 36),
+			Size = UDim2.new(1, 0, 1, -92),
 			Font = Enum.Font.GothamMedium,
 			TextColor3 = C.SubText,
+			TextXAlignment = Enum.TextXAlignment.Left,
 			TextYAlignment = Enum.TextYAlignment.Top,
-			MaxTextSize = 18,
+			MaxTextSize = 16,
 			Parent = card,
 		})
-		local button = UI.Button(buttonText, color, {
-			AnchorPoint = Vector2.new(0.5, 1),
-			Position = UDim2.new(0.5, 0, 1, 0),
-			Size = UDim2.new(1, 0, 0, 64),
+		local row = UI.New("Frame", {
+			BackgroundTransparency = 1,
+			AnchorPoint = Vector2.new(0, 1),
+			Position = UDim2.new(0, 0, 1, 0),
+			Size = UDim2.new(1, 0, 0, 50),
 			Parent = card,
-		})
-		button.Activated:Connect(callback)
+		}, { UI.List(Enum.FillDirection.Horizontal, 8) })
+		for index, entry in ipairs(buttons) do
+			local button = UI.Button(entry[1], color, {
+				LayoutOrder = index,
+				Size = UDim2.new(1 / #buttons, -8 * (#buttons - 1) / #buttons, 1, 0),
+				Parent = row,
+			})
+			button.Activated:Connect(entry[2])
+		end
 	end
 
 	activity(1, "CARD RUSH", C.Magenta, {
-		"Fast card skill game. No betting - only skill.",
-		("%d questions. Faster answers = more cash."):format(Config.CardRush.Questions),
-		"",
-		("Best score: %d / %d"):format(stats.CardRushBest or 0, Config.CardRush.Questions),
-		("Rounds played: %d"):format(stats.MinigamesPlayed or 0),
-	}, "PLAY", function()
+		"Card skill game - no betting, only skill.",
+		("%d questions, faster = more cash."):format(Config.CardRush.Questions),
+		("Best: %d / %d"):format(stats.CardRushBest or 0, Config.CardRush.Questions),
+	}, { { "PLAY", function()
 		ctx.Panels.Open("CardRush")
-	end)
+	end } })
 
-	activity(2, "STREET RACE", C.Red, {
-		"Race other players and NPC drivers.",
-		("%d laps. Top 3 win big rewards."):format(Config.Race.Laps),
-		"All cars have identical speed.",
-		"",
-		("Best time: %s"):format((stats.BestRaceTime or 0) > 0 and Format.RaceTime(stats.BestRaceTime) or "-"),
-		("Races won: %d"):format(stats.RacesWon or 0),
-	}, "JOIN RACE", function()
+	activity(2, "NEON REFLEX", C.Lime, {
+		"Wait for green, then tap as fast as you can.",
+		("%d rounds. Lightning reflexes pay best."):format(Config.Reflex.Rounds),
+		("Best average: %s"):format((stats.ReflexBest or 0) > 0 and ("%.3fs"):format(stats.ReflexBest) or "-"),
+	}, { { "PLAY", function()
+		ctx.Panels.Open("Reflex")
+	end } })
+
+	activity(3, "RACING", C.Red, {
+		("Street Race: %d laps vs players + NPC drivers."):format(Config.Race.Laps),
+		"Time Trial: 1 solo lap, beat your record.",
+		("Best trial: %s   Wins: %d"):format((stats.BestTrialTime or 0) > 0 and Format.RaceTime(stats.BestTrialTime) or "-", stats.RacesWon or 0),
+	}, {
+		{ "STREET RACE", function()
+			joinRace(nil)
+		end },
+		{ "TIME TRIAL", function()
+			joinRace("TimeTrial")
+		end },
+	})
+
+	activity(4, "DELIVERY JOB", C.Orange, {
+		"Bring a package across the city in time.",
+		"Longer trips pay more. Optional job.",
+		("Deliveries: %d"):format(stats.Deliveries or 0),
+	}, { { "START JOB", function()
 		ctx.Panels.Close()
-		local ok, message = Remotes.Get("JoinRace"):InvokeServer()
+		local ok, message = Remotes.Get("JobAction"):InvokeServer("StartDelivery")
 		if not ok and message then
 			ctx.HUD.Notify(tostring(message), "warning")
 		end
-	end)
+	end } })
 end
 
 function PlayPanel.Start(context)
@@ -249,8 +283,13 @@ function PlayPanel.Start(context)
 
 	-- Hub window
 	local close
-	hub, hubContent, close = UI.Window(ctx.Gui, "PLAY", C.Magenta, UDim2.fromOffset(780, 470))
-	UI.List(Enum.FillDirection.Horizontal, 16).Parent = hubContent
+	hub, hubContent, close = UI.Window(ctx.Gui, "PLAY", C.Magenta, UDim2.fromOffset(820, 560))
+	UI.New("UIGridLayout", {
+		CellSize = UDim2.new(0.5, -8, 0.5, -8),
+		CellPadding = UDim2.fromOffset(16, 16),
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		Parent = hubContent,
+	})
 	close.Activated:Connect(function()
 		ctx.Panels.Close()
 	end)
