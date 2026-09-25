@@ -280,6 +280,18 @@ local function pickEvent()
 	return options[math.random(#options)]
 end
 
+-- Starts a specific event right now (admin tools / automated tests).
+function EventService.ForceStart(id)
+	if not Events[id] then
+		return false
+	end
+	if current then
+		stopEvent(nil)
+	end
+	startEvent(id)
+	return true
+end
+
 function EventService.OnZoneChanged(player, zoneKey)
 	if current and current.Id == "VIPNight" and zoneKey and current.Chosen then
 		for _, owner in ipairs(current.Chosen) do

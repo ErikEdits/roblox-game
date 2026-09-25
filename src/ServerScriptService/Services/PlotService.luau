@@ -4,6 +4,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Shared = ReplicatedStorage.Shared
+local Config = require(Shared.Config)
 local PlotUtil = require(Shared.PlotUtil)
 local Progression = require(Shared.Progression)
 
@@ -54,10 +55,11 @@ function PlotService.SpawnCFrame(player)
 	if not plot then
 		return nil
 	end
-	-- Stand at the avenue side of the plot, looking into the resort.
-	local entrance = PlotUtil.Entrance(plot.Model)
-	local center = PlotUtil.Origin(plot.Model).Position
-	return CFrame.lookAt(entrance + Vector3.new(0, 4, 0), Vector3.new(center.X, entrance.Y + 4, center.Z))
+	-- Stand just inside the avenue side of the plot, looking into the resort.
+	local origin = PlotUtil.Origin(plot.Model)
+	local spot = (origin * CFrame.new(0, 4, -Config.PlotSize / 2 + 6)).Position
+	local center = origin.Position
+	return CFrame.lookAt(spot, Vector3.new(center.X, spot.Y, center.Z))
 end
 
 function PlotService.Init(allServices)
