@@ -104,9 +104,9 @@ Config.Reflex = {
 	DelayMax = 3.2,
 	-- Measured time includes network latency, so thresholds are generous.
 	Tiers = {
-		{ Time = 0.45, Cash = 45, Label = "LIGHTNING" },
-		{ Time = 0.65, Cash = 30, Label = "FAST" },
-		{ Time = 0.9, Cash = 15, Label = "OK" },
+		{ Time = 0.45, Cash = 32, Label = "LIGHTNING" },
+		{ Time = 0.65, Cash = 22, Label = "FAST" },
+		{ Time = 0.9, Cash = 10, Label = "OK" },
 	},
 	XPPerRound = 8,
 	Timeout = 3,
@@ -156,6 +156,7 @@ Config.Race = {
 	TimeTrialReward = { Cash = 120, XP = 40 },
 	TimeTrialRecordBonus = { Cash = 300, XP = 80 },
 	EventMultiplier = 2,
+	SpeedTolerance = 1.3, -- anti-cheat: checkpoints faster than MaxSpeed * this are ignored
 }
 
 ----------------------------------------------------------------------

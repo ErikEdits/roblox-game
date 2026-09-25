@@ -288,6 +288,18 @@ local function updateRacer(racer, now)
 
 	local target = checkpoints[racer.NextCP]
 	if flatDistance(position, target) <= Config.Race.CheckpointRadius then
+		-- Anti-cheat: a checkpoint reached faster than the car can physically drive is ignored
+		-- (the driver's client owns the car's physics and could teleport it).
+		if racer.Player then
+			local fromPoint = racer.LastCheckpointPosition or racer.StartPosition
+			local minimum = fromPoint and flatDistance(fromPoint, target) / (Config.Race.CarMaxSpeed * Config.Race.SpeedTolerance) or 0
+			if now - (racer.LastCheckpointTime or raceStartedAt) < minimum then
+				racer.Flags = (racer.Flags or 0) + 1
+				return
+			end
+			racer.LastCheckpointPosition = target
+			racer.LastCheckpointTime = now
+		end
 		racer.NextCP += 1
 		if racer.NextCP > #checkpoints then
 			racer.NextCP = 1
@@ -414,7 +426,7 @@ local function beginRace()
 		local car = CarFactory.Build(gridSpots[slot], { Color = paint, Body = body, Name = player.Name .. "_Car" })
 		car.PrimaryPart.Anchored = true
 		car.Parent = carsFolder
-		local racer = { Player = player, Name = player.DisplayName, Car = car, NextCP = 1, Lap = 0, Finished = false, DNF = false }
+		local racer = { Player = player, Name = player.DisplayName, Car = car, NextCP = 1, Lap = 0, Finished = false, DNF = false, StartPosition = gridSpots[slot].Position }
 		table.insert(racers, racer)
 		byPlayer[player] = racer
 		seatPlayer(player, car)

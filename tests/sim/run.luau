@@ -39,7 +39,7 @@ Config.Events.VIPNight.Duration = 4
 Config.Events.StreetRace.Duration = 4
 Config.Race.LobbyTime = 1
 Config.Race.CountdownTime = 1
-Config.Race.TimeLimit = 40
+Config.Race.TimeLimit = 60
 Config.Race.NPCSpeedMin = 150
 Config.Race.NPCSpeedMax = 170
 Config.NPC.SpawnInterval = 0.1
@@ -352,13 +352,27 @@ local path = {}
 for i = 1, 5 do
 	table.insert(path, game.Workspace.RaceTrack.Checkpoints["CP" .. i].Position)
 end
-for _ = 1, Config.Race.Laps do
-	for _, point in ipairs(path) do
-		if car and car.Parent then
-			car:PivotTo(CFrame.new(Vector3.new(point.X, 1.3, point.Z)))
+-- "Drive" at a legal speed: teleporting between checkpoints faster than the car can go is rejected.
+local function drive(carModel, points)
+	local last = carModel and carModel.PrimaryPart and carModel.PrimaryPart.Position
+	for _, point in ipairs(points) do
+		local distance = last and (Vector3.new(point.X, 0, point.Z) - Vector3.new(last.X, 0, last.Z)).Magnitude or 0
+		task.wait(distance / (Config.Race.CarMaxSpeed * 1.2) + 0.15)
+		if carModel and carModel.Parent then
+			carModel:PivotTo(CFrame.new(Vector3.new(point.X, 1.3, point.Z)))
 		end
-		task.wait(0.35)
+		last = point
+		task.wait(0.15)
 	end
+end
+-- a cheater teleporting straight to checkpoint 1 is ignored
+if car then
+	car:PivotTo(CFrame.new(Vector3.new(path[1].X, 1.3, path[1].Z)))
+	task.wait(0.3)
+	car:PivotTo(CFrame.new(Vector3.new(-100, 1.3, 240)))
+end
+for _ = 1, Config.Race.Laps do
+	drive(car, path)
 end
 task.wait(1)
 check(data.Stats.RacesCompleted == 1, "race completed")
@@ -486,12 +500,7 @@ check(ok, "time trial start: " .. tostring(message))
 task.wait(2.5)
 local trialCar = game.Workspace.RaceCars:FindFirstChild(player.Name .. "_Car")
 check(trialCar ~= nil and #game.Workspace.RaceCars:GetChildren() == 1, "time trial: only the player's car")
-for _, point in ipairs(path) do
-	if trialCar and trialCar.Parent then
-		trialCar:PivotTo(CFrame.new(Vector3.new(point.X, 1.3, point.Z)))
-	end
-	task.wait(0.35)
-end
+drive(trialCar, path)
 task.wait(1)
 check(data.Stats.RacesCompleted == trialsBefore + 1, "time trial completed")
 check(data.Stats.BestTrialTime > 0, "trial time recorded")
@@ -513,7 +522,12 @@ check(marker ~= nil, "delivery guide marker shown")
 if marker then
 	character:PivotTo(CFrame.new(marker.Position - Vector3.new(0, 4, 0)))
 end
-task.wait(1.5)
+task.wait(0.8)
+check(data.Stats.Deliveries == deliveriesBefore, "instant teleport delivery is not accepted")
+local waitUntil = os.clock() + 15
+while data.Stats.Deliveries == deliveriesBefore and os.clock() < waitUntil do
+	task.wait(0.25)
+end
 check(data.Stats.Deliveries == deliveriesBefore + 1, "delivery completed")
 check(deliveryBar and not deliveryBar.Visible, "delivery HUD hidden after completion")
 local _ = JobService

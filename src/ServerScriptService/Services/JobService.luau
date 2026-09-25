@@ -78,6 +78,9 @@ function JobService.StartDelivery(player)
 		XP = math.floor(cfg.BaseXP + distance * cfg.XPPerStud),
 		EndsAtClock = os.clock() + duration,
 		EndsAt = workspace:GetServerTimeNow() + duration,
+		StartedAt = os.clock(),
+		-- Anti-cheat: nobody (not even in a car) can arrive faster than this.
+		MinDuration = distance / (Config.Race.CarMaxSpeed * Config.Race.SpeedTolerance),
 	}
 	active[player] = job
 	send(player, { Phase = "Active", Name = job.Name, Target = job.Target, EndsAt = job.EndsAt, Cash = job.Cash })
@@ -117,7 +120,8 @@ function JobService.Start()
 			local root = rootOf(player)
 			if not player.Parent then
 				active[player] = nil
-			elseif root and flatDistance(root.Position, job.Target) <= Config.Jobs.Delivery.ArriveRadius then
+			elseif root and flatDistance(root.Position, job.Target) <= Config.Jobs.Delivery.ArriveRadius
+				and now - job.StartedAt >= job.MinDuration then
 				active[player] = nil
 				local data = services.DataService.Get(player)
 				if data then
