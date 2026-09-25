@@ -158,6 +158,55 @@ local function addLabel(model, typeName, info)
 end
 
 ----------------------------------------------------------------------
+-- Speech bubbles: visitors sometimes comment on the resort they just visited.
+----------------------------------------------------------------------
+local LINES = {
+	Generic = { "Nice place!", "Love the neon!", "I'll come back!", "5 stars!", "So shiny!", "Great service!" },
+	restaurant = { "Best milkshakes in town!", "Yummy!", "Great burgers!" },
+	snack_bar = { "Tasty snacks!", "Quick and yummy!" },
+	motel = { "Comfy beds!", "Cozy rooms!" },
+	hotel = { "What a view!", "Amazing hotel!" },
+	luxury_hotel = { "Pure luxury!", "Worth every dollar!" },
+	arcade = { "High score!", "One more game!" },
+	pool = { "Splash!", "The water glows!" },
+	garage = { "My car looks sick now!", "Vroom vroom!" },
+	vip_lounge = { "Very exclusive...", "Fancy!" },
+	ent_hall = { "What a show!", "Encore!" },
+	arena = { "What a match!", "Epic arena!" },
+	helipad = { "Smooth landing!" },
+}
+
+local function sayLine(record, buildingId)
+	local head = record.Model:FindFirstChild("Head")
+	if not head or math.random() > Config.NPC.SpeechChance then
+		return
+	end
+	local pool = LINES[buildingId] and math.random() < 0.6 and LINES[buildingId] or LINES.Generic
+	local bubble = Instance.new("BillboardGui")
+	bubble.Name = "Speech"
+	bubble.Size = UDim2.fromOffset(170, 40)
+	bubble.StudsOffset = Vector3.new(0, 3.6, 0)
+	bubble.MaxDistance = 80
+	bubble.LightInfluence = 0
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.fromScale(1, 1)
+	label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	label.BackgroundTransparency = 0.1
+	label.TextColor3 = Color3.fromRGB(20, 20, 30)
+	label.Font = Enum.Font.GothamBold
+	label.TextScaled = true
+	label.Text = pool[math.random(#pool)]
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 10)
+	corner.Parent = label
+	label.Parent = bubble
+	bubble.Parent = head
+	task.delay(3.5, function()
+		bubble:Destroy()
+	end)
+end
+
+----------------------------------------------------------------------
 -- Routing (avenue waypoints)
 ----------------------------------------------------------------------
 local function avenueOf(position)
@@ -417,6 +466,7 @@ local function performBuildingVisit(record, destination)
 	pcall(function()
 		record.Root:SetNetworkOwner(nil)
 	end)
+	sayLine(record, building.Def.Id)
 end
 
 local function runVisits(record)
