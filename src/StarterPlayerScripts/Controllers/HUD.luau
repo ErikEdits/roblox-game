@@ -125,7 +125,7 @@ local function computeGoal(data)
 	if event and event.Id then
 		return "EVENT: " .. event.Name .. " - " .. (event.Hint or "")
 	end
-	for _, def in ipairs(Config.DailyTasks) do
+	for _, def in ipairs(data.DailyTasks or {}) do
 		if (data.Quests.Progress[def.Id] or 0) >= def.Goal and not data.Quests.Claimed[def.Id] then
 			return "A daily task is complete! Claim it in TASKS."
 		end

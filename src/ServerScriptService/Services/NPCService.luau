@@ -399,6 +399,7 @@ local function performBuildingVisit(record, destination)
 				local gained = services.EconomyService.AddCash(owner, amount, "npc")
 				data.Stats.NPCVisits += 1
 				services.TutorialService.Event(owner, "FirstVisitor")
+				services.QuestService.Increment(owner, "npcvisits", 1)
 				local top = model.PrimaryPart.Position + Vector3.new(0, model.PrimaryPart.Size.Y / 2 + 2, 0)
 				services.EconomyService.Popup(owner, top, "+" .. Format.Money(gained), info.Color)
 			end

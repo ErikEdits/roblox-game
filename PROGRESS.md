@@ -2,6 +2,45 @@
 
 Development log as required by the design document (section 33).
 
+## v0.2 – Content, polish and automated play-testing (2026-09-26)
+
+### Implemented
+
+- **Engine simulator test** (`tests/sim`): runs the built place in Lune with emulated events,
+  humanoid movement, remotes and DataStores; plays through the whole game including the client UI.
+  Found and fixed: the "My Resort" teleport landed outside the plot (tutorial step never
+  completed), NPC visitor bookkeeping leak when a building was removed mid-visit.
+- **Building upgrades** (level 1–3): more spend/passive income/appeal/rating, visuals, refunds
+  include upgrade costs.
+- **Tutorial** (6 steps, server-validated, guide beam to the plot, pulsing buttons, skip).
+- **Neon Reflex** reaction minigame (server-timed), **Time Trial** race mode (global leaderboard
+  of 1-lap times), optional **Delivery job** with timer and guide beam.
+- **Lost & Found** event (collect wallets across the city; lowers Security while active).
+- **Daily task pool**: 11 tasks, 5 picked per day for everyone (deterministic by date).
+- **Social**: visit / like other resorts (once per day each), likes on plot signs.
+- **DataStore session locking** (wait for other server, take over abandoned locks, release on leave).
+- **Admin tools** (Studio / creator / `Config.Admins`): cash, levels, force events, tasks, tutorial.
+- **AnalyticsService** custom events.
+- **Visuals**: Neon Beach district, sidewalks, crosswalks, palms, billboards, benches, planters,
+  tower window bands + blinking antennas, night sky, fountain particles, ambient neon animation,
+  better building models, build grid overlay.
+- **UI polish**: window pop animation, rolling cash counter, level-up celebration, toast fade,
+  UI sounds (setting), PLAY hub (2x2), map with player resorts list.
+
+### Tests performed
+
+- Luau compile (49 scripts), selene lint, API check against the reflection database – all clean.
+- Unit tests (163) and Card Rush simulation (7,804 checks).
+- Simulator play-through: **176 checks, 0 runtime errors** (join, tutorial, building, upgrades,
+  build UI, all panels, shop, Card Rush + Neon Reflex via UI, NPC visits, Street Race,
+  Time Trial, Delivery, all 5 events, admin tools, likes/visits, leave/rejoin, stale-lock takeover).
+
+### Known problems / risks
+
+- Still no live play test in Roblox Studio (simulator emulates physics only roughly: car handling,
+  NPC walking and collisions are not physically simulated).
+- UI sounds use the built-in `electronicpingshort.wav`; replace with uploaded sounds if desired.
+
 ## v0.1 – MVP vertical slice (2026-09-25)
 
 ### Implemented

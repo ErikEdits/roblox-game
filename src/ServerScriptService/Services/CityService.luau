@@ -14,6 +14,7 @@ local CityService = {}
 local services
 local stats = { Power = 100, Tourism = 50, Security = 90, Popularity = 50 }
 local powerOverride = nil
+local securityPenalty = 0
 local remote
 
 function CityService.Get()
@@ -22,6 +23,11 @@ end
 
 function CityService.SetPowerOverride(value)
 	powerOverride = value
+	CityService.Update()
+end
+
+function CityService.SetSecurityPenalty(value)
+	securityPenalty = value
 	CityService.Update()
 end
 
@@ -36,7 +42,7 @@ function CityService.Update()
 	stats.Tourism = math.clamp(math.floor(35 + totalRating / 6 + (event and 10 or 0)), 0, 100)
 	local drift = math.random(-2, 2)
 	local crowdPenalty = (event and event.Id == "Concert") and 6 or 0
-	stats.Security = math.clamp(stats.Security + drift, 78, 98) - crowdPenalty
+	stats.Security = math.clamp(stats.Security + drift, 78, 98) - crowdPenalty - securityPenalty
 	stats.Security = math.clamp(stats.Security, 0, 100)
 	stats.Popularity = math.clamp(math.floor(40 + #Players:GetPlayers() * 4 + (event and 15 or 0) + math.min(20, totalRating / 20)), 0, 100)
 

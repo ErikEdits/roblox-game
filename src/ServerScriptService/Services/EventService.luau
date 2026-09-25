@@ -15,6 +15,7 @@ local EventService = {}
 local services
 local eventRemote
 local current = nil
+local stopEvent -- forward declaration (used by event handlers defined above it)
 local lastEventId = nil
 local nextEventAt = 0 -- os.clock()
 local nextEventServerTime = 0 -- workspace:GetServerTimeNow()
@@ -208,7 +209,99 @@ Events.StreetRace = {
 	end,
 }
 
-local EVENT_IDS = { "Blackout", "Concert", "VIPNight", "StreetRace" }
+local lostItems = {}
+
+local function clearLostItems()
+	for _, item in ipairs(lostItems) do
+		item:Destroy()
+	end
+	lostItems = {}
+end
+
+Events.LostAndFound = {
+	Name = "Lost & Found",
+	Description = "Pickpockets dropped stolen wallets all over the city!",
+	Hint = "Find the glowing wallets and return them (walk up + press E).",
+	Duration = Config.Events.LostAndFound.Duration,
+	Start = function(event)
+		clearLostItems()
+		services.CityService.SetSecurityPenalty(15)
+		local spots = {}
+		for _, part in ipairs(workspace:WaitForChild("Attractions"):GetChildren()) do
+			table.insert(spots, part.Position)
+		end
+		for _, part in ipairs(workspace:WaitForChild("NPCSpawns"):GetChildren()) do
+			table.insert(spots, part.Position)
+		end
+		local cfg = Config.Events.LostAndFound
+		event.Remaining = 0
+		for _ = 1, math.min(cfg.Items, #spots) do
+			local base = table.remove(spots, math.random(#spots))
+			local item = Instance.new("Part")
+			item.Name = "LostWallet"
+			item.Anchored = true
+			item.CanCollide = false
+			item.Size = Vector3.new(1.8, 0.6, 1.3)
+			item.Material = Enum.Material.Neon
+			item.Color = Color3.fromRGB(255, 205, 70)
+			item.CFrame = CFrame.new(base.X + math.random(-14, 14), 1.2, base.Z + math.random(-14, 14)) * CFrame.Angles(0, math.random() * math.pi, 0)
+			item:SetAttribute("Anim", "Pulse")
+
+			local marker = Instance.new("BillboardGui")
+			marker.Size = UDim2.fromOffset(60, 60)
+			marker.StudsOffset = Vector3.new(0, 4, 0)
+			marker.AlwaysOnTop = true
+			marker.MaxDistance = 220
+			marker.LightInfluence = 0
+			local label = Instance.new("TextLabel")
+			label.Size = UDim2.fromScale(1, 1)
+			label.BackgroundTransparency = 1
+			label.Text = "$"
+			label.Font = Enum.Font.GothamBlack
+			label.TextScaled = true
+			label.TextColor3 = Color3.fromRGB(255, 205, 70)
+			label.TextStrokeTransparency = 0.2
+			label.Parent = marker
+			marker.Parent = item
+
+			local prompt = Instance.new("ProximityPrompt")
+			prompt.ActionText = "Return Wallet"
+			prompt.ObjectText = "Lost Wallet"
+			prompt.HoldDuration = 0.5
+			prompt.MaxActivationDistance = 12
+			prompt.RequiresLineOfSight = false
+			prompt.Parent = item
+			prompt.Triggered:Connect(function(player)
+				if current ~= event or not item.Parent then
+					return
+				end
+				item:Destroy()
+				event.Remaining -= 1
+				EventService.MarkParticipant(player, "LostAndFound")
+				services.EconomyService.Reward(player, cfg.Cash, cfg.XP, "Wallet returned")
+				if event.Remaining <= 0 then
+					for participant in pairs(event.Participants) do
+						if participant.Parent then
+							services.EconomyService.Reward(participant, cfg.AllFoundBonusCash, 0, "All wallets found - bonus")
+						end
+					end
+					stopEvent(" is over - every wallet is back with its owner!")
+				else
+					services.EconomyService.NotifyAll(("%s returned a wallet (%d left)"):format(player.DisplayName, event.Remaining), "event")
+				end
+			end)
+			item.Parent = workspace
+			table.insert(lostItems, item)
+			event.Remaining += 1
+		end
+	end,
+	Stop = function()
+		clearLostItems()
+		services.CityService.SetSecurityPenalty(0)
+	end,
+}
+
+local EVENT_IDS = { "Blackout", "Concert", "VIPNight", "StreetRace", "LostAndFound" }
 
 ----------------------------------------------------------------------
 -- Scheduler
@@ -240,7 +333,7 @@ local function startEvent(id)
 	services.CityService.Update()
 end
 
-local function stopEvent(reason)
+function stopEvent(reason)
 	local event = current
 	if not event then
 		return
@@ -363,7 +456,7 @@ local function updateBoard()
 		boardLabels.Timer.Text = "Ends in " .. Format.Time(current.EndsAtClock - os.clock())
 	else
 		boardLabels.Event.Text = "NEXT EVENT"
-		boardLabels.Hint.Text = "Blackout, Concert, VIP Night or Race Rush"
+		boardLabels.Hint.Text = "Blackout, Concert, VIP Night, Race Rush or Lost & Found"
 		boardLabels.Timer.Text = "Starts in " .. Format.Time(nextEventAt - os.clock())
 	end
 	local stats = services.CityService.Get()

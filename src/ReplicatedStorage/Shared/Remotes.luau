@@ -37,6 +37,7 @@ Remotes.Functions = {
 	"JobAction",
 	"GetResorts",
 	"LikeResort",
+	"AdminAction",
 	"ReflexStart",
 	"ReflexReady",
 	"ReflexTap",

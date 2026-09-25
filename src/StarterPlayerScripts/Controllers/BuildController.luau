@@ -476,8 +476,57 @@ function enterMenu()
 	renderItems()
 end
 
+-- Grid overlay on the player's plot while the build menu is open.
+local gridFolder = nil
+
+local function hideGrid()
+	if gridFolder then
+		gridFolder:Destroy()
+		gridFolder = nil
+	end
+end
+
+local function showGrid()
+	hideGrid()
+	local plotModel = getPlotModel()
+	if not plotModel then
+		return
+	end
+	gridFolder = Instance.new("Model")
+	gridFolder.Name = "BuildGrid"
+	local origin = PlotUtil.Origin(plotModel)
+	local size = Config.PlotSize
+	local function line(name, cframe, lineSize, transparency, color)
+		local part = Instance.new("Part")
+		part.Name = name
+		part.Anchored = true
+		part.CanCollide = false
+		part.CanQuery = false
+		part.CanTouch = false
+		part.CastShadow = false
+		part.Material = Enum.Material.Neon
+		part.Color = color
+		part.Transparency = transparency
+		part.Size = lineSize
+		part.CFrame = origin * cframe
+		part.Parent = gridFolder
+	end
+	local step = Config.GridSize * 2
+	for offset = -size / 2 + step, size / 2 - step, step do
+		line("GridX", CFrame.new(offset, 0.06, 0), Vector3.new(0.12, 0.05, size), 0.75, C.Cyan)
+		line("GridZ", CFrame.new(0, 0.06, offset), Vector3.new(size, 0.05, 0.12), 0.75, C.Cyan)
+	end
+	for _, edge in ipairs({ { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } }) do
+		local horizontal = edge[1] == 0
+		line("Edge", CFrame.new(edge[1] * size / 2, 0.1, edge[2] * size / 2),
+			horizontal and Vector3.new(size, 0.2, 0.5) or Vector3.new(0.5, 0.2, size), 0.2, C.Gold)
+	end
+	gridFolder.Parent = camera
+end
+
 local function open()
 	ctx.HUD.SetMainButtonsVisible(false)
+	task.delay(0.3, showGrid)
 	-- Bring the player to their plot if they are far away.
 	local plotModel = getPlotModel()
 	local character = player.Character
@@ -491,6 +540,7 @@ local function open()
 end
 
 local function close()
+	hideGrid()
 	stopPlacing()
 	clearSelection()
 	mode = "Closed"

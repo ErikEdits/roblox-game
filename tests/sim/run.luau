@@ -322,6 +322,31 @@ task.wait(1)
 EventService.ForceStart("StreetRace")
 task.wait(5)
 check(EventService.GetCurrent() == nil, "street race event ended")
+EventService.ForceStart("LostAndFound")
+task.wait(0.5)
+local wallets = {}
+for _, child in ipairs(game.Workspace:GetChildren()) do
+	if child.Name == "LostWallet" then
+		table.insert(wallets, child)
+	end
+end
+check(#wallets == Config.Events.LostAndFound.Items, "lost wallets spawned: " .. #wallets)
+local cashBeforeWallets = data.Cash
+for _, wallet in ipairs(wallets) do
+	Engine.SignalOf(wallet:FindFirstChildOfClass("ProximityPrompt"), "Triggered"):Fire(player)
+	task.wait(0.2)
+end
+task.wait(0.5)
+check(EventService.GetCurrent() == nil, "lost & found ended when all wallets returned")
+check(data.Cash > cashBeforeWallets, "wallet rewards paid")
+-- admin tools
+for _, action in ipairs({ "Cash", "Levels", "EventConcert", "CompleteTasks" }) do
+	local okAdmin, result = Remotes.AdminAction:InvokeServer(action)
+	check(okAdmin, "admin " .. action .. ": " .. tostring(result))
+	task.wait(0.2)
+end
+EventService.ForceStart("VIPNight")
+task.wait(0.3)
 
 step("Teleports / tutorial / tasks")
 for _, target in ipairs({ "Plaza", "Racing", "Entertainment", "Shopping", "VIPLounge", "Resort" }) do
@@ -333,9 +358,28 @@ Panels.Open("Tasks")
 task.wait(1)
 Panels.Close()
 check(data.Tutorial == Tutorial.Done, "tutorial finished: step " .. tostring(data.Tutorial))
-check((data.Quests.Progress.visits or 0) >= 3, "visits counted: " .. tostring(data.Quests.Progress.visits))
-check((data.Quests.Progress.races or 0) >= 1, "race task counted")
-check((data.Quests.Progress.minigames or 0) >= 1, "minigame task counted")
+local todayTasks = services.QuestService.GetToday()
+check(#todayTasks == Config.DailyTaskCount, "daily tasks picked: " .. #todayTasks)
+local active = {}
+for _, def in ipairs(todayTasks) do
+	active[def.Id] = true
+end
+print("   today's tasks:", table.concat((function()
+	local ids = {}
+	for _, def in ipairs(todayTasks) do
+		table.insert(ids, def.Id)
+	end
+	return ids
+end)(), ", "))
+local expectations = { visits = 3, races = 1, minigames = 1, build = 1, upgrade = 1, npcvisits = 1, event = 1 }
+for id, minimum in pairs(expectations) do
+	if active[id] then
+		check((data.Quests.Progress[id] or 0) >= minimum, id .. " task counted: " .. tostring(data.Quests.Progress[id]))
+	end
+end
+check(State.Data.DailyTasks and #State.Data.DailyTasks == Config.DailyTaskCount, "client knows today's tasks")
+local okReset = Remotes.AdminAction:InvokeServer("ResetTasks")
+check(okReset, "admin reset tasks")
 
 step("Play hub, Neon Reflex, Time Trial, Delivery")
 Panels.Open("Play")

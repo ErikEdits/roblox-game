@@ -10,12 +10,38 @@ local QuestService = {}
 
 local services
 local byId = {}
-for _, def in ipairs(Config.DailyTasks) do
+for _, def in ipairs(Config.DailyTaskPool) do
 	byId[def.Id] = def
 end
 
 local function today()
 	return os.time() // 86400
+end
+
+local todayCache = { Day = -1, List = {} }
+
+-- The same tasks for everyone on a given UTC day (deterministic shuffle seeded by the day).
+function QuestService.GetToday()
+	local day = today()
+	if todayCache.Day ~= day then
+		local pool = table.clone(Config.DailyTaskPool)
+		local rng = Random.new(day)
+		for i = #pool, 2, -1 do
+			local j = rng:NextInteger(1, i)
+			pool[i], pool[j] = pool[j], pool[i]
+		end
+		todayCache = { Day = day, List = { table.unpack(pool, 1, math.min(Config.DailyTaskCount, #pool)) } }
+	end
+	return todayCache.List
+end
+
+local function isActive(id)
+	for _, def in ipairs(QuestService.GetToday()) do
+		if def.Id == id then
+			return true
+		end
+	end
+	return false
 end
 
 local function ensureToday(data)
@@ -30,7 +56,7 @@ end
 function QuestService.Increment(player, id, amount)
 	local data = services.DataService.Get(player)
 	local def = byId[id]
-	if not data or not def or type(amount) ~= "number" then
+	if not data or not def or type(amount) ~= "number" or not isActive(id) then
 		return
 	end
 	ensureToday(data)
@@ -61,7 +87,7 @@ end
 local function claim(player, id)
 	local data = services.DataService.Get(player)
 	local def = type(id) == "string" and byId[id]
-	if not data or not def then
+	if not data or not def or not isActive(id) then
 		return false, "Unknown task"
 	end
 	ensureToday(data)
@@ -90,6 +116,7 @@ function QuestService.Init(allServices)
 			snapshot.Quests = data.Quests
 		end
 		snapshot.QuestResetIn = 86400 - (os.time() % 86400)
+		snapshot.DailyTasks = QuestService.GetToday()
 	end)
 
 	Remotes.Get("ClaimTask").OnServerInvoke = claim

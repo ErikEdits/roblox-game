@@ -123,6 +123,7 @@ function JobService.Start()
 				if data then
 					data.Stats.Deliveries += 1
 				end
+				services.QuestService.Increment(player, "deliveries", 1)
 				services.EconomyService.Reward(player, job.Cash, job.XP, "Delivery complete")
 				services.EconomyService.Popup(player, root.Position + Vector3.new(0, 5, 0), "+$" .. job.Cash, Color3.fromRGB(255, 130, 40))
 				services.AnalyticsService.Log(player, "DeliveryComplete")

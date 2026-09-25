@@ -3,7 +3,10 @@
 
 local Config = {}
 
-Config.Version = "0.1.0"
+Config.Version = "0.2.0"
+
+-- Extra admin user IDs for the live game (Studio and the experience creator are always admins).
+Config.Admins = {}
 Config.MaxPlayers = 15 -- set the same value in Game Settings > Places on the Roblox website
 
 ----------------------------------------------------------------------
@@ -151,17 +154,26 @@ Config.Events = {
 	Concert = { Duration = 110, TickInterval = 5, TickCash = 35, TickXP = 8, NPCShare = 0.55 },
 	VIPNight = { Duration = 120, Resorts = 2, SpawnWeight = 4, SpendMultiplier = 2 },
 	StreetRace = { Duration = 120 },
+	LostAndFound = { Duration = 120, Items = 6, Cash = 120, XP = 25, AllFoundBonusCash = 300 },
 }
 
 ----------------------------------------------------------------------
 -- Daily tasks (reset at 00:00 UTC)
 ----------------------------------------------------------------------
-Config.DailyTasks = {
+Config.DailyTaskCount = 5
+-- Every day the same 5 tasks are picked for everyone from this pool (all doable alone).
+Config.DailyTaskPool = {
 	{ Id = "races", Text = "Complete 3 races", Goal = 3, Cash = 1500, XP = 250 },
 	{ Id = "visits", Text = "Visit 5 resorts or districts", Goal = 5, Cash = 800, XP = 150 },
 	{ Id = "earn", Text = "Earn $10,000", Goal = 10000, Cash = 2000, XP = 300 },
 	{ Id = "event", Text = "Participate in an event", Goal = 1, Cash = 1000, XP = 200 },
 	{ Id = "minigames", Text = "Play 2 minigames", Goal = 2, Cash = 800, XP = 150 },
+	{ Id = "deliveries", Text = "Complete 2 deliveries", Goal = 2, Cash = 1200, XP = 200 },
+	{ Id = "upgrade", Text = "Upgrade a building", Goal = 1, Cash = 1500, XP = 250 },
+	{ Id = "win", Text = "Win a Street Race", Goal = 1, Cash = 2000, XP = 300 },
+	{ Id = "build", Text = "Place 3 buildings", Goal = 3, Cash = 1000, XP = 200 },
+	{ Id = "npcvisits", Text = "Get 25 NPC visits at your resort", Goal = 25, Cash = 1500, XP = 250 },
+	{ Id = "cardrush", Text = "Score 6+ in one Card Rush round", Goal = 1, Cash = 1200, XP = 200 },
 }
 
 ----------------------------------------------------------------------

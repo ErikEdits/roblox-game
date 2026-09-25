@@ -64,6 +64,13 @@ function AmbienceController.Start(context)
 		end
 	end)
 
+	-- Event items (e.g. lost wallets) appear directly in workspace.
+	workspace.ChildAdded:Connect(function(child)
+		if child:IsA("BasePart") and child:GetAttribute("Anim") then
+			register(child)
+		end
+	end)
+
 	-- Hologram buildings placed by players: pulse their orb locally.
 	local plots = workspace:WaitForChild("Plots", 10)
 	if plots then

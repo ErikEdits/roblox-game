@@ -40,7 +40,7 @@ local function renderTasks()
 		MaxTextSize = 22,
 		Parent = scroll,
 	})
-	for index, def in ipairs(Config.DailyTasks) do
+	for index, def in ipairs(data.DailyTasks or {}) do
 		local progress = data.Quests.Progress[def.Id] or 0
 		local claimed = data.Quests.Claimed[def.Id] == true
 		local done = progress >= def.Goal
@@ -345,6 +345,48 @@ local function renderSettings()
 			Remotes.Get("SetSetting"):InvokeServer(key, not value)
 		end)
 	end
+	if data.IsAdmin then
+		local admin = UI.New("Frame", {
+			LayoutOrder = 50,
+			Size = UDim2.new(1, 0, 0, 170),
+			BackgroundColor3 = C.Panel,
+			Parent = settingsBody,
+		}, { UI.Corner(10), UI.Stroke(C.Orange, 2), UI.Padding(8) })
+		UI.Label("ADMIN TOOLS (Studio / owner only)", {
+			Size = UDim2.new(1, 0, 0, 22),
+			Font = Enum.Font.GothamBlack,
+			TextColor3 = C.Orange,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			MaxTextSize = 18,
+			Parent = admin,
+		})
+		local grid = UI.New("Frame", {
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(0, 28),
+			Size = UDim2.new(1, 0, 1, -28),
+			Parent = admin,
+		}, {
+			UI.New("UIGridLayout", {
+				CellSize = UDim2.new(0.25, -6, 0, 36),
+				CellPadding = UDim2.fromOffset(6, 6),
+				SortOrder = Enum.SortOrder.LayoutOrder,
+			}),
+		})
+		local actions = {
+			{ "Cash", "+$10K" }, { "BigCash", "+$1M" }, { "Levels", "+5 LEVELS" }, { "MaxLevel", "LEVEL 100" },
+			{ "EventBlackout", "BLACKOUT" }, { "EventConcert", "CONCERT" }, { "EventVIPNight", "VIP NIGHT" }, { "EventStreetRace", "RACE RUSH" },
+			{ "EventLostAndFound", "LOST & FOUND" }, { "CompleteTasks", "DO TASKS" }, { "ResetTasks", "NEW TASKS" }, { "ResetTutorial", "TUTORIAL" },
+		}
+		for index, entry in ipairs(actions) do
+			local button = UI.Button(entry[2], C.Orange, { LayoutOrder = index, Parent = grid })
+			button.Activated:Connect(function()
+				local ok, message = Remotes.Get("AdminAction"):InvokeServer(entry[1])
+				if not ok and message then
+					ctx.HUD.Notify(tostring(message), "warning")
+				end
+			end)
+		end
+	end
 	UI.Label(("NEON CITY v%s  |  Progress saving: %s"):format(Config.Version, data.Saving and "ON" or "OFF (Studio)"), {
 		LayoutOrder = 99,
 		Size = UDim2.new(1, 0, 0, 24),
@@ -416,7 +458,7 @@ function Menus.Start(context)
 	buildMap()
 
 	local closeSettings
-	settingsWindow, settingsBody, closeSettings = UI.Window(ctx.Gui, "SETTINGS", C.SubText, UDim2.fromOffset(680, 500))
+	settingsWindow, settingsBody, closeSettings = UI.Window(ctx.Gui, "SETTINGS", C.SubText, UDim2.fromOffset(720, 640))
 	closeSettings.Activated:Connect(function()
 		ctx.Panels.Close()
 	end)

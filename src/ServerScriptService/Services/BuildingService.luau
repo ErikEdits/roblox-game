@@ -152,6 +152,7 @@ local function place(player, id, x, z, rot)
 	services.DataService.MarkDirty(player)
 	services.TutorialService.Check(player)
 	services.AnalyticsService.Log(player, "BuildingPlaced", { Id = id })
+	services.QuestService.Increment(player, "build", 1)
 	return true, entry.Uid
 end
 
@@ -261,6 +262,7 @@ local function upgrade(player, uid)
 	services.EconomyService.Notify(player, ("%s upgraded to level %d! Visitors now spend %d%% more."):format(
 		def.Name, nextLevel, math.floor((Buildings.IncomeMultiplier(nextLevel) - 1) * 100 + 0.5)), "reward")
 	services.AnalyticsService.Log(player, "BuildingUpgraded", { Id = def.Id, Level = nextLevel })
+	services.QuestService.Increment(player, "upgrade", 1)
 	BuildingService.RecalculateRating(player)
 	services.DataService.MarkDirty(player)
 	return true, nextLevel

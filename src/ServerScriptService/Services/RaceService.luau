@@ -212,6 +212,7 @@ local function finishRace()
 					data.Stats.RacesCompleted += 1
 					if place == 1 then
 						data.Stats.RacesWon += 1
+						services.QuestService.Increment(player, "win", 1)
 					end
 					if data.Stats.BestRaceTime == 0 or racer.FinishTime < data.Stats.BestRaceTime then
 						data.Stats.BestRaceTime = math.floor(racer.FinishTime * 100) / 100

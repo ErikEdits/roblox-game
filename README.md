@@ -1,4 +1,4 @@
-# NEON CITY – Roblox MVP (v0.1)
+# NEON CITY – Roblox (v0.2)
 
 Multiplayer-Tycoon / Resort-Management mit NPC-Besuchern, Skill-Minispiel, Straßenrennen und
 Stadt-Events – umgesetzt nach dem *NEON CITY Game Design Document* (Abschnitt 29: MVP).
@@ -20,21 +20,29 @@ gelten zum Testen als gekauft (`Config.Monetization.GrantAllInStudio`).
 4. Optional: Game-Pässe „VIP Pass“ (399 R$) und „Neon Hyper Car“ (249 R$) auf der Roblox-Website anlegen
    und die IDs in `ReplicatedStorage.Shared.Config` → `Config.Monetization.Passes` eintragen.
 
+### Admin-Werkzeuge zum Testen
+
+In Studio (und live für den Ersteller des Spiels) gibt es unter **SETTINGS → ADMIN TOOLS** Knöpfe für
++$10K / +$1M, +5 Level, Level 100, jedes Event sofort starten, Aufgaben erledigen/neu würfeln und
+das Tutorial neu starten. Weitere Admins: User-IDs in `Config.Admins` eintragen.
+
 ## Was ist drin?
 
 | Bereich | Inhalt |
 |---|---|
-| Karte | Main Plaza (Spawn, Leaderboard, Event-Tafel, Kiosks, Teleport-Pads), Resort District mit **16 Grundstücken**, Entertainment District (The Grand Neon, Card-Rush-Automat, Konzertbühne, Generatoren), Racing District (Rundkurs mit 5 Checkpoints), Shopping District (Mall, VIP-Lounge, Bahnhof), Skyline |
+| Karte | Main Plaza (Spawn, Leaderboard, Event-Tafel, Kiosks, Teleport-Pads, Fontäne mit Partikeln), Resort District mit **16 Grundstücken**, Entertainment District (The Grand Neon, Card-Rush- und Neon-Reflex-Automat, Konzertbühne, Generatoren), Racing District (Rundkurs mit 5 Checkpoints), Shopping District (Mall, VIP-Lounge, Bahnhof), **Neon Beach** mit Pier, Gehwege, Palmen-Alleen, Werbetafeln, Skyline mit blinkenden Antennen |
 | Spielerdaten | DataStore-Speicherung (Cash, XP, Level, Prestige, Gebäude + Positionen, Kosmetik, Quests, Einstellungen, Statistiken), Autosave, Validierung |
-| Bauen | 21 Gebäude in 7 Kategorien, Platzieren / Verschieben / Drehen / Löschen (50 % Erstattung) / Kopieren, 4-Stud-Raster, Speichern & Wiederherstellen |
+| Bauen | 21 Gebäude in 7 Kategorien, Platzieren / Verschieben / Drehen / Löschen (50 % Erstattung) / Kopieren, 4-Stud-Raster mit sichtbarem Gitter, **Upgrades bis Stufe 3** (mehr Einnahmen, Dachkrone + Stufenlichter), Speichern & Wiederherstellen |
 | NPCs | 6 Besuchertypen (Tourist, Luxury, Racer, Family, Business, Event Fan), laufen zu Resorts, gehen hinein, **geben Geld aus** („+$40“ über dem Gebäude) |
 | Wirtschaft | NPC-Ausgaben + passives Resort-Einkommen, Resort-Level 1–5, Level 1–100 mit Freischaltungen |
-| Minispiel | **Card Rush** – schnelles Karten-Skillspiel, 7 Fragetypen, **kein Glücksspiel / keine Einsätze** |
-| Rennen | **Street Race** bis 8 Spieler, mit NPC-Fahrern aufgefüllt (auch allein spielbar), 2 Runden, Belohnung für Top 3 |
-| Events | City Blackout (Generatoren reparieren), Live Concert, VIP Night, Race Rush (2× Rennbelohnung) – automatisch alle 2,5–4 Min. |
-| Fortschritt | Tägliche Aufgaben (5), Statistiken, Leaderboard (Server + globale Bestzeit), optionales Prestige ab Level 100 |
+| Minispiele | **Card Rush** (Karten-Skillspiel, 7 Fragetypen) und **Neon Reflex** (Reaktionsspiel) – **kein Glücksspiel / keine Einsätze** |
+| Rennen | **Street Race** bis 8 Spieler, mit NPC-Fahrern aufgefüllt (auch allein spielbar), 2 Runden, Belohnung für Top 3; **Time Trial** (Solo-Runde, Rekord-Bonus, globale Bestenliste) |
+| Job | **Lieferjob** (optional): Paket quer durch die Stadt bringen, Timer + Leuchtpfad |
+| Events | City Blackout (Generatoren reparieren), Live Concert, VIP Night, Race Rush (2× Rennbelohnung), **Lost & Found** (Geldbörsen finden) – automatisch alle 2,5–4 Min. |
+| Fortschritt | **Tutorial** für neue Spieler, tägliche Aufgaben (5 aus 11, jeden Tag andere), Statistiken, Leaderboard, optionales Prestige ab Level 100 |
+| Sozial | Andere Resorts in der MAP besuchen und **liken** (Besitzer bekommt Geld/XP, Likes auf dem Schild) |
 | Shop | Autolackierungen für Spielgeld, 2 Robux-Game-Pässe mit klar definiertem Inhalt (kein Pay-to-win) |
-| UI | Mobile-first, skaliert automatisch, große Touch-Buttons; „NEXT GOAL“-Hinweis sagt immer, was als Nächstes zu tun ist |
+| UI | Mobile-first, skaliert automatisch, große Touch-Buttons, Sounds, Animationen; „NEXT GOAL“-Hinweis sagt immer, was als Nächstes zu tun ist |
 
 **Steuerung:** BUILD, SHOP, PLAY, TASKS, MAP, SETTINGS unten (PC) bzw. rechts (Handy).
 Bauen am PC: Maus zielen, Klick = platzieren, **R** = drehen, **Q** = abbrechen. Handy: auf den Boden tippen, dann PLACE.
@@ -50,6 +58,7 @@ src/StarterPlayerScripts       Client.client.luau + Controllers/ (HUD, Bauen, Sh
 src/Workspace/*.model.json     Karte (generiert von tools/generate_map.py)
 tools/generate_map.py          Kartengenerator – nach Änderungen neu ausführen
 PROGRESS.md                    Entwicklungsprotokoll (was, Dateien, Tests, bekannte Probleme, nächste Schritte)
+tests/                         Simulator-Test (spielt das ganze Spiel automatisch durch) + API-Check
 ```
 
 Alle Zahlen (Preise, Belohnungen, NPC-Anzahl, Event-Zeiten …) stehen in `src/ReplicatedStorage/Shared/Config.luau`,

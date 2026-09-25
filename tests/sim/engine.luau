@@ -717,6 +717,22 @@ local RaycastParams = {}
 function RaycastParams.new()
 	return { FilterType = nil, FilterDescendantsInstances = {}, IgnoreWater = false }
 end
+local RandomClass = {}
+RandomClass.__index = RandomClass
+function RandomClass.new(seed)
+	return setmetatable({ State = (math.floor(seed or os.clock() * 1000) % 2147483647) + 1 }, RandomClass)
+end
+function RandomClass:NextNumber(min, max)
+	self.State = (self.State * 16807) % 2147483647
+	local value = self.State / 2147483647
+	if min then
+		return min + (max - min) * value
+	end
+	return value
+end
+function RandomClass:NextInteger(min, max)
+	return math.floor(self:NextNumber(min, max + 1 - 1e-9))
+end
 local TweenInfo = {}
 function TweenInfo.new(...)
 	return { ... }
@@ -771,6 +787,7 @@ function Engine.MakeEnv(scriptInstance)
 	end
 	env.RaycastParams = RaycastParams
 	env.TweenInfo = TweenInfo
+	env.Random = RandomClass
 	env.require = function(target)
 		if typeof(target) ~= "Instance" or not target:IsA("ModuleScript") then
 			error("require expects a ModuleScript, got " .. tostring(target))

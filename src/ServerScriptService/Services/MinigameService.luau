@@ -235,6 +235,9 @@ local function finish(player, session)
 		data.Stats.CardRushBest = math.max(data.Stats.CardRushBest, session.Score)
 	end
 	services.QuestService.Increment(player, "minigames", 1)
+	if session.Score >= 6 then
+		services.QuestService.Increment(player, "cardrush", 1)
+	end
 	services.TutorialService.Event(player, "PlayMinigame")
 	services.AnalyticsService.Log(player, "CardRushFinished", { Score = session.Score })
 	if cash > 0 or xp > 0 then
