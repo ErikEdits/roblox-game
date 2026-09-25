@@ -18,6 +18,7 @@ local DESTINATIONS = {
 	Entertainment = CFrame.lookAt(Vector3.new(200, 4, -28), Vector3.new(200, 4, -60)),
 	Shopping = CFrame.lookAt(Vector3.new(-180, 4, -28), Vector3.new(-180, 4, -60)),
 	VIPLounge = CFrame.lookAt(Vector3.new(-300, 4, -40), Vector3.new(-300, 4, -60)),
+	Beach = CFrame.lookAt(Vector3.new(500, 4, 270), Vector3.new(500, 4, 400)),
 }
 
 local function buildTag(player)

@@ -64,8 +64,17 @@ function Styles.box(ctx, def, w, d, h)
 	newPart(ctx, "Body", Vector3.new(w - 0.4, h, d - 0.4), CFrame.new(0, h / 2, 0), def.Color)
 	newPart(ctx, "Roof", Vector3.new(w, 0.8, d), CFrame.new(0, h + 0.4, 0), darken(def.Color, 0.6))
 	newPart(ctx, "NeonBand", Vector3.new(w, 0.6, d), CFrame.new(0, h * 0.82, 0), def.Accent, Enum.Material.Neon)
-	newPart(ctx, "Windows", Vector3.new(w * 0.8, h * 0.22, 0.3), CFrame.new(0, h * 0.5, -d / 2 + 0.05), Color3.fromRGB(60, 200, 255), Enum.Material.Glass, { Transparency = 0.25 })
-	newPart(ctx, "Door", Vector3.new(math.min(6, w * 0.4), 7, 0.3), CFrame.new(0, 3.5, -d / 2 + 0.05), Color3.fromRGB(20, 30, 45), Enum.Material.Glass, { Transparency = 0.2 })
+	-- Window band around the whole building (one part, reads as windows on every side).
+	newPart(ctx, "WindowBand", Vector3.new(w - 0.1, h * 0.2, d - 0.1), CFrame.new(0, h * 0.52, 0), Color3.fromRGB(255, 220, 150), Enum.Material.Glass, { Transparency = 0.15 })
+	newPart(ctx, "Windows", Vector3.new(w * 0.8, h * 0.22, 0.3), CFrame.new(0, h * 0.52, -d / 2 + 0.05), Color3.fromRGB(60, 200, 255), Enum.Material.Glass, { Transparency = 0.25 })
+	local doorWidth = math.min(6, w * 0.4)
+	newPart(ctx, "Door", Vector3.new(doorWidth, 7, 0.3), CFrame.new(0, 3.5, -d / 2 + 0.05), Color3.fromRGB(20, 30, 45), Enum.Material.Glass, { Transparency = 0.2 })
+	newPart(ctx, "Awning", Vector3.new(doorWidth + 3, 0.4, 3), CFrame.new(0, 7.6, -d / 2 - 1.3), def.Accent, Enum.Material.Neon)
+	newPart(ctx, "CornerL", Vector3.new(0.5, h, 0.5), CFrame.new(-w / 2 + 0.1, h / 2, -d / 2 + 0.1), def.Accent, Enum.Material.Neon)
+	newPart(ctx, "CornerR", Vector3.new(0.5, h, 0.5), CFrame.new(w / 2 - 0.1, h / 2, -d / 2 + 0.1), def.Accent, Enum.Material.Neon)
+	if w >= 16 then
+		newPart(ctx, "RoofUnit", Vector3.new(4, 2.4, 3), CFrame.new(w / 4, h + 2, d / 4), Color3.fromRGB(90, 90, 100), Enum.Material.Metal)
+	end
 	local sign = newPart(ctx, "Sign", Vector3.new(w * 0.7, 2.4, 0.4), CFrame.new(0, h * 0.5 + h * 0.11 + 1.6, -d / 2 - 0.1), darken(def.Accent, 0.25))
 	addLabel(ctx, sign, string.upper(def.Name), Enum.NormalId.Front, def.Accent)
 end
@@ -100,6 +109,12 @@ function Styles.parking(ctx, def, w, d, _h)
 		local x = -w / 2 + i * (w / lines)
 		newPart(ctx, "Line" .. i, Vector3.new(0.3, 0.05, d * 0.45), CFrame.new(x, 0.32, d * 0.2), def.Accent)
 	end
+	-- Two parked cars make the lot look used.
+	for i, carColor in ipairs({ Color3.fromRGB(255, 60, 90), Color3.fromRGB(60, 200, 255) }) do
+		local x = -w / 2 + (i + 0.5) * (w / lines)
+		newPart(ctx, "Car" .. i, Vector3.new(3.4, 1.4, 6), CFrame.new(x, 1, d * 0.2), carColor)
+		newPart(ctx, "CarTop" .. i, Vector3.new(2.8, 1, 3), CFrame.new(x, 2.2, d * 0.2 + 0.4), Color3.fromRGB(30, 40, 60), Enum.Material.Glass)
+	end
 	newPart(ctx, "Pole", Vector3.new(0.5, 7, 0.5), CFrame.new(-w / 2 + 1, 3.5, -d / 2 + 1), Color3.fromRGB(60, 60, 70))
 	local sign = newPart(ctx, "PSign", Vector3.new(3, 3, 0.4), CFrame.new(-w / 2 + 1, 8, -d / 2 + 1), Color3.fromRGB(0, 110, 255), Enum.Material.Neon)
 	addLabel(ctx, sign, "P", Enum.NormalId.Front, Color3.new(1, 1, 1))
@@ -110,6 +125,7 @@ function Styles.palm(ctx, def, _w, _d, h)
 	for i = 0, 2 do
 		newPart(ctx, "Leaf" .. i, Vector3.new(9, 0.3, 1.6), CFrame.new(0, h, 0) * CFrame.Angles(0, i * math.pi / 3, math.rad(-12)), def.Accent, Enum.Material.Neon)
 	end
+	newPart(ctx, "Coconuts", Vector3.new(1.4, 1.4, 1.4), CFrame.new(0.5, h - 0.8, 0.3), Color3.fromRGB(90, 60, 30), Enum.Material.SmoothPlastic, { Shape = Enum.PartType.Ball })
 end
 
 function Styles.lamp(ctx, def, _w, _d, h)

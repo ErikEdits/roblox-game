@@ -255,6 +255,57 @@
     "CanQuery": false,
     "CastShadow": false
    }
+  },
+  {
+   "name": "Beach District",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     320,
+     60,
+     300
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       440,
+       20,
+       400
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     0.9412,
+     0.9412,
+     1.0
+    ],
+    "Material": "SmoothPlastic",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "Transparency": 1,
+    "CanCollide": false,
+    "CanTouch": false,
+    "CanQuery": false,
+    "CastShadow": false
+   }
   }
  ]
 }

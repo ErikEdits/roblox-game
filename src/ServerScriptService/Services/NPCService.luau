@@ -381,10 +381,12 @@ local function performBuildingVisit(record, destination)
 	local info = Config.NPC.Types[record.Type]
 	record.Model.Parent = hiddenFolder
 	task.wait(math.random(Config.NPC.ActivityTimeMin * 10, Config.NPC.ActivityTimeMax * 10) / 10)
-	visitors[model] = math.max(0, (visitors[model] or 1) - 1)
+	local remaining = (visitors[model] or 1) - 1
+	visitors[model] = remaining > 0 and remaining or nil -- nil: no leak for removed buildings
 
 	local owner = building.Owner
-	if owner.Parent and model.PrimaryPart and services.BuildingService.BuildingExists(owner, building.Uid) then
+	local stillThere = model.Parent ~= nil and model.PrimaryPart ~= nil
+	if owner.Parent and stillThere and services.BuildingService.BuildingExists(owner, building.Uid) then
 		local data = services.DataService.Get(owner)
 		if data then
 			local amount = building.Def.Spend

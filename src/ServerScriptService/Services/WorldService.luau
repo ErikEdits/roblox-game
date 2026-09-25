@@ -116,7 +116,33 @@ function WorldService.Init(allServices)
 	assignPropGroups()
 end
 
+local function setupEffects()
+	-- Fountain spray (one small emitter; clients can switch effects off with Low graphics).
+	local plaza = workspace:FindFirstChild("City") and workspace.City:FindFirstChild("Plaza")
+	local column = plaza and plaza:FindFirstChild("FountainColumn")
+	if column then
+		local attachment = Instance.new("Attachment")
+		attachment.Name = "SprayAttachment"
+		attachment.Position = Vector3.new(column.Size.X / 2, 0, 0) -- top of the upright cylinder
+		attachment.Parent = column
+		local spray = Instance.new("ParticleEmitter")
+		spray.Name = "Spray"
+		spray.Rate = 40
+		spray.Lifetime = NumberRange.new(1.2, 1.6)
+		spray.Speed = NumberRange.new(14, 18)
+		spray.SpreadAngle = Vector2.new(18, 18)
+		spray.Acceleration = Vector3.new(0, -30, 0)
+		spray.Color = ColorSequence.new(Color3.fromRGB(120, 220, 255), Color3.fromRGB(255, 80, 220))
+		spray.LightEmission = 0.8
+		spray.Size = NumberSequence.new(0.6, 0.2)
+		spray.Transparency = NumberSequence.new(0.2, 1)
+		spray.EmissionDirection = Enum.NormalId.Right
+		spray.Parent = attachment
+	end
+end
+
 function WorldService.Start()
+	setupEffects()
 	setupPrompts()
 	setupTeleportPads()
 end

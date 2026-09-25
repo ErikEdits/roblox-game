@@ -32,7 +32,7 @@ local ctx = { UI = UI, State = State, Panels = Panels, HUD = HUD, Gui = gui }
 
 State.Start()
 HUD.Start(ctx)
-for _, name in ipairs({ "BuildController", "PlayPanel", "ShopPanel", "Menus", "RaceHUD", "VehicleController", "TutorialController", "ReflexPanel", "JobController" }) do
+for _, name in ipairs({ "BuildController", "PlayPanel", "ShopPanel", "Menus", "RaceHUD", "VehicleController", "TutorialController", "ReflexPanel", "JobController", "AmbienceController" }) do
 	local ok, err = pcall(function()
 		require(controllers[name]).Start(ctx)
 	end)

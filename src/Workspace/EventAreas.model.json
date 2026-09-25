@@ -472,9 +472,9 @@
         "CFrame": {
          "CFrame": {
           "position": [
-           500,
+           470,
            3.5,
-           50
+           -40
           ],
           "orientation": [
            [
@@ -518,9 +518,9 @@
         "CFrame": {
          "CFrame": {
           "position": [
-           500,
+           470,
            7.3,
-           50
+           -40
           ],
           "orientation": [
            [
@@ -565,9 +565,9 @@
         "CFrame": {
          "CFrame": {
           "position": [
-           500,
+           470,
            9.5,
-           50
+           -40
           ],
           "orientation": [
            [

@@ -218,6 +218,7 @@ Config.DefaultSettings = {
 	LowGraphics = false,
 	ShowNPCLabels = true,
 	Notifications = true,
+	SoundEffects = true,
 }
 
 return Config

@@ -168,12 +168,12 @@ end
 -- Map
 ----------------------------------------------------------------------
 local function buildMap()
-	local window, content, close = UI.Window(ctx.Gui, "CITY MAP", C.Violet, UDim2.fromOffset(760, 460))
+	local window, content, close = UI.Window(ctx.Gui, "CITY MAP", C.Violet, UDim2.fromOffset(760, 540))
 	close.Activated:Connect(function()
 		ctx.Panels.Close()
 	end)
 	UI.New("UIGridLayout", {
-		CellSize = UDim2.new(0.5, -8, 0, 104),
+		CellSize = UDim2.new(0.5, -8, 0, 92),
 		CellPadding = UDim2.fromOffset(16, 12),
 		SortOrder = Enum.SortOrder.LayoutOrder,
 		Parent = content,
@@ -185,6 +185,7 @@ local function buildMap()
 		{ "Entertainment", "ENTERTAINMENT", "Card Rush, concert stage", C.Magenta },
 		{ "Shopping", "SHOPPING DISTRICT", "Mall, boutique, train station", C.Lime },
 		{ "VIPLounge", "VIP LOUNGE", "Exclusive lounge for VIPs", C.Violet },
+		{ "Beach", "NEON BEACH", "Sand, palms and a glowing pier", C.Cyan },
 	}
 	for index, entry in ipairs(destinations) do
 		local button = UI.Button(entry[2] .. "\n" .. entry[3], entry[4], {
@@ -218,6 +219,7 @@ local SETTING_TEXT = {
 	{ "LowGraphics", "Low graphics", "Turns off bloom, shadows and haze for more FPS." },
 	{ "ShowNPCLabels", "NPC labels", "Show visitor type above NPC heads." },
 	{ "Notifications", "Reward pop-ups", "Show small reward messages." },
+	{ "SoundEffects", "Sound effects", "Button clicks and reward sounds." },
 }
 
 local function renderSettings()
@@ -336,7 +338,7 @@ function Menus.Start(context)
 	buildMap()
 
 	local closeSettings
-	settingsWindow, settingsBody, closeSettings = UI.Window(ctx.Gui, "SETTINGS", C.SubText, UDim2.fromOffset(680, 420))
+	settingsWindow, settingsBody, closeSettings = UI.Window(ctx.Gui, "SETTINGS", C.SubText, UDim2.fromOffset(680, 500))
 	closeSettings.Activated:Connect(function()
 		ctx.Panels.Close()
 	end)

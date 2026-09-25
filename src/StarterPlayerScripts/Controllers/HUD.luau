@@ -53,6 +53,15 @@ function HUD.Notify(text, kind)
 			MaxTextSize = 22,
 		}),
 	})
+	toast.BackgroundTransparency = 1
+	TweenService:Create(toast, TweenInfo.new(0.2), { BackgroundTransparency = 0.1 }):Play()
+	if kind == "reward" or kind == "quest" then
+		UI.PlaySound("Reward")
+	elseif kind == "levelup" then
+		UI.PlaySound("LevelUp")
+	elseif kind == "error" or kind == "warning" then
+		UI.PlaySound("Error")
+	end
 	table.insert(toasts, toast)
 	while #toasts > 4 do
 		table.remove(toasts, 1):Destroy()
@@ -408,12 +417,69 @@ function HUD.Start(context)
 		mainButtons[entry[1]] = button
 	end
 
+	-- Level-up celebration ---------------------------------------------
+	local celebration = UI.Label("", {
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.fromScale(0.5, 0.32),
+		Size = UDim2.fromOffset(700, 120),
+		Font = Enum.Font.GothamBlack,
+		TextColor3 = C.Magenta,
+		TextStrokeTransparency = 0.2,
+		MaxTextSize = 90,
+		Visible = false,
+		Parent = gui,
+	})
+	local function celebrate(text)
+		celebration.Text = text
+		celebration.Visible = true
+		celebration.TextTransparency = 0
+		UI.Pop(celebration)
+		task.delay(2.2, function()
+			TweenService:Create(celebration, TweenInfo.new(0.5), { TextTransparency = 1, TextStrokeTransparency = 1 }):Play()
+			task.wait(0.55)
+			celebration.Visible = false
+			celebration.TextStrokeTransparency = 0.2
+		end)
+	end
+
+	-- Rolling cash counter.
+	local shownCash = nil
+	local cashToken = nil
+	local function animateCash(target)
+		if not shownCash then
+			shownCash = target
+			cashLabel.Text = Format.Money(target)
+			return
+		end
+		local from = shownCash
+		local token = {}
+		cashToken = token
+		task.spawn(function()
+			local started = os.clock()
+			while cashToken == token do
+				local t = math.min(1, (os.clock() - started) / 0.45)
+				shownCash = from + (target - from) * t
+				cashLabel.Text = Format.Money(shownCash)
+				if t >= 1 then
+					break
+				end
+				task.wait(0.03)
+			end
+		end)
+	end
+
 	-- Updates -------------------------------------------------------------
+	local lastLevel = nil
 	local function refresh(data)
 		if not data then
 			return
 		end
-		cashLabel.Text = Format.Money(data.Cash)
+		UI.SoundsEnabled = data.Settings.SoundEffects ~= false
+		animateCash(data.Cash)
+		if lastLevel and data.Level > lastLevel then
+			celebrate("LEVEL " .. data.Level .. "!")
+		end
+		lastLevel = data.Level
 		local prestige = data.Prestige > 0 and (" P" .. data.Prestige) or ""
 		levelLabel.Text = "LV " .. data.Level .. prestige
 		if data.Level >= Config.MaxLevel then

@@ -48,6 +48,10 @@
         "GlobalShadows": true,
         "Technology": "ShadowMap"
       },
+      "Sky": {
+        "$className": "Sky",
+        "$properties": { "StarCount": 3000, "CelestialBodiesShown": true }
+      },
       "Atmosphere": {
         "$className": "Atmosphere",
         "$properties": {

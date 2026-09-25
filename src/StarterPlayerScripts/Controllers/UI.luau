@@ -1,9 +1,59 @@
 -- UI: tiny helper library for building the NEON CITY interface in code.
 -- Mobile-first: everything is designed for a 1280x720 canvas and scaled with a UIScale.
 
+local SoundService = game:GetService("SoundService")
+local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
 local UI = {}
+
+----------------------------------------------------------------------
+-- Sounds (built-in client sound so no uploaded audio is needed)
+----------------------------------------------------------------------
+UI.SoundsEnabled = true
+local SOUND_ID = "rbxasset://sounds/electronicpingshort.wav"
+local SOUNDS = {
+	Click = { Speed = 2.2, Volume = 0.25 },
+	Reward = { Speed = 1.2, Volume = 0.45 },
+	LevelUp = { Speed = 0.8, Volume = 0.6 },
+	Error = { Speed = 0.6, Volume = 0.35 },
+}
+local soundCache = {}
+
+function UI.PlaySound(name)
+	if not UI.SoundsEnabled then
+		return
+	end
+	local spec = SOUNDS[name]
+	if not spec then
+		return
+	end
+	local sound = soundCache[name]
+	if not sound then
+		sound = Instance.new("Sound")
+		sound.Name = "UI_" .. name
+		sound.SoundId = SOUND_ID
+		sound.Volume = spec.Volume
+		sound.PlaybackSpeed = spec.Speed
+		sound.Parent = SoundService
+		soundCache[name] = sound
+	end
+	pcall(function()
+		SoundService:PlayLocalSound(sound)
+	end)
+end
+
+-- Small "pop" when a window becomes visible.
+function UI.Pop(guiObject)
+	local scale = guiObject:FindFirstChild("PopScale")
+	if not scale then
+		scale = Instance.new("UIScale")
+		scale.Name = "PopScale"
+		scale.Parent = guiObject
+	end
+	scale.Scale = 0.88
+	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Scale = 1 }):Play()
+end
 
 UI.Colors = {
 	Background = Color3.fromRGB(14, 12, 26),
@@ -124,6 +174,9 @@ function UI.Button(text, color, props)
 	for key, value in pairs(props or {}) do
 		button[key] = value
 	end
+	button.Activated:Connect(function()
+		UI.PlaySound("Click")
+	end)
 	return button
 end
 
@@ -198,6 +251,11 @@ function UI.Window(parent, title, color, size)
 		Size = UDim2.fromOffset(52, 48),
 		Parent = window,
 	})
+	window:GetPropertyChangedSignal("Visible"):Connect(function()
+		if window.Visible then
+			UI.Pop(window)
+		end
+	end)
 	local content = UI.New("Frame", {
 		Name = "Content",
 		BackgroundTransparency = 1,

@@ -149,6 +149,8 @@ def building(name, center, size, body, accent, facing="S", sign=None, windows=Tr
         part("Roof", (x, h + 0.5, z), (w + 1, 1, d + 1), [c * 0.6 for c in body]),
         part("Band", (x, h * 0.85, z), (w + 0.6, 0.8, d + 0.6), accent, "Neon"),
     ]
+    kids.append(part("RoofUnit", (x - w * 0.2, h + 2, z - d * 0.15), (min(8, w * 0.2), 3, min(6, d * 0.2)),
+                     rgb(90, 90, 100), "Metal"))
     if windows:
         for i, fy in enumerate((0.35, 0.6)):
             kids.append(part("Windows%d" % i, (x, h * fy, z), (w + 0.3, h * 0.08, d + 0.3), GLASS, "Glass",
@@ -164,12 +166,49 @@ def building(name, center, size, body, accent, facing="S", sign=None, windows=Tr
 
 
 def tower(name, x, z, w, d, h, accent):
-    return model(name, [
+    kids = [
         part("Body", (x, h / 2, z), (w, h, d), DARK),
         part("StripA", (x - w / 2 - 0.2, h / 2, z), (0.6, h * 0.9, 1.2), accent, "Neon"),
         part("StripB", (x + w / 2 + 0.2, h / 2, z), (0.6, h * 0.9, 1.2), accent, "Neon"),
         part("Crown", (x, h + 0.6, z), (w + 1, 1.2, d + 1), accent, "Neon"),
-    ])
+    ]
+    bands = min(4, int(h // 30))
+    for i in range(bands):
+        y = h * (i + 1) / (bands + 1)
+        kids.append(part("Windows%d" % i, (x, y, z), (w + 0.3, 2.2, d + 0.3), rgb(255, 225, 150) if i % 2 else GLASS,
+                         "Glass", Transparency=0.2))
+    if h >= 120:
+        kids.append(part("Antenna", (x, h + 1.2 + 8, z), (0.6, 16, 0.6), rgb(70, 70, 80), "Metal"))
+        kids.append(ball("AntennaLight", (x, h + 1.2 + 16.5, z), 1.6, RED, attrs={"Anim": "Blink"}))
+    return model(name, kids)
+
+
+def palm(name, x, z, h=13, color=None):
+    color = color or rgb(60, 255, 150)
+    kids = [cyl("Trunk", (x, h / 2, z), h, 1.2, rgb(110, 75, 50), "Wood")]
+    for i in range(3):
+        a = i * 60
+        r = math.radians(a)
+        c, sn = round(math.cos(r), 6), round(math.sin(r), 6)
+        kids.append(part("Leaf%d" % i, (x, h, z), (9, 0.3, 1.6), color, "Neon", rot=[[c, 0, sn], [0, 1, 0], [-sn, 0, c]]))
+    return model(name, kids)
+
+
+def billboard(name, x, z, text, color, facing="S", width=40, height=14, elevation=20):
+    face = {"S": "Back", "N": "Front", "E": "Right", "W": "Left"}[facing]
+    along_x = facing in ("S", "N")
+    size = (width, height, 1) if along_x else (1, height, width)
+    frame = (width + 1.2, height + 1.2, 0.6) if along_x else (0.6, height + 1.2, width + 1.2)
+    y = elevation + height / 2
+    offs = (-width / 3, width / 3)
+    kids = [
+        part("Panel", (x, y, z), size, rgb(10, 8, 18), children=[label(text, face, color, 10)]),
+        part("Frame", (x, y, z), frame, color, "Neon", attrs={"Anim": "Pulse"}),
+    ]
+    for i, o in enumerate(offs):
+        px, pz = (x + o, z) if along_x else (x, z + o)
+        kids.append(part("Pole%d" % i, (px, elevation / 2, pz), (1.2, elevation, 1.2), DARK, "Metal"))
+    return model(name, kids)
 
 
 def lamp(name, x, z, h=14, color=GOLD, with_light=False):
@@ -248,6 +287,24 @@ ground = [
     part("LineWest", (-270, 0.22, 0), (380, 0.05, 0.6), GOLD, "Neon"),
 ]
 
+SIDEWALK = rgb(70, 66, 88)
+sidewalks = [
+    ("SideNorthW", (-24, 0.1, -460), (8, 0.5, 760)), ("SideNorthE", (24, 0.1, -460), (8, 0.5, 760)),
+    ("SideSouthW", (-24, 0.1, 151), (8, 0.5, 142)), ("SideSouthE", (24, 0.1, 151), (8, 0.5, 142)),
+    ("SideEastN", (320, 0.1, -24), (480, 0.5, 8)), ("SideEastS", (320, 0.1, 24), (480, 0.5, 8)),
+    ("SideWestN", (-270, 0.1, -24), (380, 0.5, 8)), ("SideWestS", (-270, 0.1, 24), (380, 0.5, 8)),
+]
+for name, pos, size in sidewalks:
+    ground.append(walk(part(name, pos, size, SIDEWALK, "Concrete")))
+ground.append(walk(part("BeachRoad", (500, 0, 135), (30, 0.4, 230), ASPHALT, "Asphalt")))
+for exit_name, (cx, cz), along_x in (("N", (0, -90), True), ("S", (0, 90), True), ("E", (90, 0), False), ("W", (-90, 0), False)):
+    for i in range(6):
+        o = -15 + i * 6
+        if along_x:
+            ground.append(part("Crosswalk%s%d" % (exit_name, i), (cx + o, 0.23, cz), (3, 0.05, 10), WHITE))
+        else:
+            ground.append(part("Crosswalk%s%d" % (exit_name, i), (cx, 0.23, cz + o), (10, 0.05, 3), WHITE))
+
 # --- Main Plaza -------------------------------------------------------------
 plaza = [
     cyl("FountainBasin", (0, 1.8, 0), 3, 28, rgb(200, 200, 215), "Marble"),
@@ -275,6 +332,19 @@ plaza = [
     arch("ArchEast", 78, 0, "ENTERTAINMENT", MAGENTA, "Z"),
     arch("ArchWest", -78, 0, "SHOPPING", GOLD, "Z"),
 ]
+# Plaza floor grid, benches and planters
+for i, o in enumerate((-40, 40)):
+    plaza.append(part("GridX%d" % i, (0, 0.32, o), (160, 0.05, 0.8), CYAN, "Neon"))
+    plaza.append(part("GridZ%d" % i, (o, 0.32, 0), (0.8, 0.05, 160), CYAN, "Neon"))
+for i, (bx, bz, rot) in enumerate([(-25, 20, 0), (25, 20, 0), (-25, -20, 0), (25, -20, 0)]):
+    plaza.append(model("Bench%d" % i, [
+        part("Seat", (bx, 1.2, bz), (8, 0.6, 2.5), rgb(90, 60, 40), "Wood"),
+        part("LegA", (bx - 3, 0.6, bz), (0.6, 1.2, 2), DARK, "Metal"),
+        part("LegB", (bx + 3, 0.6, bz), (0.6, 1.2, 2), DARK, "Metal"),
+    ]))
+for i, (px, pz) in enumerate([(-66, -66), (66, -66), (-66, 66), (66, 66)]):
+    plaza.append(cyl("Planter%d" % i, (px, 1.3, pz), 2, 10, CONCRETE, "Concrete"))
+    plaza.append(palm("PlanterPalm%d" % i, px, pz, 14, NEONS[i % len(NEONS)]))
 for i in range(8):
     a = math.radians(22.5 + i * 45)
     plaza.append(lamp("PlazaLamp%d" % i, round(math.cos(a) * 66, 2), round(math.sin(a) * 66, 2), 14,
@@ -286,6 +356,10 @@ for i in range(PLOT_ROWS):
     z = PLOT_Z0 - i * PLOT_STEP + PLOT_STEP / 2
     resort.append(lamp("AvenueLampW%d" % i, -23, z, 12, CYAN))
     resort.append(lamp("AvenueLampE%d" % i, 23, z, 12, MAGENTA))
+for i in range(PLOT_ROWS):
+    z = PLOT_Z0 - i * PLOT_STEP
+    resort.append(palm("AvenuePalmW%d" % i, -25, z, 12, CYAN))
+    resort.append(palm("AvenuePalmE%d" % i, 25, z, 12, MAGENTA))
 resort.append(arch("HotelDistrictGate", 0, -842, "HOTEL DISTRICT", GOLD, "X"))
 for i, (x, z, w, d, h) in enumerate([(-70, -890, 50, 40, 90), (70, -890, 50, 40, 110),
                                      (-150, -870, 40, 40, 70), (150, -870, 40, 40, 80),
@@ -318,6 +392,13 @@ ent = [
 for i, x in enumerate(range(120, 541, 60)):
     ent.append(lamp("EastLampN%d" % i, x, -23, 12, MAGENTA, with_light=(i % 3 == 0)))
     ent.append(lamp("EastLampS%d" % i, x, 23, 12, CYAN))
+for i, x in enumerate(range(150, 541, 60)):
+    if abs(x - 500) > 20:
+        ent.append(palm("EastPalm%d" % i, x, 25, 12, LIME))
+ent += [
+    billboard("BillboardGrandNeon", 120, -160, "THE GRAND NEON\nCARD RUSH  |  NEON REFLEX", GOLD, "S", 44, 14, 16),
+    billboard("BillboardConcert", 300, 170, "LIVE TONIGHT\nNEON STAGE", MAGENTA, "N", 36, 12, 14),
+]
 for i, (x, z) in enumerate([(120, 150), (280, -150), (540, 60), (540, -150)]):
     ent.append(tower("SignTower%d" % i, x, z, 14, 14, 60 + i * 10, NEONS[(i + 1) % len(NEONS)]))
 
@@ -365,6 +446,7 @@ for i in range(6):
     racing.append(part("StartStripe%d" % i, (START_X, 0.22, TRACK_Z1 - 15 + i * 6), (3, 0.05, 3),
                        WHITE if i % 2 == 0 else DARK))
 racing += [
+    billboard("BillboardRace", -150, 110, "STREET RACE\nEVERY FEW MINUTES", RED, "S", 40, 12, 14),
     building("PitGarage", (-120, 180), (70, 16, 34), rgb(40, 40, 48), RED, "S", "PIT GARAGE"),
     model("Grandstand", [
         part("Step1", (120, 1.5, 200), (80, 3, 8), CONCRETE),
@@ -417,9 +499,33 @@ shop.append(model("TrainStation", [
     part("Sign", (-440, 17, 38), (30, 4, 1), rgb(5, 15, 20), children=[label("TRAIN STATION", "Front", CYAN), label("TRAIN STATION", "Back", CYAN)]),
     part("Rail", (-470, 0.4, 70), (4, 0.4, 200), rgb(80, 80, 90), "Metal"),
 ]))
+shop.append(billboard("BillboardVIP", -120, 150, "VIP LOUNGE\nSHOPPING DISTRICT", GOLD, "N", 36, 12, 14))
+for i, x in enumerate(range(-150, -441, -60)):
+    shop.append(palm("WestPalm%d" % i, x, -25, 12, GOLD))
 for i, x in enumerate(range(-120, -441, -60)):
     shop.append(lamp("WestLampN%d" % i, x, -23, 12, GOLD))
     shop.append(lamp("WestLampS%d" % i, x, 23, 12, CYAN, with_light=(i % 3 == 1)))
+
+# --- Beach District -------------------------------------------------------
+SAND = rgb(214, 190, 140)
+beach = [
+    walk(part("Sand", (440, 0, 350), (300, 0.6, 200), SAND, "Sand")),
+    part("Water", (460, -0.4, 540), (380, 1, 200), rgb(0, 120, 200), "Glass", Transparency=0.25),
+    part("WaterGlow", (460, -1.2, 540), (380, 0.4, 200), rgb(0, 60, 160), "Neon"),
+    walk(part("Pier", (440, 0.8, 500), (12, 1, 120), rgb(110, 80, 55), "WoodPlanks")),
+    billboard("BeachSign", 440, 262, "NEON BEACH", CYAN, "N", 34, 8, 8),
+]
+for i in range(6):
+    beach.append(ball("PierLight%d" % i, (434 if i % 2 == 0 else 446, 3, 450 + i * 18), 1.4, NEONS[i % len(NEONS)]))
+for i, (ux, uz) in enumerate([(340, 330), (380, 380), (500, 320), (540, 390), (460, 400)]):
+    color = NEONS[i % len(NEONS)]
+    beach.append(model("Umbrella%d" % i, [
+        part("Pole", (ux, 4, uz), (0.4, 8, 0.4), WHITE),
+        cyl("Top", (ux, 8.2, uz), 0.6, 10, color, "SmoothPlastic"),
+        part("Lounger", (ux + 4, 0.8, uz), (3, 0.6, 7), WHITE),
+    ]))
+for i, (px, pz) in enumerate([(310, 280), (570, 280), (310, 430), (570, 430), (400, 300), (480, 300)]):
+    beach.append(palm("BeachPalm%d" % i, px, pz, 15))
 
 # --- Skyline ---------------------------------------------------------------
 skyline = []
@@ -430,6 +536,8 @@ for i in range(34):
     x, z = math.cos(a) * r, math.sin(a) * r - 60
     if abs(x) < 240 and z < -600:
         continue  # keep the far end of the Resort / Hotel District clear
+    if 230 < x < 700 and 200 < z < 700:
+        continue  # keep the beach clear
     spots.append((round(x, 1), round(z, 1)))
 for i, (x, z) in enumerate(spots):
     w = random.choice([30, 40, 50])
@@ -443,6 +551,7 @@ city = folder("City", [
     folder("Entertainment", ent),
     folder("Racing", racing),
     folder("Shopping", shop),
+    folder("Beach", beach),
     folder("Skyline", skyline),
 ])
 
@@ -491,7 +600,7 @@ race = folder("RaceTrack", [
 # Event areas
 # ----------------------------------------------------------------------------
 generators = []
-for i, (x, z) in enumerate([(140, 50), (270, -40), (500, 50)]):
+for i, (x, z) in enumerate([(140, 50), (270, -40), (470, -40)]):
     generators.append(model("Generator%d" % (i + 1), [
         part("Body", (x, 3.5, z), (6, 7, 5), rgb(70, 72, 80), "DiamondPlate"),
         part("Status", (x, 7.3, z), (6.2, 0.6, 5.2), LIME, "Neon"),
@@ -541,6 +650,7 @@ attractions = folder("Attractions", [
     attraction("Boutique", (-180, 45), "Luxury,Tourist", 2),
     attraction("Grandstand", (120, 190), "Racer,Event", 4),
     attraction("PitGarage", (-120, 204), "Racer", 3),
+    attraction("NeonBeach", (500, 300), "Tourist,Family,Luxury", 3),
 ])
 
 zones = folder("Zones", [
@@ -549,6 +659,7 @@ zones = folder("Zones", [
     invisible("Entertainment District", (322, 20, 0), (475, 60, 440)),
     invisible("Racing District", (0, 20, 342), (520, 60, 515)),
     invisible("Shopping District", (-278, 20, 0), (385, 60, 400)),
+    invisible("Beach District", (440, 20, 400), (320, 60, 300)),
 ])
 
 teleports = folder("Teleports", [
