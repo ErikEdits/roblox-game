@@ -27,6 +27,7 @@ local ORDER = {
 	"MinigameService",
 	"JobService",
 	"RaceService",
+	"VehicleService",
 	"EventService",
 	"LeaderboardService",
 }

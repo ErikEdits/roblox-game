@@ -374,6 +374,7 @@ local function raceLoop()
 end
 
 local function seatPlayer(player, car)
+	services.VehicleService.Despawn(player)
 	local character = player.Character
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 	local seat = car:FindFirstChild("DriverSeat")

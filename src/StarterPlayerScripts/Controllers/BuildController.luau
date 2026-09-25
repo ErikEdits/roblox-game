@@ -25,7 +25,7 @@ local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local ctx, UI, C
 
-local sheet, itemScroll, tabRow, toolbar, toolbarHint
+local sheet, itemScroll, tabRow, toolbar, toolbarHint, statsLabel
 local toolbarButtons = {}
 local category = "All"
 
@@ -571,6 +571,18 @@ function BuildController.Start(context)
 		Parent = ctx.Gui,
 	}, { UI.Corner(16), UI.Stroke(C.Gold, 3) })
 
+	statsLabel = UI.Label("", {
+		AnchorPoint = Vector2.new(0.5, 1),
+		Position = UDim2.new(0.5, 0, 0, -6),
+		Size = UDim2.new(1, -20, 0, 30),
+		BackgroundTransparency = 0.15,
+		BackgroundColor3 = C.Background,
+		TextColor3 = C.Gold,
+		Font = Enum.Font.GothamBold,
+		MaxTextSize = 18,
+		Parent = sheet,
+	})
+	UI.Corner(8).Parent = statsLabel
 	tabRow = UI.New("ScrollingFrame", {
 		BackgroundTransparency = 1,
 		BorderSizePixel = 0,
@@ -645,6 +657,13 @@ function BuildController.Start(context)
 
 	local lastSignature = nil
 	ctx.State.Changed:Connect(function(data)
+		local resort = data.Resort
+		if resort and statsLabel then
+			local nextText = resort.NextRating and ("/" .. resort.NextRating) or " (max)"
+			statsLabel.Text = ("%s  %s  |  rating %d%s  |  operations %s/min  |  last 5 min: %d visitors, %s"):format(
+				string.upper(Progression.ResortLevelNames[resort.Level] or "RESORT"), string.rep("*", resort.Level),
+				resort.Rating, nextText, Format.ShortMoney(resort.PassivePerMinute), resort.Visitors5Min, Format.ShortMoney(resort.Income5Min))
+		end
 		if mode == "Menu" then
 			-- Only rebuild the cards when affordability or unlocks changed (keeps scroll position).
 			local affordable = {}

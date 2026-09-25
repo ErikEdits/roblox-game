@@ -18,6 +18,7 @@ local BuildingService = {}
 
 local services
 local models = {} -- [player] = { [uid] = model }
+local visitLog = {} -- [player] = { { Time, Amount } } for the last 5 minutes
 local lastRequest = {} -- [player] = os.clock()
 
 local function rateLimited(player)
@@ -105,6 +106,52 @@ function BuildingService.GetBuildings(player)
 		end
 	end
 	return list
+end
+
+-- NPCService reports every visitor payment so the owner can see how the resort performs.
+function BuildingService.RecordVisit(player, amount)
+	local log = visitLog[player]
+	if not log then
+		log = {}
+		visitLog[player] = log
+	end
+	table.insert(log, { Time = os.clock(), Amount = amount })
+	services.DataService.MarkDirty(player)
+end
+
+local function resortStats(player)
+	local data = services.DataService.Get(player)
+	if not data then
+		return nil
+	end
+	local passive = 0
+	for _, entry in ipairs(data.Buildings) do
+		local def = Buildings.Get(entry.Id)
+		passive += def and def.Passive * Buildings.IncomeMultiplier(entry.L) or 0
+	end
+	passive *= Progression.PrestigeIncomeMultiplier(data.Prestige)
+	local visitors, income = 0, 0
+	local log = visitLog[player]
+	if log then
+		local cutoff = os.clock() - 300
+		while log[1] and log[1].Time < cutoff do
+			table.remove(log, 1)
+		end
+		for _, visit in ipairs(log) do
+			visitors += 1
+			income += visit.Amount
+		end
+	end
+	local rating = player:GetAttribute("ResortRating") or 0
+	local level = player:GetAttribute("ResortLevel") or 1
+	return {
+		Rating = rating,
+		Level = level,
+		NextRating = Progression.ResortLevelThresholds[level + 1],
+		PassivePerMinute = math.floor(passive * 60 / Config.PassiveIncomeInterval),
+		Visitors5Min = visitors,
+		Income5Min = math.floor(income),
+	}
 end
 
 function BuildingService.BuildingExists(player, uid)
@@ -317,6 +364,9 @@ function BuildingService.Init(allServices)
 	services = allServices
 
 	services.DataService.PlayerLoaded:Connect(restore)
+	services.DataService.AddSnapshotProvider(function(player, snapshot)
+		snapshot.Resort = resortStats(player)
+	end)
 
 	Remotes.Get("PlaceBuilding").OnServerInvoke = place
 	Remotes.Get("MoveBuilding").OnServerInvoke = move
@@ -331,6 +381,7 @@ function BuildingService.Init(allServices)
 		end
 		models[player] = nil
 		lastRequest[player] = nil
+		visitLog[player] = nil
 	end)
 end
 

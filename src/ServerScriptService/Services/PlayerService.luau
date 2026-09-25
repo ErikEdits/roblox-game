@@ -128,6 +128,7 @@ function PlayerService.TeleportTo(player, target)
 	if humanoid.Sit then
 		humanoid.Sit = false
 	end
+	services.VehicleService.Despawn(player)
 	character:PivotTo(destination)
 	return true
 end

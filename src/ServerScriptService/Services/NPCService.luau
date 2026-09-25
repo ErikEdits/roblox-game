@@ -397,6 +397,7 @@ local function performBuildingVisit(record, destination)
 				* (math.random(85, 115) / 100)
 			if amount >= 1 then
 				local gained = services.EconomyService.AddCash(owner, amount, "npc")
+				services.BuildingService.RecordVisit(owner, gained)
 				data.Stats.NPCVisits += 1
 				services.TutorialService.Event(owner, "FirstVisitor")
 				services.QuestService.Increment(owner, "npcvisits", 1)

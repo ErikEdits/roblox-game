@@ -163,6 +163,18 @@ end
 ----------------------------------------------------------------------
 -- Build
 ----------------------------------------------------------------------
+-- Spawns your free-roam car, or parks it away if you are driving it.
+function HUD.ToggleCar()
+	local character = player.Character
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	local seat = humanoid and humanoid.SeatPart
+	local driving = seat and seat.Parent and string.find(seat.Parent.Name, "_Cruiser", 1, true)
+	local ok, message = Remotes.Get("CarAction"):InvokeServer(driving and "Despawn" or "Spawn")
+	if not ok and message then
+		HUD.Notify(tostring(message), "warning")
+	end
+end
+
 function HUD.GetMainButton(name)
 	return mainButtons[name]
 end
@@ -377,6 +389,7 @@ function HUD.Start(context)
 		{ "Play", "PLAY", C.Magenta },
 		{ "Tasks", "TASKS", C.Lime },
 		{ "Map", "MAP", C.Violet },
+		{ "Car", "CAR", C.Orange },
 		{ "Settings", "SETTINGS", C.SubText },
 	}
 	if mobile then
@@ -384,7 +397,7 @@ function HUD.Start(context)
 			Name = "MainButtons",
 			AnchorPoint = Vector2.new(1, 0.5),
 			Position = UDim2.new(1, -14, 0.42, 0),
-			Size = UDim2.fromOffset(236, 296),
+			Size = UDim2.fromOffset(236, 398),
 			BackgroundTransparency = 1,
 			Parent = gui,
 		}, {
@@ -399,7 +412,7 @@ function HUD.Start(context)
 			Name = "MainButtons",
 			AnchorPoint = Vector2.new(0.5, 1),
 			Position = UDim2.new(0.5, 0, 1, -14),
-			Size = UDim2.fromOffset(6 * 112 + 5 * 10, 84),
+			Size = UDim2.fromOffset(#buttons * 112 + (#buttons - 1) * 10, 84),
 			BackgroundTransparency = 1,
 			Parent = gui,
 		}, { UI.List(Enum.FillDirection.Horizontal, 10, Enum.HorizontalAlignment.Center) })
@@ -412,7 +425,11 @@ function HUD.Start(context)
 			Parent = mainBar,
 		})
 		button.Activated:Connect(function()
-			ctx.Panels.Toggle(entry[1])
+			if entry[1] == "Car" then
+				HUD.ToggleCar()
+			else
+				ctx.Panels.Toggle(entry[1])
+			end
 		end)
 		mainButtons[entry[1]] = button
 	end

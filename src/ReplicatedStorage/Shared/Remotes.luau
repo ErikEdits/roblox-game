@@ -38,6 +38,7 @@ Remotes.Functions = {
 	"GetResorts",
 	"LikeResort",
 	"AdminAction",
+	"CarAction",
 	"ReflexStart",
 	"ReflexReady",
 	"ReflexTap",

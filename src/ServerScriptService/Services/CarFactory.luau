@@ -50,9 +50,28 @@ function CarFactory.Build(cframe, options)
 	chassis.TopSurface = Enum.SurfaceType.Smooth
 	chassis.BottomSurface = Enum.SurfaceType.Smooth
 	chassis.CustomPhysicalProperties = PhysicalProperties.new(0.7, 0, 0, 100, 1)
-	chassis.CanCollide = not options.NPC
+	-- The flat chassis does not collide: rounded skids front/back glide over curbs and small steps.
+	chassis.CanCollide = false
 	chassis.Parent = model
 	model.PrimaryPart = chassis
+
+	if not options.NPC then
+		for _, z in ipairs({ -4.6, 4.6 }) do
+			local skid = Instance.new("Part")
+			skid.Name = "Skid"
+			skid.Shape = Enum.PartType.Cylinder
+			skid.Size = Vector3.new(7, 1.6, 1.6) -- cylinder axis = X (across the car)
+			skid.CFrame = chassis.CFrame * CFrame.new(0, 0, z)
+			skid.Transparency = 1
+			skid.CanCollide = true
+			skid.CustomPhysicalProperties = PhysicalProperties.new(0.7, 0, 0, 100, 1)
+			skid.Parent = model
+			local skidWeld = Instance.new("WeldConstraint")
+			skidWeld.Part0 = chassis
+			skidWeld.Part1 = skid
+			skidWeld.Parent = skid
+		end
+	end
 
 	local base = chassis.CFrame
 	local bodyHeight = hyper and 1.1 or 1.5
