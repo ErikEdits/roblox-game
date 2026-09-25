@@ -1,0 +1,260 @@
+{
+ "className": "Folder",
+ "children": [
+  {
+   "name": "Plaza",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     170,
+     60,
+     170
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       0,
+       20,
+       0
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     0.9412,
+     0.9412,
+     1.0
+    ],
+    "Material": "SmoothPlastic",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "Transparency": 1,
+    "CanCollide": false,
+    "CanTouch": false,
+    "CanQuery": false,
+    "CastShadow": false
+   }
+  },
+  {
+   "name": "Resort District",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     260,
+     60,
+     770
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       0,
+       20,
+       -470
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     0.9412,
+     0.9412,
+     1.0
+    ],
+    "Material": "SmoothPlastic",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "Transparency": 1,
+    "CanCollide": false,
+    "CanTouch": false,
+    "CanQuery": false,
+    "CastShadow": false
+   }
+  },
+  {
+   "name": "Entertainment District",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     475,
+     60,
+     440
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       322,
+       20,
+       0
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     0.9412,
+     0.9412,
+     1.0
+    ],
+    "Material": "SmoothPlastic",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "Transparency": 1,
+    "CanCollide": false,
+    "CanTouch": false,
+    "CanQuery": false,
+    "CastShadow": false
+   }
+  },
+  {
+   "name": "Racing District",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     520,
+     60,
+     515
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       0,
+       20,
+       342
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     0.9412,
+     0.9412,
+     1.0
+    ],
+    "Material": "SmoothPlastic",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "Transparency": 1,
+    "CanCollide": false,
+    "CanTouch": false,
+    "CanQuery": false,
+    "CastShadow": false
+   }
+  },
+  {
+   "name": "Shopping District",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     385,
+     60,
+     400
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       -278,
+       20,
+       0
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     0.9412,
+     0.9412,
+     1.0
+    ],
+    "Material": "SmoothPlastic",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "Transparency": 1,
+    "CanCollide": false,
+    "CanTouch": false,
+    "CanQuery": false,
+    "CastShadow": false
+   }
+  }
+ ]
+}

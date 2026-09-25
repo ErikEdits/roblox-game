@@ -1,0 +1,278 @@
+{
+ "className": "Folder",
+ "children": [
+  {
+   "name": "PadResort",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     10,
+     0.3,
+     10
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       -30,
+       0.35,
+       62
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     0.0,
+     0.9216,
+     1.0
+    ],
+    "Material": "Neon",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CastShadow": false
+   },
+   "attributes": {
+    "Target": "Resort"
+   },
+   "children": [
+    {
+     "name": "Label",
+     "className": "SurfaceGui",
+     "properties": {
+      "Face": "Top",
+      "SizingMode": "PixelsPerStud",
+      "PixelsPerStud": 12,
+      "LightInfluence": 0
+     },
+     "children": [
+      {
+       "name": "Text",
+       "className": "TextLabel",
+       "properties": {
+        "Size": {
+         "UDim2": [
+          [
+           1,
+           0
+          ],
+          [
+           1,
+           0
+          ]
+         ]
+        },
+        "BackgroundTransparency": 1,
+        "Text": "MY RESORT",
+        "TextScaled": true,
+        "TextColor3": [
+         0.9412,
+         0.9412,
+         1.0
+        ],
+        "Font": "GothamBlack"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "PadRacing",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     10,
+     0.3,
+     10
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       0,
+       0.35,
+       66
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     1.0,
+     0.2353,
+     0.2353
+    ],
+    "Material": "Neon",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CastShadow": false
+   },
+   "attributes": {
+    "Target": "Racing"
+   },
+   "children": [
+    {
+     "name": "Label",
+     "className": "SurfaceGui",
+     "properties": {
+      "Face": "Top",
+      "SizingMode": "PixelsPerStud",
+      "PixelsPerStud": 12,
+      "LightInfluence": 0
+     },
+     "children": [
+      {
+       "name": "Text",
+       "className": "TextLabel",
+       "properties": {
+        "Size": {
+         "UDim2": [
+          [
+           1,
+           0
+          ],
+          [
+           1,
+           0
+          ]
+         ]
+        },
+        "BackgroundTransparency": 1,
+        "Text": "RACING",
+        "TextScaled": true,
+        "TextColor3": [
+         0.9412,
+         0.9412,
+         1.0
+        ],
+        "Font": "GothamBlack"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "PadEntertainment",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     10,
+     0.3,
+     10
+    ],
+    "CFrame": {
+     "CFrame": {
+      "position": [
+       30,
+       0.35,
+       62
+      ],
+      "orientation": [
+       [
+        1,
+        0,
+        0
+       ],
+       [
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        0,
+        1
+       ]
+      ]
+     }
+    },
+    "Color": [
+     1.0,
+     0.1569,
+     0.7843
+    ],
+    "Material": "Neon",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CastShadow": false
+   },
+   "attributes": {
+    "Target": "Entertainment"
+   },
+   "children": [
+    {
+     "name": "Label",
+     "className": "SurfaceGui",
+     "properties": {
+      "Face": "Top",
+      "SizingMode": "PixelsPerStud",
+      "PixelsPerStud": 12,
+      "LightInfluence": 0
+     },
+     "children": [
+      {
+       "name": "Text",
+       "className": "TextLabel",
+       "properties": {
+        "Size": {
+         "UDim2": [
+          [
+           1,
+           0
+          ],
+          [
+           1,
+           0
+          ]
+         ]
+        },
+        "BackgroundTransparency": 1,
+        "Text": "ARCADE",
+        "TextScaled": true,
+        "TextColor3": [
+         0.9412,
+         0.9412,
+         1.0
+        ],
+        "Font": "GothamBlack"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
