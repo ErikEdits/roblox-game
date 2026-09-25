@@ -98,6 +98,10 @@ function Guide.IsShowing()
 	return active ~= nil
 end
 
+function Guide.CurrentTarget()
+	return active and active.Target or nil
+end
+
 -- Re-attach to the new character after respawning.
 player.CharacterAdded:Connect(function()
 	if active then

@@ -87,6 +87,11 @@ check(State.Data and State.Data.Tutorial == 1, "tutorial starts at step 1")
 local DataService = services.DataService
 local data = DataService.Get(player)
 
+if not Engine.Mobile then
+	local minimap = gui:FindFirstChild("Minimap")
+	check(minimap ~= nil and #minimap:GetChildren() > 20, "minimap drawn: " .. (minimap and #minimap:GetChildren() or 0))
+end
+
 step("Tutorial step 1: walk to resort")
 local Remotes = game.ReplicatedStorage.Remotes
 local ok, message = Remotes.Teleport:InvokeServer("Resort")

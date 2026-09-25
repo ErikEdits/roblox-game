@@ -896,6 +896,7 @@ function Engine.RemovePlayer(player)
 	signalOf(Engine.Game:GetService("Players"), "PlayerRemoving"):Fire(player)
 	ltask.wait(0.3)
 	local character = player.Character
+	player.Character = nil
 	if character then
 		character:Destroy()
 	end
