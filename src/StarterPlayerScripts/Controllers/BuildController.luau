@@ -322,6 +322,34 @@ local function showEditToolbar()
 		end })
 	end
 	local levelText = Buildings.CanUpgrade(def) and ("  (level %d/%d)"):format(level, Config.Upgrades.MaxLevel) or ""
+	local colorIndex = entry.C or 0
+	local nextColor = (colorIndex % #Config.AccentColors) + 1
+	table.insert(buttons, { Text = "COLOR", Color = Config.AccentColors[nextColor], Width = 120, Callback = function()
+		if busy then
+			return
+		end
+		busy = true
+		local uid = entry.Uid
+		local ok, result = Remotes.Get("RecolorBuilding"):InvokeServer(uid, nextColor)
+		busy = false
+		if not ok then
+			ctx.HUD.Notify(tostring(result), "warning")
+			return
+		end
+		local plotModel = getPlotModel()
+		local folder = plotModel and plotModel:FindFirstChild("Buildings")
+		for _ = 1, 20 do
+			task.wait(0.1)
+			if folder then
+				for _, model in ipairs(folder:GetChildren()) do
+					if model:GetAttribute("Uid") == uid and model ~= selected.Model then
+						selectBuilding(model)
+						return
+					end
+				end
+			end
+		end
+	end })
 	for _, entryButton in ipairs({
 		{ Text = deleteArmed and "CONFIRM?" or ("DELETE +" .. Format.ShortMoney(refund)), Color = C.Red, Width = 180, Callback = function()
 			if not deleteArmed then

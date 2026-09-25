@@ -24,6 +24,7 @@ Remotes.Functions = {
 	"MoveBuilding",
 	"DeleteBuilding",
 	"UpgradeBuilding",
+	"RecolorBuilding",
 	"CardRushStart",
 	"CardRushAnswer",
 	"ClaimTask",

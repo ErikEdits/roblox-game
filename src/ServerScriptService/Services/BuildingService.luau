@@ -45,7 +45,7 @@ end
 
 local function spawnModel(player, plot, entry)
 	local cframe = PlotUtil.BuildingCFrame(plot.Model, entry.X, entry.Z, entry.R)
-	local model = BuildingModels.Build(entry.Id, cframe, { Level = entry.L or 1 })
+	local model = BuildingModels.Build(entry.Id, cframe, { Level = entry.L or 1, Accent = entry.C and Config.AccentColors[entry.C] or nil })
 	model:SetAttribute("BuildingId", entry.Id)
 	model:SetAttribute("Level", entry.L or 1)
 	model:SetAttribute("Uid", entry.Uid)
@@ -318,6 +318,34 @@ local function upgrade(player, uid)
 	return true, nextLevel
 end
 
+-- Cycles the neon accent color of a building (free, instant).
+local function recolor(player, uid, colorIndex)
+	if rateLimited(player) then
+		return false, "Slow down"
+	end
+	if not isNumber(uid) or not isNumber(colorIndex) then
+		return false, "Invalid request"
+	end
+	colorIndex = math.floor(colorIndex)
+	if colorIndex < 0 or colorIndex > #Config.AccentColors then
+		return false, "Invalid color"
+	end
+	local data = services.DataService.Get(player)
+	local plot = services.PlotService.GetPlot(player)
+	local entry = data and findEntry(data, uid)
+	if not entry or not plot then
+		return false, "Building not found"
+	end
+	entry.C = colorIndex > 0 and colorIndex or nil
+	local old = models[player] and models[player][uid]
+	if old then
+		old:Destroy()
+	end
+	spawnModel(player, plot, entry)
+	services.DataService.MarkDirty(player)
+	return true, colorIndex
+end
+
 local function restore(player, data)
 	local plot = services.PlotService.GetPlot(player)
 	if not plot then
@@ -372,6 +400,7 @@ function BuildingService.Init(allServices)
 	Remotes.Get("MoveBuilding").OnServerInvoke = move
 	Remotes.Get("DeleteBuilding").OnServerInvoke = delete
 	Remotes.Get("UpgradeBuilding").OnServerInvoke = upgrade
+	Remotes.Get("RecolorBuilding").OnServerInvoke = recolor
 
 	Players.PlayerRemoving:Connect(function(player)
 		if models[player] then

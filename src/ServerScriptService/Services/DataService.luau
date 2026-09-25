@@ -114,7 +114,8 @@ local function sanitize(data)
 				seen[entry.Uid] = true
 				maxUid = math.max(maxUid, entry.Uid)
 				local level = isFiniteNumber(entry.L) and math.clamp(math.floor(entry.L), 1, Config.Upgrades.MaxLevel) or 1
-				table.insert(clean, { Id = entry.Id, X = entry.X, Z = entry.Z, R = math.floor(entry.R) % 4, Uid = entry.Uid, L = level })
+				local color = isFiniteNumber(entry.C) and entry.C >= 1 and entry.C <= #Config.AccentColors and math.floor(entry.C) or nil
+				table.insert(clean, { Id = entry.Id, X = entry.X, Z = entry.Z, R = math.floor(entry.R) % 4, Uid = entry.Uid, L = level, C = color })
 			end
 		end
 	end

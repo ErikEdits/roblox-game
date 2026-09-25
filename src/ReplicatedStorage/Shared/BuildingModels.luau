@@ -247,6 +247,7 @@ end
 -- Builds a model whose ground-center is at `origin` (a CFrame that already includes rotation).
 -- options.Ghost = true makes a see-through, non-colliding preview.
 -- options.Level = upgrade level (1-3) adds upgrade visuals.
+-- options.Accent = Color3 that replaces the building's neon accent color.
 function BuildingModels.Build(id, origin, options)
 	options = options or {}
 	local def = Buildings.Get(id)
@@ -256,6 +257,12 @@ function BuildingModels.Build(id, origin, options)
 	model.Name = def.Name
 
 	local w, d, h = def.Size[1], def.Size[2], def.Height
+	if options.Accent then
+		-- Player-chosen neon color: build with a copy of the definition.
+		local custom = table.clone(def)
+		custom.Accent = options.Accent
+		def = custom
+	end
 	local ctx = { Model = model, Origin = origin, Ghost = options.Ghost }
 
 	local root = newPart(ctx, "Root", Vector3.new(w, math.max(h, 1), d), CFrame.new(0, math.max(h, 1) / 2, 0), Color3.new(1, 1, 1), Enum.Material.SmoothPlastic, {

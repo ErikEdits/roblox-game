@@ -131,6 +131,21 @@ end
 check(upgraded and upgraded:FindFirstChild("UpgradeCrown") ~= nil, "upgrade visuals present")
 check(#plotModel.Buildings:GetChildren() == 2, "upgrade replaced the model")
 task.wait(0.2)
+ok, message = Remotes.RecolorBuilding:InvokeServer(data.Buildings[1].Uid, 3)
+check(ok and data.Buildings[1].C == 3, "recolor building: " .. tostring(message))
+task.wait(0.2)
+local recolored
+for _, m in ipairs(plotModel.Buildings:GetChildren()) do
+	if m:GetAttribute("Uid") == data.Buildings[1].Uid then
+		recolored = m
+	end
+end
+check(recolored and recolored:FindFirstChild("NeonBand") and recolored.NeonBand.Color == Config.AccentColors[3], "recolor applied to model")
+check(recolored and recolored:GetAttribute("Level") == 2, "recolor keeps upgrade level")
+task.wait(0.2)
+ok = Remotes.RecolorBuilding:InvokeServer(data.Buildings[1].Uid, 99)
+check(not ok, "invalid color rejected")
+task.wait(0.2)
 local cashBefore = data.Cash
 ok, message = Remotes.PlaceBuilding:InvokeServer("palm", 32, 32, 0)
 check(ok, "place palm")

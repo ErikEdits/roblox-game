@@ -22,6 +22,18 @@ Config.PassiveIncomeInterval = 60 -- seconds between "resort operations" payouts
 Config.PlaceXPDivisor = 12 -- XP for placing = cost / divisor (capped)
 Config.PlaceXPCap = 400
 
+-- Neon accent colors players can pick for each building ("simple customization").
+Config.AccentColors = {
+	Color3.fromRGB(0, 235, 255),
+	Color3.fromRGB(255, 40, 200),
+	Color3.fromRGB(255, 200, 60),
+	Color3.fromRGB(140, 255, 60),
+	Color3.fromRGB(150, 80, 255),
+	Color3.fromRGB(255, 120, 30),
+	Color3.fromRGB(255, 60, 60),
+	Color3.fromRGB(245, 245, 255),
+}
+
 -- Building upgrades (only buildings that earn money from visitors can be upgraded).
 Config.Upgrades = {
 	MaxLevel = 3,
