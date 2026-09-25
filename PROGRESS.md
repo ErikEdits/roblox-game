@@ -22,7 +22,13 @@ Development log as required by the design document (section 33).
 ### Tests performed
 
 - Luau compile (51 scripts), selene, API check: clean. Unit tests: 189.
-- Simulator desktop: 217 checks, mobile (`MOBILE=1`, 844x332): 224 checks – 0 runtime errors.
+- Simulator desktop: 218 checks, mobile (`MOBILE=1`, 844x332): 225 checks – 0 runtime errors.
+
+### Security review (v0.3)
+
+- Race checkpoints reached faster than `CarMaxSpeed * SpeedTolerance` are ignored (the driver's
+  client owns car physics and could otherwise teleport); deliveries have a minimum travel time.
+- All remotes validate types/ranges; admin actions require Studio, the creator or `Config.Admins`.
 
 ## v0.2 – Content, polish and automated play-testing (2026-09-26)
 
