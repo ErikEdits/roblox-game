@@ -1,0 +1,78 @@
+{
+  "name": "NEON_CITY",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Shared": { "$path": "src/ReplicatedStorage/Shared" }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$path": "src/ServerScriptService"
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "$properties": {
+        "CharacterWalkSpeed": 22,
+        "CameraMaxZoomDistance": 160
+      },
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$path": "src/StarterPlayerScripts"
+      }
+    },
+    "Workspace": {
+      "$className": "Workspace",
+      "$properties": {
+        "StreamingEnabled": false
+      },
+      "City": { "$path": "src/Workspace/City.model.json" },
+      "Plots": { "$path": "src/Workspace/Plots.model.json" },
+      "RaceTrack": { "$path": "src/Workspace/RaceTrack.model.json" },
+      "EventAreas": { "$path": "src/Workspace/EventAreas.model.json" },
+      "NPCSpawns": { "$path": "src/Workspace/NPCSpawns.model.json" },
+      "Attractions": { "$path": "src/Workspace/Attractions.model.json" },
+      "Zones": { "$path": "src/Workspace/Zones.model.json" },
+      "Teleports": { "$path": "src/Workspace/Teleports.model.json" },
+      "SpawnLocation": { "$path": "src/Workspace/SpawnLocation.model.json" }
+    },
+    "Lighting": {
+      "$className": "Lighting",
+      "$properties": {
+        "ClockTime": 20.6,
+        "Brightness": 1.5,
+        "Ambient": [0.16, 0.12, 0.24],
+        "OutdoorAmbient": [0.32, 0.26, 0.45],
+        "EnvironmentDiffuseScale": 0.4,
+        "EnvironmentSpecularScale": 0.6,
+        "GlobalShadows": true,
+        "Technology": "ShadowMap"
+      },
+      "Sky": {
+        "$className": "Sky",
+        "$properties": { "StarCount": 3000, "CelestialBodiesShown": true }
+      },
+      "Atmosphere": {
+        "$className": "Atmosphere",
+        "$properties": {
+          "Density": 0.32,
+          "Offset": 0.1,
+          "Color": [0.45, 0.35, 0.6],
+          "Decay": [0.35, 0.15, 0.45],
+          "Glare": 0.2,
+          "Haze": 1.4
+        }
+      },
+      "Bloom": {
+        "$className": "BloomEffect",
+        "$properties": { "Intensity": 0.8, "Size": 28, "Threshold": 0.9 }
+      },
+      "ColorCorrection": {
+        "$className": "ColorCorrectionEffect",
+        "$properties": { "Contrast": 0.08, "Saturation": 0.15, "TintColor": [1.0, 0.96, 1.0] }
+      }
+    },
+    "SoundService": { "$className": "SoundService" },
+    "Players": { "$className": "Players" }
+  }
+}

@@ -1,0 +1,421 @@
+-- BuildingService: server-authoritative placement, moving and deleting of resort buildings,
+-- save/restore of builds, resort rating and passive resort income.
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Shared = ReplicatedStorage.Shared
+local BuildingModels = require(Shared.BuildingModels)
+local Buildings = require(Shared.Buildings)
+local Config = require(Shared.Config)
+local Format = require(Shared.Format)
+local Placement = require(Shared.Placement)
+local PlotUtil = require(Shared.PlotUtil)
+local Progression = require(Shared.Progression)
+local Remotes = require(Shared.Remotes)
+
+local BuildingService = {}
+
+local services
+local models = {} -- [player] = { [uid] = model }
+local visitLog = {} -- [player] = { { Time, Amount } } for the last 5 minutes
+local lastRequest = {} -- [player] = os.clock()
+
+local function rateLimited(player)
+	local now = os.clock()
+	if lastRequest[player] and now - lastRequest[player] < 0.15 then
+		return true
+	end
+	lastRequest[player] = now
+	return false
+end
+
+local function isNumber(value)
+	return type(value) == "number" and value == value and math.abs(value) < 1e6
+end
+
+local function findEntry(data, uid)
+	for index, entry in ipairs(data.Buildings) do
+		if entry.Uid == uid then
+			return entry, index
+		end
+	end
+	return nil, nil
+end
+
+local function spawnModel(player, plot, entry)
+	local cframe = PlotUtil.BuildingCFrame(plot.Model, entry.X, entry.Z, entry.R)
+	local model = BuildingModels.Build(entry.Id, cframe, { Level = entry.L or 1, Accent = entry.C and Config.AccentColors[entry.C] or nil })
+	model:SetAttribute("BuildingId", entry.Id)
+	model:SetAttribute("Level", entry.L or 1)
+	model:SetAttribute("Uid", entry.Uid)
+	model:SetAttribute("OwnerId", player.UserId)
+	for _, descendant in ipairs(model:GetDescendants()) do
+		if descendant:IsA("BasePart") then
+			descendant.CollisionGroup = "Buildings"
+		end
+	end
+	local folder = plot.Model:FindFirstChild("Buildings")
+	if not folder then
+		folder = Instance.new("Folder")
+		folder.Name = "Buildings"
+		folder.Parent = plot.Model
+	end
+	model.Parent = folder
+	models[player] = models[player] or {}
+	models[player][entry.Uid] = model
+	return model
+end
+
+local function passes(player)
+	return services.MonetizationService.GetPasses(player)
+end
+
+function BuildingService.RecalculateRating(player)
+	local data = services.DataService.Get(player)
+	if not data then
+		return
+	end
+	local rating = 0
+	for _, entry in ipairs(data.Buildings) do
+		local def = Buildings.Get(entry.Id)
+		rating += def and Buildings.Rating(def, entry.L) or 0
+	end
+	local resortLevel = Progression.ResortLevel(rating)
+	local previous = player:GetAttribute("ResortLevel")
+	player:SetAttribute("ResortRating", rating)
+	player:SetAttribute("ResortLevel", resortLevel)
+	if previous and resortLevel > previous then
+		services.EconomyService.Notify(player, "Your resort grew to: " .. Progression.ResortLevelNames[resortLevel] .. "! More visitors will come.", "levelup")
+	end
+	services.PlotService.UpdateSign(player)
+end
+
+-- Used by NPCService and passive income: all live buildings of a player.
+function BuildingService.GetBuildings(player)
+	local list = {}
+	local data = services.DataService.Get(player)
+	local playerModels = models[player]
+	if not data or not playerModels then
+		return list
+	end
+	for _, entry in ipairs(data.Buildings) do
+		local model = playerModels[entry.Uid]
+		if model and model.PrimaryPart then
+			table.insert(list, { Def = Buildings.Get(entry.Id), Model = model, Uid = entry.Uid, Owner = player, Level = entry.L or 1 })
+		end
+	end
+	return list
+end
+
+-- NPCService reports every visitor payment so the owner can see how the resort performs.
+function BuildingService.RecordVisit(player, amount)
+	local log = visitLog[player]
+	if not log then
+		log = {}
+		visitLog[player] = log
+	end
+	table.insert(log, { Time = os.clock(), Amount = amount })
+	services.DataService.MarkDirty(player)
+end
+
+local function resortStats(player)
+	local data = services.DataService.Get(player)
+	if not data then
+		return nil
+	end
+	local passive = 0
+	for _, entry in ipairs(data.Buildings) do
+		local def = Buildings.Get(entry.Id)
+		passive += def and def.Passive * Buildings.IncomeMultiplier(entry.L) or 0
+	end
+	passive *= Progression.PrestigeIncomeMultiplier(data.Prestige)
+	local visitors, income = 0, 0
+	local log = visitLog[player]
+	if log then
+		local cutoff = os.clock() - 300
+		while log[1] and log[1].Time < cutoff do
+			table.remove(log, 1)
+		end
+		for _, visit in ipairs(log) do
+			visitors += 1
+			income += visit.Amount
+		end
+	end
+	local rating = player:GetAttribute("ResortRating") or 0
+	local level = player:GetAttribute("ResortLevel") or 1
+	return {
+		Rating = rating,
+		Level = level,
+		NextRating = Progression.ResortLevelThresholds[level + 1],
+		PassivePerMinute = math.floor(passive * 60 / Config.PassiveIncomeInterval),
+		Visitors5Min = visitors,
+		Income5Min = math.floor(income),
+	}
+end
+
+function BuildingService.BuildingExists(player, uid)
+	return models[player] ~= nil and models[player][uid] ~= nil
+end
+
+local function place(player, id, x, z, rot)
+	if rateLimited(player) then
+		return false, "Slow down"
+	end
+	if type(id) ~= "string" or not isNumber(x) or not isNumber(z) or not isNumber(rot) then
+		return false, "Invalid request"
+	end
+	local def = Buildings.Get(id)
+	local data = services.DataService.Get(player)
+	local plot = services.PlotService.GetPlot(player)
+	if not def or not data or not plot then
+		return false, "Not ready"
+	end
+	rot = math.floor(rot) % 4
+	local allowed, reason = Progression.CanUseBuilding(def, data.Level, data.Prestige, passes(player))
+	if not allowed then
+		return false, reason
+	end
+	if Buildings.AtLimit(def, data.Buildings) then
+		return false, ("Limit reached: %d %s per resort"):format(def.Limit, def.Name)
+	end
+	if #data.Buildings >= Config.MaxBuildingsPerPlot then
+		return false, "Your plot is full (" .. Config.MaxBuildingsPerPlot .. " buildings)"
+	end
+	x, z = Placement.Normalize(def, x, z, rot)
+	local valid, why = Placement.IsValid(def, x, z, rot, data.Buildings, nil)
+	if not valid then
+		return false, why
+	end
+	if not services.EconomyService.SpendCash(player, def.Cost) then
+		return false, "Not enough cash (" .. Format.Money(def.Cost) .. ")"
+	end
+
+	local entry = { Id = id, X = x, Z = z, R = rot, Uid = data.NextUid, L = 1 }
+	data.NextUid += 1
+	table.insert(data.Buildings, entry)
+	spawnModel(player, plot, entry)
+
+	local xp = math.min(Config.PlaceXPCap, math.max(5, math.floor(def.Cost / Config.PlaceXPDivisor)))
+	services.EconomyService.AddXP(player, xp)
+	BuildingService.RecalculateRating(player)
+	services.DataService.MarkDirty(player)
+	services.TutorialService.Check(player)
+	services.AnalyticsService.Log(player, "BuildingPlaced", { Id = id })
+	services.QuestService.Increment(player, "build", 1)
+	return true, entry.Uid
+end
+
+local function move(player, uid, x, z, rot)
+	if rateLimited(player) then
+		return false, "Slow down"
+	end
+	if not isNumber(uid) or not isNumber(x) or not isNumber(z) or not isNumber(rot) then
+		return false, "Invalid request"
+	end
+	local data = services.DataService.Get(player)
+	local plot = services.PlotService.GetPlot(player)
+	if not data or not plot then
+		return false, "Not ready"
+	end
+	local entry = findEntry(data, uid)
+	if not entry then
+		return false, "Building not found"
+	end
+	local def = Buildings.Get(entry.Id)
+	rot = math.floor(rot) % 4
+	x, z = Placement.Normalize(def, x, z, rot)
+	local valid, why = Placement.IsValid(def, x, z, rot, data.Buildings, uid)
+	if not valid then
+		return false, why
+	end
+	entry.X, entry.Z, entry.R = x, z, rot
+	local model = models[player] and models[player][uid]
+	if model then
+		BuildingModels.MoveTo(model, entry.Id, PlotUtil.BuildingCFrame(plot.Model, x, z, rot))
+	end
+	services.DataService.MarkDirty(player)
+	return true, uid
+end
+
+local function delete(player, uid)
+	if rateLimited(player) then
+		return false, "Slow down"
+	end
+	if not isNumber(uid) then
+		return false, "Invalid request"
+	end
+	local data = services.DataService.Get(player)
+	if not data then
+		return false, "Not ready"
+	end
+	local entry, index = findEntry(data, uid)
+	if not entry then
+		return false, "Building not found"
+	end
+	local def = Buildings.Get(entry.Id)
+	table.remove(data.Buildings, index)
+	local model = models[player] and models[player][uid]
+	if model then
+		model:Destroy()
+		models[player][uid] = nil
+	end
+	local refund = math.floor(Buildings.Invested(def, entry.L) * Config.SellRefund)
+	if refund > 0 then
+		services.EconomyService.AddCash(player, refund, "refund")
+	end
+	BuildingService.RecalculateRating(player)
+	services.DataService.MarkDirty(player)
+	return true, refund
+end
+
+local function upgrade(player, uid)
+	if rateLimited(player) then
+		return false, "Slow down"
+	end
+	if not isNumber(uid) then
+		return false, "Invalid request"
+	end
+	local data = services.DataService.Get(player)
+	local plot = services.PlotService.GetPlot(player)
+	if not data or not plot then
+		return false, "Not ready"
+	end
+	local entry = findEntry(data, uid)
+	if not entry then
+		return false, "Building not found"
+	end
+	local def = Buildings.Get(entry.Id)
+	local current = entry.L or 1
+	local nextLevel = current + 1
+	if not Buildings.CanUpgrade(def) then
+		return false, def.Name .. " cannot be upgraded"
+	end
+	if nextLevel > Config.Upgrades.MaxLevel then
+		return false, "Already at max level"
+	end
+	local required = Buildings.UpgradeLevelRequired(def, nextLevel)
+	if data.Level < required then
+		return false, "Reach level " .. required .. " to upgrade"
+	end
+	local cost = Buildings.UpgradeCost(def, nextLevel)
+	if not services.EconomyService.SpendCash(player, cost) then
+		return false, "Not enough cash (" .. Format.Money(cost) .. ")"
+	end
+	entry.L = nextLevel
+	local old = models[player] and models[player][uid]
+	if old then
+		old:Destroy()
+	end
+	spawnModel(player, plot, entry)
+	services.EconomyService.AddXP(player, math.min(Config.PlaceXPCap, math.max(10, math.floor(cost / Config.PlaceXPDivisor))))
+	services.EconomyService.Notify(player, ("%s upgraded to level %d! Visitors now spend %d%% more."):format(
+		def.Name, nextLevel, math.floor((Buildings.IncomeMultiplier(nextLevel) - 1) * 100 + 0.5)), "reward")
+	services.AnalyticsService.Log(player, "BuildingUpgraded", { Id = def.Id, Level = nextLevel })
+	services.QuestService.Increment(player, "upgrade", 1)
+	BuildingService.RecalculateRating(player)
+	services.DataService.MarkDirty(player)
+	return true, nextLevel
+end
+
+-- Cycles the neon accent color of a building (free, instant).
+local function recolor(player, uid, colorIndex)
+	if rateLimited(player) then
+		return false, "Slow down"
+	end
+	if not isNumber(uid) or not isNumber(colorIndex) then
+		return false, "Invalid request"
+	end
+	colorIndex = math.floor(colorIndex)
+	if colorIndex < 0 or colorIndex > #Config.AccentColors then
+		return false, "Invalid color"
+	end
+	local data = services.DataService.Get(player)
+	local plot = services.PlotService.GetPlot(player)
+	local entry = data and findEntry(data, uid)
+	if not entry or not plot then
+		return false, "Building not found"
+	end
+	entry.C = colorIndex > 0 and colorIndex or nil
+	local old = models[player] and models[player][uid]
+	if old then
+		old:Destroy()
+	end
+	spawnModel(player, plot, entry)
+	services.DataService.MarkDirty(player)
+	return true, colorIndex
+end
+
+local function restore(player, data)
+	local plot = services.PlotService.GetPlot(player)
+	if not plot then
+		return
+	end
+	-- Validate saved layout again (plot rules may have changed between versions).
+	local kept = {}
+	for _, entry in ipairs(data.Buildings) do
+		local def = Buildings.Get(entry.Id)
+		if def then
+			local x, z = Placement.Normalize(def, entry.X, entry.Z, entry.R)
+			entry.X, entry.Z = x, z
+			if Placement.IsValid(def, x, z, entry.R, kept, nil) then
+				table.insert(kept, entry)
+				spawnModel(player, plot, entry)
+			end
+		end
+	end
+	data.Buildings = kept
+	BuildingService.RecalculateRating(player)
+end
+
+local function passiveIncomeLoop()
+	while true do
+		task.wait(Config.PassiveIncomeInterval)
+		for _, player in ipairs(Players:GetPlayers()) do
+			local data = services.DataService.Get(player)
+			if data and #data.Buildings > 0 then
+				local total = 0
+				for _, entry in ipairs(data.Buildings) do
+					local def = Buildings.Get(entry.Id)
+					total += def and def.Passive * Buildings.IncomeMultiplier(entry.L) or 0
+				end
+				total *= Progression.PrestigeIncomeMultiplier(data.Prestige)
+				if total >= 1 then
+					services.EconomyService.Reward(player, total, 0, "Resort operations")
+				end
+			end
+		end
+	end
+end
+
+function BuildingService.Init(allServices)
+	services = allServices
+
+	services.DataService.PlayerLoaded:Connect(restore)
+	services.DataService.AddSnapshotProvider(function(player, snapshot)
+		snapshot.Resort = resortStats(player)
+	end)
+
+	Remotes.Get("PlaceBuilding").OnServerInvoke = place
+	Remotes.Get("MoveBuilding").OnServerInvoke = move
+	Remotes.Get("DeleteBuilding").OnServerInvoke = delete
+	Remotes.Get("UpgradeBuilding").OnServerInvoke = upgrade
+	Remotes.Get("RecolorBuilding").OnServerInvoke = recolor
+
+	Players.PlayerRemoving:Connect(function(player)
+		if models[player] then
+			for _, model in pairs(models[player]) do
+				model:Destroy()
+			end
+		end
+		models[player] = nil
+		lastRequest[player] = nil
+		visitLog[player] = nil
+	end)
+end
+
+function BuildingService.Start()
+	passiveIncomeLoop()
+end
+
+return BuildingService

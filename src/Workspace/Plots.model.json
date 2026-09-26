@@ -1,0 +1,3829 @@
+{
+ "className": "Folder",
+ "children": [
+  {
+   "name": "Plot1",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         0,
+         -136
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         -0.1,
+         -136
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.1569,
+       0.7843
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         1.5,
+         -166
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         6.5,
+         -166
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Right",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 1\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.1569,
+           0.7843
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 1,
+    "Facing": -90
+   }
+  },
+  {
+   "name": "Plot2",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         0,
+         -136
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         -0.1,
+         -136
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.7843,
+       0.2353
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         1.5,
+         -166
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         6.5,
+         -166
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Left",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 2\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.7843,
+           0.2353
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 2,
+    "Facing": 90
+   }
+  },
+  {
+   "name": "Plot3",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         0,
+         -228
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         -0.1,
+         -228
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.549,
+       1.0,
+       0.2353
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         1.5,
+         -258
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         6.5,
+         -258
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Right",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 3\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           0.549,
+           1.0,
+           0.2353
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 3,
+    "Facing": -90
+   }
+  },
+  {
+   "name": "Plot4",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         0,
+         -228
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         -0.1,
+         -228
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.4706,
+       0.1176
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         1.5,
+         -258
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         6.5,
+         -258
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Left",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 4\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.4706,
+           0.1176
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 4,
+    "Facing": 90
+   }
+  },
+  {
+   "name": "Plot5",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         0,
+         -320
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         -0.1,
+         -320
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.5882,
+       0.3137,
+       1.0
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         1.5,
+         -350
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         6.5,
+         -350
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Right",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 5\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           0.5882,
+           0.3137,
+           1.0
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 5,
+    "Facing": -90
+   }
+  },
+  {
+   "name": "Plot6",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         0,
+         -320
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         -0.1,
+         -320
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0,
+       0.9216,
+       1.0
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         1.5,
+         -350
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         6.5,
+         -350
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Left",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 6\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           0.0,
+           0.9216,
+           1.0
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 6,
+    "Facing": 90
+   }
+  },
+  {
+   "name": "Plot7",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         0,
+         -412
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         -0.1,
+         -412
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.1569,
+       0.7843
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         1.5,
+         -442
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         6.5,
+         -442
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Right",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 7\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.1569,
+           0.7843
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 7,
+    "Facing": -90
+   }
+  },
+  {
+   "name": "Plot8",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         0,
+         -412
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         -0.1,
+         -412
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.7843,
+       0.2353
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         1.5,
+         -442
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         6.5,
+         -442
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Left",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 8\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.7843,
+           0.2353
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 8,
+    "Facing": 90
+   }
+  },
+  {
+   "name": "Plot9",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         0,
+         -504
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         -0.1,
+         -504
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.549,
+       1.0,
+       0.2353
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         1.5,
+         -534
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         6.5,
+         -534
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Right",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 9\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           0.549,
+           1.0,
+           0.2353
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 9,
+    "Facing": -90
+   }
+  },
+  {
+   "name": "Plot10",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         0,
+         -504
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         -0.1,
+         -504
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.4706,
+       0.1176
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         1.5,
+         -534
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         6.5,
+         -534
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Left",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 10\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.4706,
+           0.1176
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 10,
+    "Facing": 90
+   }
+  },
+  {
+   "name": "Plot11",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         0,
+         -596
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         -0.1,
+         -596
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.5882,
+       0.3137,
+       1.0
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         1.5,
+         -626
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         6.5,
+         -626
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Right",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 11\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           0.5882,
+           0.3137,
+           1.0
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 11,
+    "Facing": -90
+   }
+  },
+  {
+   "name": "Plot12",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         0,
+         -596
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         -0.1,
+         -596
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0,
+       0.9216,
+       1.0
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         1.5,
+         -626
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         6.5,
+         -626
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Left",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 12\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           0.0,
+           0.9216,
+           1.0
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 12,
+    "Facing": 90
+   }
+  },
+  {
+   "name": "Plot13",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         0,
+         -688
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         -0.1,
+         -688
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.1569,
+       0.7843
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         1.5,
+         -718
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         6.5,
+         -718
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Right",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 13\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.1569,
+           0.7843
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 13,
+    "Facing": -90
+   }
+  },
+  {
+   "name": "Plot14",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         0,
+         -688
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         -0.1,
+         -688
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.7843,
+       0.2353
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         1.5,
+         -718
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         6.5,
+         -718
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Left",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 14\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.7843,
+           0.2353
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 14,
+    "Facing": 90
+   }
+  },
+  {
+   "name": "Plot15",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         0,
+         -780
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -72,
+         -0.1,
+         -780
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.549,
+       1.0,
+       0.2353
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         1.5,
+         -810
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         -28,
+         6.5,
+         -810
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Right",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 15\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           0.549,
+           1.0,
+           0.2353
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 15,
+    "Facing": -90
+   }
+  },
+  {
+   "name": "Plot16",
+   "className": "Model",
+   "children": [
+    {
+     "name": "Base",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       1,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         0,
+         -780
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.1569,
+       0.1569,
+       0.2196
+      ],
+      "Material": "Concrete",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "attributes": {
+      "Walkable": true
+     }
+    },
+    {
+     "name": "Rim",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       82,
+       0.8,
+       82
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         72,
+         -0.1,
+         -780
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.4706,
+       0.1176
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "SignPost",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       0.8,
+       3,
+       0.8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         1.5,
+         -810
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Sign",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       1,
+       7,
+       18
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         28,
+         6.5,
+         -810
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0471,
+       0.0392,
+       0.0784
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Left",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 25,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "PLOT 16\nFREE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.4706,
+           0.1176
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "attributes": {
+    "Index": 16,
+    "Facing": 90
+   }
+  }
+ ]
+}

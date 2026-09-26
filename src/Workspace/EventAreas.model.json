@@ -1,0 +1,1491 @@
+{
+ "className": "Folder",
+ "children": [
+  {
+   "name": "Generators",
+   "className": "Folder",
+   "children": [
+    {
+     "name": "Generator1",
+     "className": "Model",
+     "children": [
+      {
+       "name": "Body",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6,
+         7,
+         5
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           140,
+           3.5,
+           50
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.2745,
+         0.2824,
+         0.3137
+        ],
+        "Material": "DiamondPlate",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth"
+       }
+      },
+      {
+       "name": "Status",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6.2,
+         0.6,
+         5.2
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           140,
+           7.3,
+           50
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.549,
+         1.0,
+         0.2353
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "Sign",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6,
+         2,
+         0.4
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           140,
+           9.5,
+           50
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.0392,
+         0.0392,
+         0.0392
+        ],
+        "Material": "SmoothPlastic",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth"
+       },
+       "children": [
+        {
+         "name": "Label",
+         "className": "SurfaceGui",
+         "properties": {
+          "Face": "Front",
+          "SizingMode": "PixelsPerStud",
+          "PixelsPerStud": 20,
+          "LightInfluence": 0
+         },
+         "children": [
+          {
+           "name": "Text",
+           "className": "TextLabel",
+           "properties": {
+            "Size": {
+             "UDim2": [
+              [
+               1,
+               0
+              ],
+              [
+               1,
+               0
+              ]
+             ]
+            },
+            "BackgroundTransparency": 1,
+            "Text": "GENERATOR",
+            "TextScaled": true,
+            "TextColor3": [
+             1.0,
+             0.7843,
+             0.2353
+            ],
+            "Font": "GothamBlack"
+           }
+          }
+         ]
+        },
+        {
+         "name": "Label",
+         "className": "SurfaceGui",
+         "properties": {
+          "Face": "Back",
+          "SizingMode": "PixelsPerStud",
+          "PixelsPerStud": 20,
+          "LightInfluence": 0
+         },
+         "children": [
+          {
+           "name": "Text",
+           "className": "TextLabel",
+           "properties": {
+            "Size": {
+             "UDim2": [
+              [
+               1,
+               0
+              ],
+              [
+               1,
+               0
+              ]
+             ]
+            },
+            "BackgroundTransparency": 1,
+            "Text": "GENERATOR",
+            "TextScaled": true,
+            "TextColor3": [
+             1.0,
+             0.7843,
+             0.2353
+            ],
+            "Font": "GothamBlack"
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Generator2",
+     "className": "Model",
+     "children": [
+      {
+       "name": "Body",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6,
+         7,
+         5
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           270,
+           3.5,
+           -40
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.2745,
+         0.2824,
+         0.3137
+        ],
+        "Material": "DiamondPlate",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth"
+       }
+      },
+      {
+       "name": "Status",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6.2,
+         0.6,
+         5.2
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           270,
+           7.3,
+           -40
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.549,
+         1.0,
+         0.2353
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "Sign",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6,
+         2,
+         0.4
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           270,
+           9.5,
+           -40
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.0392,
+         0.0392,
+         0.0392
+        ],
+        "Material": "SmoothPlastic",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth"
+       },
+       "children": [
+        {
+         "name": "Label",
+         "className": "SurfaceGui",
+         "properties": {
+          "Face": "Front",
+          "SizingMode": "PixelsPerStud",
+          "PixelsPerStud": 20,
+          "LightInfluence": 0
+         },
+         "children": [
+          {
+           "name": "Text",
+           "className": "TextLabel",
+           "properties": {
+            "Size": {
+             "UDim2": [
+              [
+               1,
+               0
+              ],
+              [
+               1,
+               0
+              ]
+             ]
+            },
+            "BackgroundTransparency": 1,
+            "Text": "GENERATOR",
+            "TextScaled": true,
+            "TextColor3": [
+             1.0,
+             0.7843,
+             0.2353
+            ],
+            "Font": "GothamBlack"
+           }
+          }
+         ]
+        },
+        {
+         "name": "Label",
+         "className": "SurfaceGui",
+         "properties": {
+          "Face": "Back",
+          "SizingMode": "PixelsPerStud",
+          "PixelsPerStud": 20,
+          "LightInfluence": 0
+         },
+         "children": [
+          {
+           "name": "Text",
+           "className": "TextLabel",
+           "properties": {
+            "Size": {
+             "UDim2": [
+              [
+               1,
+               0
+              ],
+              [
+               1,
+               0
+              ]
+             ]
+            },
+            "BackgroundTransparency": 1,
+            "Text": "GENERATOR",
+            "TextScaled": true,
+            "TextColor3": [
+             1.0,
+             0.7843,
+             0.2353
+            ],
+            "Font": "GothamBlack"
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Generator3",
+     "className": "Model",
+     "children": [
+      {
+       "name": "Body",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6,
+         7,
+         5
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           470,
+           3.5,
+           -40
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.2745,
+         0.2824,
+         0.3137
+        ],
+        "Material": "DiamondPlate",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth"
+       }
+      },
+      {
+       "name": "Status",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6.2,
+         0.6,
+         5.2
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           470,
+           7.3,
+           -40
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.549,
+         1.0,
+         0.2353
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "Sign",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         6,
+         2,
+         0.4
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           470,
+           9.5,
+           -40
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.0392,
+         0.0392,
+         0.0392
+        ],
+        "Material": "SmoothPlastic",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth"
+       },
+       "children": [
+        {
+         "name": "Label",
+         "className": "SurfaceGui",
+         "properties": {
+          "Face": "Front",
+          "SizingMode": "PixelsPerStud",
+          "PixelsPerStud": 20,
+          "LightInfluence": 0
+         },
+         "children": [
+          {
+           "name": "Text",
+           "className": "TextLabel",
+           "properties": {
+            "Size": {
+             "UDim2": [
+              [
+               1,
+               0
+              ],
+              [
+               1,
+               0
+              ]
+             ]
+            },
+            "BackgroundTransparency": 1,
+            "Text": "GENERATOR",
+            "TextScaled": true,
+            "TextColor3": [
+             1.0,
+             0.7843,
+             0.2353
+            ],
+            "Font": "GothamBlack"
+           }
+          }
+         ]
+        },
+        {
+         "name": "Label",
+         "className": "SurfaceGui",
+         "properties": {
+          "Face": "Back",
+          "SizingMode": "PixelsPerStud",
+          "PixelsPerStud": 20,
+          "LightInfluence": 0
+         },
+         "children": [
+          {
+           "name": "Text",
+           "className": "TextLabel",
+           "properties": {
+            "Size": {
+             "UDim2": [
+              [
+               1,
+               0
+              ],
+              [
+               1,
+               0
+              ]
+             ]
+            },
+            "BackgroundTransparency": 1,
+            "Text": "GENERATOR",
+            "TextScaled": true,
+            "TextColor3": [
+             1.0,
+             0.7843,
+             0.2353
+            ],
+            "Font": "GothamBlack"
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Concert",
+   "className": "Folder",
+   "children": [
+    {
+     "name": "Stage",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       4,
+       30
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         400,
+         2,
+         130
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.098,
+       0.098,
+       0.1373
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "StageEdge",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       0.2,
+       1
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         400,
+         4.05,
+         115
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       1.0,
+       0.1569,
+       0.7843
+      ],
+      "Material": "Neon",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CastShadow": false
+     }
+    },
+    {
+     "name": "BackWall",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       80,
+       30,
+       2
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         400,
+         15,
+         146
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0588,
+       0.0471,
+       0.098
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     },
+     "children": [
+      {
+       "name": "Label",
+       "className": "SurfaceGui",
+       "properties": {
+        "Face": "Front",
+        "SizingMode": "PixelsPerStud",
+        "PixelsPerStud": 10,
+        "LightInfluence": 0
+       },
+       "children": [
+        {
+         "name": "Text",
+         "className": "TextLabel",
+         "properties": {
+          "Size": {
+           "UDim2": [
+            [
+             1,
+             0
+            ],
+            [
+             1,
+             0
+            ]
+           ]
+          },
+          "BackgroundTransparency": 1,
+          "Text": "LIVE",
+          "TextScaled": true,
+          "TextColor3": [
+           1.0,
+           0.1569,
+           0.7843
+          ],
+          "Font": "GothamBlack"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SpeakerL",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       8,
+       16,
+       8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         354,
+         8,
+         130
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "SpeakerR",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       8,
+       16,
+       8
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         446,
+         8,
+         130
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.0863,
+       0.0863,
+       0.1255
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth"
+     }
+    },
+    {
+     "name": "Lights",
+     "className": "Folder",
+     "children": [
+      {
+       "name": "L1",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           364,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.0,
+         0.9216,
+         1.0
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L2",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           372,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         1.0,
+         0.1569,
+         0.7843
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L3",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           380,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         1.0,
+         0.7843,
+         0.2353
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L4",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           388,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.549,
+         1.0,
+         0.2353
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L5",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           396,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         1.0,
+         0.4706,
+         0.1176
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L6",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           404,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.5882,
+         0.3137,
+         1.0
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L7",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           412,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.0,
+         0.9216,
+         1.0
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L8",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           420,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         1.0,
+         0.1569,
+         0.7843
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L9",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           428,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         1.0,
+         0.7843,
+         0.2353
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      },
+      {
+       "name": "L10",
+       "className": "Part",
+       "properties": {
+        "Anchored": true,
+        "Size": [
+         5,
+         2,
+         1
+        ],
+        "CFrame": {
+         "CFrame": {
+          "position": [
+           436,
+           26,
+           144
+          ],
+          "orientation": [
+           [
+            1,
+            0,
+            0
+           ],
+           [
+            0,
+            1,
+            0
+           ],
+           [
+            0,
+            0,
+            1
+           ]
+          ]
+         }
+        },
+        "Color": [
+         0.549,
+         1.0,
+         0.2353
+        ],
+        "Material": "Neon",
+        "TopSurface": "Smooth",
+        "BottomSurface": "Smooth",
+        "CastShadow": false
+       }
+      }
+     ]
+    },
+    {
+     "name": "CrowdZone",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       90,
+       20,
+       80
+      ],
+      "CFrame": {
+       "CFrame": {
+        "position": [
+         400,
+         10,
+         70
+        ],
+        "orientation": [
+         [
+          1,
+          0,
+          0
+         ],
+         [
+          0,
+          1,
+          0
+         ],
+         [
+          0,
+          0,
+          1
+         ]
+        ]
+       }
+      },
+      "Color": [
+       0.9412,
+       0.9412,
+       1.0
+      ],
+      "Material": "SmoothPlastic",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "Transparency": 1,
+      "CanCollide": false,
+      "CanTouch": false,
+      "CanQuery": false,
+      "CastShadow": false
+     }
+    }
+   ]
+  }
+ ]
+}
