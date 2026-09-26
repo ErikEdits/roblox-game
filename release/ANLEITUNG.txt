@@ -1,0 +1,23 @@
+NEON CITY v0.3.0 - Roblox Studio
+================================
+
+So oeffnest du das Spiel:
+1. Roblox Studio installieren (https://create.roblox.com) und einloggen.
+2. Die Datei NEON_CITY_v0.3.0.rbxl doppelklicken
+   ODER in Roblox Studio: File -> Open from File... -> NEON_CITY_v0.3.0.rbxl
+3. Oben auf "Play" (F5) druecken.
+
+Hinweise:
+- In Studio wird der Fortschritt NICHT gespeichert (Hinweis erscheint im Spiel).
+- Alle Game-Paesse gelten in Studio zum Testen als gekauft.
+- SETTINGS -> ADMIN TOOLS: Geld, Level, Events sofort starten usw. (nur in Studio / fuer den Ersteller).
+- Mit mehreren Spielern testen: Test -> Clients and Servers (z. B. 2 Spieler).
+
+Veroeffentlichen (damit Speichern funktioniert):
+1. File -> Publish to Roblox
+2. Game Settings -> Security -> "Enable Studio Access to API Services" einschalten
+3. Game Settings -> Places -> Max Players = 15
+4. Optional: Game-Paesse anlegen und IDs in ReplicatedStorage > Shared > Config eintragen
+   (Config.Monetization.Passes: VIP, CyberPack, HyperCar).
+
+Mehr Infos: README.md im GitHub-Repository.
